@@ -1,0 +1,857 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>Triquetra Carousel Studio</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo+Black&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#0c0f0e; --card:#161b19; --card2:#1d2421; --line:#2a332f;
+    --text:#f2f5f3; --dim:#9fb0a8; --accent:#3ddc97; --accent-d:#0e8a5f;
+    --danger:#ff5c5c; --radius:18px;
+  }
+  *{box-sizing:border-box; margin:0; padding:0; -webkit-tap-highlight-color:transparent;}
+  html,body{height:100%;}
+  body{
+    background:var(--bg); color:var(--text);
+    font-family:'Inter',system-ui,-apple-system,sans-serif;
+    max-width:480px; margin:0 auto; min-height:100vh;
+    padding:0 0 110px 0;
+  }
+  header{
+    padding:18px 20px 6px; display:flex; align-items:center; gap:10px;
+    position:sticky; top:0; background:linear-gradient(var(--bg) 75%, transparent); z-index:50;
+  }
+  header .logo{
+    width:34px;height:34px;border-radius:10px;flex:none;
+    background:linear-gradient(135deg,var(--accent),#1a7a55);
+    display:flex;align-items:center;justify-content:center;
+    font-family:'Archivo Black';font-size:15px;color:#06231a;
+  }
+  header h1{font-size:16px;font-weight:800;letter-spacing:-.02em;}
+  header .sub{font-size:11px;color:var(--dim);font-weight:500;}
+  .back{
+    margin-left:auto;border:1px solid var(--line);background:var(--card);
+    color:var(--dim);border-radius:99px;padding:7px 14px;font-size:12px;
+    font-weight:600;cursor:pointer;display:none;font-family:inherit;
+  }
+  .screen{display:none;padding:8px 20px 20px;animation:fade .25s ease;}
+  .screen.active{display:block;}
+  @keyframes fade{from{opacity:0;transform:translateY(6px);}to{opacity:1;transform:none;}}
+  .kicker{font-size:11px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--accent);margin:14px 0 4px;}
+  .title{font-size:24px;font-weight:800;letter-spacing:-.03em;line-height:1.15;margin-bottom:4px;}
+  .lede{font-size:13.5px;color:var(--dim);line-height:1.5;margin-bottom:18px;}
+
+  .pcard{
+    width:100%;text-align:left;border:1px solid var(--line);background:var(--card);
+    border-radius:var(--radius);padding:18px;margin-bottom:12px;cursor:pointer;
+    display:flex;gap:14px;align-items:center;color:var(--text);font-family:inherit;
+    transition:transform .08s ease, border-color .15s;
+  }
+  .pcard:active{transform:scale(.98);}
+  .pcard .dot{width:46px;height:46px;border-radius:14px;flex:none;display:flex;align-items:center;justify-content:center;font-size:22px;}
+  .pcard b{font-size:16px;font-weight:800;display:block;letter-spacing:-.02em;}
+  .pcard span{font-size:12.5px;color:var(--dim);line-height:1.4;display:block;margin-top:2px;}
+  .pcard .arr{margin-left:auto;color:var(--dim);font-size:18px;flex:none;}
+
+  .fcard{
+    width:100%;text-align:left;border:1px solid var(--line);background:var(--card);
+    border-radius:var(--radius);padding:16px 18px;margin-bottom:12px;cursor:pointer;
+    color:var(--text);font-family:inherit;transition:transform .08s ease;
+  }
+  .fcard:active{transform:scale(.98);}
+  .fcard .frow{display:flex;align-items:center;gap:10px;}
+  .fcard .femo{font-size:20px;}
+  .fcard b{font-size:15.5px;font-weight:800;letter-spacing:-.02em;}
+  .fcard .fmeta{margin-left:auto;font-size:11px;font-weight:700;color:var(--accent);background:rgba(61,220,151,.1);padding:4px 10px;border-radius:99px;flex:none;}
+  .fcard p{font-size:12.5px;color:var(--dim);line-height:1.45;margin-top:8px;}
+  .fcard .why{
+    margin-top:10px;font-size:11.5px;line-height:1.45;color:#cfe7db;
+    background:rgba(61,220,151,.07);border-left:3px solid var(--accent-d);
+    padding:8px 10px;border-radius:0 8px 8px 0;
+  }
+  .fcard .why b{font-size:11.5px;color:var(--accent);}
+
+  .progress{display:flex;gap:6px;margin:6px 0 16px;}
+  .progress i{flex:1;height:4px;border-radius:99px;background:var(--line);}
+  .progress i.done{background:var(--accent);}
+  .progress i.curr{background:var(--accent);opacity:.45;}
+
+  .shotcard{border:1px solid var(--line);background:var(--card);border-radius:var(--radius);padding:18px;margin-bottom:14px;}
+  .shotnum{font-size:11px;font-weight:800;letter-spacing:.12em;color:var(--accent);text-transform:uppercase;margin-bottom:6px;}
+  .shotinstr{font-size:16.5px;font-weight:700;letter-spacing:-.02em;line-height:1.35;}
+  .shottip{font-size:12.5px;color:var(--dim);line-height:1.5;margin-top:8px;display:flex;gap:7px;}
+  .shottip::before{content:"💡";font-size:13px;}
+
+  .photozone{
+    margin-top:14px;border:2px dashed var(--line);border-radius:14px;
+    aspect-ratio:4/5;display:flex;flex-direction:column;align-items:center;justify-content:center;
+    gap:8px;color:var(--dim);font-size:13px;font-weight:600;cursor:pointer;overflow:hidden;position:relative;
+    background:var(--card2);
+  }
+  .photozone.filled{border-style:solid;border-color:var(--accent-d);}
+  .photozone canvas{position:absolute;inset:0;width:100%;height:100%;}
+  .photozone .ph-ico{font-size:30px;}
+  .retake{
+    position:absolute;bottom:10px;right:10px;z-index:5;border:none;border-radius:99px;
+    background:rgba(0,0,0,.65);color:#fff;font-size:11.5px;font-weight:700;padding:7px 13px;
+    cursor:pointer;font-family:inherit;backdrop-filter:blur(4px);display:none;
+  }
+  .photozone.filled .retake{display:block;}
+
+  .ovl-label{font-size:11px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--dim);margin:16px 0 7px;display:flex;align-items:center;}
+  .shuffle{
+    margin-left:auto;border:1px solid var(--line);background:var(--card2);color:var(--accent);
+    border-radius:99px;padding:5px 12px;font-size:11px;font-weight:700;cursor:pointer;font-family:inherit;
+    letter-spacing:0;text-transform:none;
+  }
+  textarea.ovl{
+    width:100%;background:var(--card2);border:1px solid var(--line);border-radius:12px;
+    color:var(--text);font-family:inherit;font-size:14px;font-weight:600;padding:12px 14px;
+    resize:none;line-height:1.4;min-height:64px;
+  }
+  textarea.ovl:focus{outline:none;border-color:var(--accent-d);}
+
+  .stylerow{display:flex;gap:8px;margin-top:10px;}
+  .stylebtn{
+    flex:1;border:1px solid var(--line);background:var(--card2);color:var(--dim);
+    border-radius:10px;padding:9px 4px;font-size:11.5px;font-weight:700;cursor:pointer;font-family:inherit;
+  }
+  .stylebtn.sel{border-color:var(--accent);color:var(--accent);background:rgba(61,220,151,.08);}
+  .posrow{display:flex;gap:8px;margin-top:8px;}
+  .posbtn{
+    flex:1;border:1px solid var(--line);background:var(--card2);color:var(--dim);
+    border-radius:10px;padding:8px 4px;font-size:11.5px;font-weight:700;cursor:pointer;font-family:inherit;
+  }
+  .posbtn.sel{border-color:var(--accent);color:var(--accent);background:rgba(61,220,151,.08);}
+
+  .navrow{display:flex;gap:10px;position:fixed;bottom:0;left:50%;transform:translateX(-50%);width:100%;max-width:480px;padding:14px 20px 26px;background:linear-gradient(transparent,var(--bg) 35%);z-index:60;}
+  .btn{
+    flex:1;border:none;border-radius:14px;padding:16px;font-size:15px;font-weight:800;
+    cursor:pointer;font-family:inherit;letter-spacing:-.01em;
+  }
+  .btn.primary{background:var(--accent);color:#06231a;}
+  .btn.primary:disabled{background:var(--line);color:var(--dim);cursor:not-allowed;}
+  .btn.ghost{background:var(--card);color:var(--text);border:1px solid var(--line);flex:0 0 auto;padding:16px 20px;}
+
+  .slides-scroll{display:flex;gap:12px;overflow-x:auto;padding:4px 2px 14px;scroll-snap-type:x mandatory;}
+  .slidewrap{flex:0 0 78%;scroll-snap-align:center;}
+  .slidewrap canvas{width:100%;border-radius:14px;display:block;border:1px solid var(--line);}
+  .slidewrap .dl{
+    width:100%;margin-top:8px;border:1px solid var(--line);background:var(--card);color:var(--text);
+    border-radius:10px;padding:10px;font-size:12.5px;font-weight:700;cursor:pointer;font-family:inherit;
+  }
+  .capbox{border:1px solid var(--line);background:var(--card);border-radius:var(--radius);padding:16px;margin-top:6px;}
+  .capbox h3{font-size:12px;font-weight:800;letter-spacing:.1em;text-transform:uppercase;color:var(--dim);display:flex;align-items:center;margin-bottom:10px;}
+  .capbox pre{
+    white-space:pre-wrap;font-family:inherit;font-size:13.5px;line-height:1.55;color:var(--text);
+  }
+  .caprow{display:flex;gap:8px;margin-top:12px;}
+  .caprow .btn{padding:12px;font-size:13px;border-radius:11px;}
+  .toast{
+    position:fixed;bottom:104px;left:50%;transform:translateX(-50%) translateY(10px);
+    background:var(--accent);color:#06231a;font-size:13px;font-weight:800;padding:10px 20px;
+    border-radius:99px;opacity:0;pointer-events:none;transition:.25s;z-index:99;white-space:nowrap;
+  }
+  .toast.show{opacity:1;transform:translateX(-50%) translateY(0);}
+  .ftc{font-size:11px;color:var(--dim);line-height:1.5;margin-top:14px;text-align:center;padding:0 10px;}
+  input[type=file]{display:none;}
+</style>
+</head>
+<body>
+<header>
+  <div class="logo">T</div>
+  <div>
+    <h1>Carousel Studio</h1>
+    <div class="sub">Triquetra Creator Network</div>
+  </div>
+  <button class="back" id="aiBtn" style="display:block;margin-left:auto;">✨ AI</button>
+  <button class="back" id="backBtn" style="margin-left:8px;">← Back</button>
+</header>
+
+<!-- AI settings sheet -->
+<div id="aiSheet" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,.6);z-index:200;backdrop-filter:blur(3px);">
+  <div style="position:absolute;bottom:0;left:50%;transform:translateX(-50%);width:100%;max-width:480px;background:var(--card);border-radius:22px 22px 0 0;padding:22px 20px 34px;border:1px solid var(--line);">
+    <div class="title" style="font-size:18px;">✨ Live AI copy (optional)</div>
+    <div class="lede" style="margin-bottom:12px;">Paste an Anthropic API key to generate fresh hooks &amp; captions on demand. No key? The built-in copy bank still works fully offline.</div>
+    <input id="aiKey" type="password" placeholder="sk-ant-..." style="width:100%;background:var(--card2);border:1px solid var(--line);border-radius:12px;color:var(--text);font-family:inherit;font-size:14px;padding:13px 14px;">
+    <div class="caprow" style="margin-top:12px;">
+      <button class="btn primary" id="aiSave">Save key</button>
+      <button class="btn ghost" id="aiClose">Close</button>
+    </div>
+    <div class="ftc" style="text-align:left;">Key is stored only in this browser (localStorage) and sent only to api.anthropic.com. Don't share this file with your key saved.</div>
+  </div>
+</div>
+
+<!-- SCREEN 1: PRODUCT -->
+<section class="screen active" id="s-product">
+  <div class="kicker">Step 1 of 3</div>
+  <div class="title">Pick your product</div>
+  <div class="lede">We'll walk you shot-by-shot to a carousel built on formats that are already converting.</div>
+  <div id="productList"></div>
+</section>
+
+<!-- SCREEN 2: FORMULA -->
+<section class="screen" id="s-formula">
+  <div class="kicker">Step 2 of 3</div>
+  <div class="title" id="formulaTitle">Pick a winning format</div>
+  <div class="lede">Each format is a proven carousel structure. Pick the one that fits your space and vibe today.</div>
+  <div id="formulaList"></div>
+</section>
+
+<!-- SCREEN 3: BUILDER -->
+<section class="screen" id="s-builder">
+  <div class="kicker" id="bKicker">Step 3 of 3</div>
+  <div class="title" id="bTitle"></div>
+  <div class="progress" id="bProgress"></div>
+  <div id="shotArea"></div>
+</section>
+
+<!-- SCREEN 4: EXPORT -->
+<section class="screen" id="s-export">
+  <div class="kicker">Done — post it 🔥</div>
+  <div class="title">Your carousel is ready</div>
+  <div class="lede">Download the slides, copy the caption, post in order. That's the whole job.</div>
+  <div class="slides-scroll" id="finalSlides"></div>
+  <button class="btn primary" id="dlAll" style="width:100%;margin:4px 0 16px;">⬇️ Download all slides</button>
+  <div class="capbox">
+    <h3>Caption <button class="shuffle" id="capShuffle">↻ New version</button></h3>
+    <pre id="capText"></pre>
+    <div class="caprow">
+      <button class="btn primary" id="capCopy">Copy caption</button>
+      <button class="btn ghost" id="capAI">✨ AI caption</button>
+    </div>
+  </div>
+  <div class="ftc">Disclosure line is included automatically — keep it in your post. FTC requires affiliates to disclose. These statements have not been evaluated by the FDA.</div>
+  <div style="height:30px"></div>
+  <button class="btn ghost" id="startOver" style="width:100%;">Make another carousel</button>
+</section>
+
+<div class="navrow" id="navrow" style="display:none;">
+  <button class="btn ghost" id="prevShot">←</button>
+  <button class="btn primary" id="nextShot">Next shot →</button>
+</div>
+
+<div class="toast" id="toast">Copied!</div>
+<input type="file" accept="image/*" id="fileInput">
+
+<script>
+const DISCLOSURE = "#ad — I earn a commission if you purchase through my link.";
+const FDA = "*These statements have not been evaluated by the FDA. This product is not intended to diagnose, treat, cure, or prevent any disease.";
+
+const PRODUCTS = {
+  flora: {
+    name: "Flora Biome", emoji: "🦠", color: "#2e9e6f",
+    blurb: "Probiotic for gut health, digestion & bloating support",
+    formulas: [
+      {
+        id: "fridge", name: "The Fridge Restock", emoji: "🧊", slides: 5,
+        desc: "A 'what's actually in my fridge' carousel — gut-health groceries with Flora Biome as the anchor. Feels organic, sells hard.",
+        why: "Grocery-haul content earns trust because it shows your real life. The product reads as a staple, not an ad.",
+        shots: [
+          { shot: "Stand in front of your OPEN fridge holding Flora Biome at chest height, looking at the camera.",
+            tip: "Natural kitchen light. Make sure the fridge actually looks stocked — fill it first if you have to.",
+            texts: ["What a gut-health fridge actually looks like →","I restocked my fridge for my gut. Swipe →","Everything in here is for my gut health →"] },
+          { shot: "Place Flora Biome on a fridge shelf next to fermented foods (yogurt, kimchi, kombucha — whatever you have).",
+            tip: "Shoot slightly downward into the shelf. Product label facing the camera, dead center.",
+            texts: ["Fermented foods feed your gut. This keeps it balanced.","Step 1: real food. Step 2: the right probiotic."] },
+          { shot: "Close-up of Flora Biome in your hand, label sharp and readable, fridge blurred in the background.",
+            tip: "Tap your phone screen on the label to lock focus before shooting.",
+            texts: ["Probiotics support the good bacteria your gut runs on.","One capsule. Billions of CFUs. Zero guesswork."] },
+          { shot: "Take a capsule with a glass of water, mid-action — caught candid, not posed.",
+            tip: "Have someone snap it or use a 3-second timer. Slight side angle looks the most natural.",
+            texts: ["Easiest habit in my whole routine.","Takes 5 seconds. My digestion noticed in weeks."] },
+          { shot: "Hold Flora Biome toward the camera, your face visible behind it, genuine smile.",
+            tip: "This is your CTA slide — get close, fill the frame, keep it warm.",
+            texts: ["Link in my bio — your gut will thank you 🦠","Comment GUT and I'll send you my link.","This is the one I actually reorder."] }
+        ],
+        captions: [
+          "My fridge got a gut-health makeover 🦠\n\nReal talk — you can't out-supplement a bad diet, but the right probiotic alongside real food is where the magic happens. Flora Biome has been my daily non-negotiable for supporting digestion and keeping bloat in check.*\n\nSwipe to see what I keep stocked →",
+          "Things in my fridge that are there FOR my gut:\n\n🥬 Fermented everything\n💧 Actual water (revolutionary, I know)\n🦠 Flora Biome — the probiotic I take daily to support my digestion and gut balance*\n\nIt's the least complicated part of my routine and the one I'd never drop."
+        ],
+        tags: "#guthealth #probiotics #floraBiome #guttok #bloating #digestion"
+      },
+      {
+        id: "morning", name: "Morning Gut Reset", emoji: "🌅", slides: 4,
+        desc: "Your real morning routine with Flora Biome slotted in — calm, aesthetic, aspirational.",
+        why: "Routine content converts because viewers imagine themselves doing it. The product becomes part of a lifestyle they want.",
+        shots: [
+          { shot: "Morning scene: coffee or lemon water on the counter with Flora Biome bottle beside it, soft window light.",
+            tip: "Shoot during golden hour light if you can. Wipe the counter — clean surfaces read premium.",
+            texts: ["My gut decides how my whole day goes →","The morning routine that fixed my afternoons →"] },
+          { shot: "Holding the capsule in your palm, bottle in the other hand, kitchen background.",
+            tip: "Get the capsule in sharp focus. Palms up reads open and honest on camera.",
+            texts: ["First thing, before coffee: probiotic on an empty stomach.","One small habit. Big downstream effects."] },
+          { shot: "Taking the capsule with water by a window or outside on a porch/balcony.",
+            tip: "Profile angle, morning light on your face. Candid energy beats posed.",
+            texts: ["Digestion, energy, even mood — it starts in the gut.","Consistency is the whole secret. That's it."] },
+          { shot: "Flat lay or counter shot: Flora Biome next to your breakfast.",
+            tip: "Overhead angle. Keep the frame simple — 3 items max so the product pops.",
+            texts: ["Link in bio if your gut's been asking for help 🌅","Save this routine. Start tomorrow."] }
+        ],
+        captions: [
+          "The 60-second morning habit my gut runs on 🌅\n\nBefore coffee, before email, before anything: Flora Biome on an empty stomach. It's the simplest thing I do all day and it supports my digestion, regularity, and that not-bloated feeling I refuse to give up.*\n\nFull routine in the carousel →",
+          "Unpopular opinion: your morning routine doesn't need 14 steps.\n\nMine: hydrate, Flora Biome, protein breakfast, sunlight. The probiotic is the piece people skip — and it's the one supporting everything happening in your gut all day.*"
+        ],
+        tags: "#morningroutine #guthealth #probiotics #wellnessroutine #floraBiome"
+      },
+      {
+        id: "bloat", name: "The Bloat Story", emoji: "😮‍💨", slides: 4,
+        desc: "Problem → turning point → solution → result. The classic story arc, told in 4 photos.",
+        why: "Story-arc carousels have the highest swipe-through rates because slide 1 opens a loop the viewer needs to close.",
+        shots: [
+          { shot: "Sit on your couch or bed looking genuinely uncomfortable, hand on stomach. No product in frame yet.",
+            tip: "Don't overact it. Slightly deflated posture and neutral face is more believable than a grimace.",
+            texts: ["I thought feeling bloated after every meal was normal.","POV: it's 3pm and your jeans have betrayed you."] },
+          { shot: "Phone-in-hand shot, like you're researching — or a shot of you reading the Flora Biome label intently.",
+            tip: "Over-the-shoulder angle works great here. Show the 'searching for answers' moment.",
+            texts: ["Turns out your gut bacteria run the whole show.","So I actually looked into WHY. Gut bacteria. Balance. Probiotics."] },
+          { shot: "Clean, bright shot of you taking Flora Biome — kitchen, water glass, calm energy.",
+            tip: "Make this slide visually brighter than slide 1. The contrast tells the story by itself.",
+            texts: ["Enter: Flora Biome. Daily. No skipping.","The fix wasn't complicated. It was consistent."] },
+          { shot: "Confident, happy you — fitted outfit, good posture, holding the bottle. The 'after' energy.",
+            tip: "Stand tall, shoot from slightly below eye level. This is the payoff slide — make it glow.",
+            texts: ["Weeks later: comfortable after meals again. Link in bio.","Your gut deserves this. Mine did. 🔗 in bio"] }
+        ],
+        captions: [
+          "I genuinely thought post-meal bloat was just... life 😮‍💨\n\nIt's not. Your gut microbiome has a massive say in how you feel after eating, and mine clearly needed backup. Flora Biome became my daily — supporting digestion, regularity, and balance.*\n\nSwipe for the whole story →",
+          "The bloat era is over and I'm not being quiet about it.\n\nWhat changed: I stopped guessing and started supporting my gut daily with Flora Biome. Consistency over complexity, every time.*\n\nFull story in the slides →"
+        ],
+        tags: "#bloating #guthealth #probiotics #digestion #womenshealth #floraBiome"
+      }
+    ]
+  },
+  folate: {
+    name: "L-Methylfolate", emoji: "🧠", color: "#9b59c9",
+    blurb: "Bioactive folate for mood, energy & methylation support",
+    formulas: [
+      {
+        id: "switch", name: "Why I Switched", emoji: "🔄", slides: 5,
+        desc: "Education carousel: folic acid vs. methylfolate. You teach, they trust, they buy.",
+        why: "Education converts the smartest buyers. Up to ~40% of people carry MTHFR gene variants that reduce how well they convert folic acid — this carousel speaks right to them.",
+        shots: [
+          { shot: "Hold L-Methylfolate next to a generic folic acid bottle (or multivitamin), one in each hand, eyebrows raised.",
+            tip: "You vs. you comparison framing. The 'choosing' face does a lot of work here.",
+            texts: ["Folic acid and folate are NOT the same thing →","The supplement swap nobody told you about →"] },
+          { shot: "Close-up of the L-Methylfolate label, your finger pointing at 'L-Methylfolate' on it.",
+            tip: "Macro distance, tap to focus on the text. Crop tight.",
+            texts: ["Methylfolate = the form your body actually uses.","No conversion needed. Already active."] },
+          { shot: "You looking thoughtful/explaining to camera, hand mid-gesture, product on the table in front of you.",
+            tip: "Sit at a table, prop your phone, talk with your hands and screenshot the most natural frame.",
+            texts: ["Many people have gene variants (MTHFR) that make folic acid hard to convert.","Your DNA might be the reason folic acid wasn't doing much."] },
+          { shot: "Taking the supplement with your morning drink, relaxed and routine.",
+            tip: "Keep this one casual — it normalizes the habit after the science slides.",
+            texts: ["Mood. Energy. Methylation. One small tablet.*","Part of my mornings now. Zero thought required."] },
+          { shot: "Hold the bottle to camera with a confident look — CTA slide.",
+            tip: "Fill the frame. Label readable. Warm expression.",
+            texts: ["Link in bio — check with your doc, then thank me later.","Comment FOLATE and I'll send the link."] }
+        ],
+        captions: [
+          "Folic acid vs. methylfolate — yes, there's a difference, and it might matter for YOU 🧬\n\nFolic acid is synthetic and your body has to convert it to use it. A large chunk of the population carries MTHFR gene variants that slow that conversion down. L-Methylfolate skips the whole problem — it's the bioactive form, ready to go, supporting mood, energy, and methylation.*\n\nSwipe to learn what I wish I knew years ago →",
+          "PSA: that folic acid in your multivitamin might not be pulling its weight.\n\nIf you've got an MTHFR variant (super common), converting folic acid to its active form is an uphill battle. L-Methylfolate is already the active form — no conversion required. It supports mood, energy, and healthy methylation.*\n\nAs always — talk to your doctor about what's right for you."
+        ],
+        tags: "#mthfr #methylfolate #folate #methylation #moodsupport #wellnesseducation"
+      },
+      {
+        id: "moodenergy", name: "Mood + Energy Routine", emoji: "⚡", slides: 4,
+        desc: "Lifestyle routine carousel anchored on the mood/energy angle — softer, more relatable.",
+        why: "Mood and energy are felt problems people actively shop for. Pairing the product with visible daily wins makes the benefit concrete.",
+        shots: [
+          { shot: "Morning stretch or sunlight shot — you by a window or outside, fresh-start energy. No product yet.",
+            tip: "Back to the light source so it rims your silhouette. Hook slide = vibe, not product.",
+            texts: ["How I stopped running on fumes by 2pm →","My low-energy era is over. Here's what changed →"] },
+          { shot: "L-Methylfolate bottle in hand, kitchen counter, mid-routine with breakfast or coffee nearby.",
+            tip: "Keep the scene real — actual breakfast, actual mess slightly out of frame.",
+            texts: ["The B-vitamin most people get in the wrong form.","Methylfolate: active form, no conversion needed."] },
+          { shot: "Doing something with visible energy — walking, gym, playing with kids/dog, working focused at a desk.",
+            tip: "Movement reads better slightly blurred than posed. Burst mode, pick the best frame.",
+            texts: ["Supports mood + steady energy. I can feel my afternoons again.*","Consistent > complicated. Every time."] },
+          { shot: "Wind-down or golden hour shot holding the bottle, content and calm.",
+            tip: "End the day visually — sunset light or lamp light. Completes the arc.",
+            texts: ["Link in bio if your energy needs backup ⚡","Save this. Future you says thanks."] }
+        ],
+        captions: [
+          "The afternoon slump used to own me ⚡\n\nPart of my fix was boring: sleep, protein, sunlight. The part nobody talks about: L-Methylfolate — the active form of folate that supports mood, energy, and methylation, especially if your body doesn't convert folic acid well.*\n\nMy routine's in the slides →",
+          "Energy isn't one big thing — it's ten small things stacked.\n\nOne of mine is L-Methylfolate every morning. Active folate, supports mood + energy, zero guesswork.* Swipe for the rest of the stack →"
+        ],
+        tags: "#energysupport #moodsupport #methylfolate #wellnessroutine #bvitamins"
+      }
+    ]
+  },
+  aminos: {
+    name: "Instant Aminos", emoji: "💧", color: "#3a8fd9",
+    blurb: "Essential amino acids for recovery, energy & hydration",
+    formulas: [
+      {
+        id: "pool", name: "Poolside Hydration", emoji: "🏖️", slides: 4,
+        desc: "Summer aesthetic carousel — Instant Aminos as your warm-weather hydration upgrade.",
+        why: "Seasonal context = instant relevance. Bright outdoor shots also outperform indoor shots on Meta feeds.",
+        shots: [
+          { shot: "By the pool (or any water/outdoor spot), holding your mixed drink bottle with Instant Aminos beside it.",
+            tip: "Get the water in frame behind you. Midday sun is fine here — vibrant beats moody for this one.",
+            texts: ["My summer hydration upgrade →","Plain water wasn't cutting it. Here's the fix →"] },
+          { shot: "Action shot: scooping or pouring Instant Aminos into your water bottle, mid-pour.",
+            tip: "Freeze the pour — burst mode. Close-up so the powder/scoop is the hero.",
+            texts: ["Essential amino acids — the building blocks your muscles ask for.","One scoop. Tastes like summer, works like science."] },
+          { shot: "Drinking it — head slightly back, bottle up, sun on your face.",
+            tip: "Shoot from slightly below. Condensation on the bottle = chef's kiss.",
+            texts: ["Supports recovery + hydration while I'm out living.*","Sips like a treat. Zero sugar guilt."] },
+          { shot: "Relaxed end shot: lounging with the bottle and tub visible, label to camera.",
+            tip: "CTA slide — product label readable, you relaxed. Sells the lifestyle and the link.",
+            texts: ["Link in bio — your water's about to get a glow-up 💧","Comment AMINOS for my link."] }
+        ],
+        captions: [
+          "Upgraded my water for the summer and there's no going back 💧\n\nInstant Aminos = essential amino acids in my bottle all day. Supports muscle recovery and keeps hydration interesting when plain water gets boring.* Pool days hit different when you're not running on empty.\n\nSwipe →",
+          "Hot take: most people aren't under-caffeinated, they're under-hydrated.\n\nMy fix is one scoop of Instant Aminos in cold water — EAAs to support recovery, flavor that makes me actually finish the bottle.* Summer essential, no debate."
+        ],
+        tags: "#hydration #aminoacids #eaa #summerwellness #recovery #instantaminos"
+      },
+      {
+        id: "gymbag", name: "Gym Bag Staple", emoji: "🏋️", slides: 5,
+        desc: "Training-day carousel — Instant Aminos through a real workout, bag to cooldown.",
+        why: "Fitness context gives aminos their clearest 'why now'. Showing the full session makes the product feel earned, not inserted.",
+        shots: [
+          { shot: "Open gym bag on the floor or bench, Instant Aminos sitting on top of your gear.",
+            tip: "Overhead angle. Arrange the bag so the tub is the brightest object in frame.",
+            texts: ["What's actually in my gym bag →","The one supplement that never leaves my bag →"] },
+          { shot: "Mixing a scoop into your shaker at the gym (or kitchen pre-gym).",
+            tip: "Catch the powder mid-fall into the bottle. Burst mode is your friend.",
+            texts: ["EAAs: all 9 essential amino acids your muscles can't make.","Pre, intra, post — aminos work the whole session."] },
+          { shot: "Mid-workout shot — dumbbells, squat rack, cables, whatever you train. Shaker visible nearby.",
+            tip: "Slightly grainy candid gym shots read more authentic than polished ones. Don't overproduce.",
+            texts: ["Sipping through the session. Supports muscle recovery.*","Train hard. Recover smarter."] },
+          { shot: "Post-workout sip — sitting on a bench, towel, honest tired-but-good face.",
+            tip: "The exhausted-satisfied look is the most relatable frame in fitness content.",
+            texts: ["The recovery window is real. Feed it.","Tomorrow-me thanks today-me for this."] },
+          { shot: "Hold the tub to camera, gym background, confident half-smile. CTA slide.",
+            tip: "Label sharp, you slightly soft-focus behind it. Done.",
+            texts: ["Link in bio — your gym bag has an opening 🏋️","Comment AMINOS and I'll send my link."] }
+        ],
+        captions: [
+          "The gym bag MVP nobody asks me about (so I'm telling you anyway) 🏋️\n\nInstant Aminos — all 9 essential amino acids, sipped through my whole session. Supports muscle recovery so consistency doesn't cost me a week of soreness.*\n\nFull bag breakdown in the slides →",
+          "You don't need 12 supplements. You need a few that earn their spot.\n\nInstant Aminos earned theirs: EAAs through every workout, recovery support, flavors I actually crave.* Swipe for how I use it →"
+        ],
+        tags: "#gymessentials #eaa #aminoacids #recovery #fitnessroutine #instantaminos"
+      }
+    ]
+  },
+  creatine: {
+    name: "Creatine Reserve", emoji: "💪", color: "#d98f3a",
+    blurb: "Daily creatine for strength, performance & brain support",
+    formulas: [
+      {
+        id: "notjust", name: "Not Just for Gym Bros", emoji: "🧠", slides: 5,
+        desc: "Myth-busting education carousel — creatine for brain, body, and everyone (especially women).",
+        why: "Creatine is the most-researched supplement in existence, but most people still think it's only for bodybuilders. Busting that myth opens a massive untapped audience.",
+        shots: [
+          { shot: "Hold Creatine Reserve with a skeptical/amused face — like someone just said 'isn't that for gym bros?'",
+            tip: "The reaction face IS the hook. Eyebrow up, slight smirk. Have fun with it.",
+            texts: ["'Isn't creatine just for gym bros?' Oh, honey. Swipe →","Creatine myths, busted in 5 slides →"] },
+          { shot: "Close-up of the label, finger pointing to creatine monohydrate on the ingredients.",
+            tip: "Tight crop, sharp focus on the text.",
+            texts: ["One ingredient. Decades of research. Hundreds of studies.","The most-studied supplement on planet Earth."] },
+          { shot: "You doing something cognitive — reading, working at a laptop, journaling — product beside you.",
+            tip: "This is the surprise slide. Brain + creatine is the scroll-stopper.",
+            texts: ["Your brain uses creatine too — it supports cognitive performance.*","Muscles AND mind. Same molecule."] },
+          { shot: "Mixing creatine into water or a smoothie, casual kitchen scene.",
+            tip: "Show how small the scoop is — 'that's it?' energy lowers the barrier to entry.",
+            texts: ["5 grams. Every day. That's the entire protocol.","No loading phase drama. Just daily consistency."] },
+          { shot: "Strong confident shot — flexed, mid-stride, or just standing tall with the tub. CTA.",
+            tip: "Shoot from slightly below for presence. Smile — strength content converts better warm.",
+            texts: ["Link in bio. Strength is for everyone. 💪","Comment CREATINE and I'll send you my link."] }
+        ],
+        captions: [
+          "Creatine isn't a 'gym bro' thing. It's a human thing 🧠💪\n\nIt's the most-researched supplement in existence — supporting strength, performance, AND cognitive function. Your brain is one of the hungriest creatine users in your whole body. 5g of Creatine Reserve daily, that's the entire routine.*\n\nMyth-busting carousel — swipe →",
+          "Things I wish someone told me about creatine sooner:\n\n• It's not a steroid (not even close)\n• Your BRAIN uses it, not just muscle\n• Women may benefit just as much as men\n• 5g daily — no loading phase needed\n\nCreatine Reserve is my daily.* Swipe for the full breakdown →"
+        ],
+        tags: "#creatine #creatineforwomen #brainhealth #strengthtraining #supplementfacts"
+      },
+      {
+        id: "nonneg", name: "Daily Non-Negotiable", emoji: "📅", slides: 4,
+        desc: "Habit-stack carousel — creatine slotted into your everyday routine, rain or shine.",
+        why: "Creatine's superpower is consistency, not timing. Routine content frames the daily habit as identity — and identity sells subscriptions.",
+        shots: [
+          { shot: "Creatine Reserve on your counter next to your morning anchor (coffee maker, kettle, blender).",
+            tip: "Same-spot-every-day energy. The habit lives where the routine lives.",
+            texts: ["The supplement I haven't skipped in months →","Rain, shine, rest day — this happens daily →"] },
+          { shot: "Scooping into your usual drink — coffee, smoothie, plain water, whatever's true.",
+            tip: "Creatine in coffee is a great talking point — it's flavorless and dissolves fine in warm liquid.",
+            texts: ["Flavorless. Goes in anything. Zero excuses.","5g into whatever I'm already drinking."] },
+          { shot: "Mid-day strength moment — carrying groceries, lifting a kid, gym set, yard work. Real strength.",
+            tip: "Everyday strength beats gym-only strength for relatability. Pick YOUR real moment.",
+            texts: ["Strength for actual life, not just the gym.*","Performance support that shows up everywhere."] },
+          { shot: "Calendar, habit tracker, or phone reminder visible + product. The consistency receipt.",
+            tip: "A literal streak visual (even handwritten Xs on a calendar) is incredibly persuasive.",
+            texts: ["Consistency is the active ingredient. Link in bio.","Day 90-something. Link in bio to start day 1. 📅"] }
+        ],
+        captions: [
+          "My one true daily non-negotiable 📅\n\nCreatine Reserve, 5g, every single day — training day or not. It's flavorless, takes 10 seconds, and supports strength, performance, and recovery over time.* The secret isn't the scoop. It's the streak.\n\nRoutine in the slides →",
+          "Supplements don't work if you don't take them. Groundbreaking, I know.\n\nThat's why creatine is my keeper — 5g daily in whatever I'm already drinking. No timing rules, no loading drama. Just consistency doing what consistency does.*"
+        ],
+        tags: "#creatine #dailyhabits #consistency #strengthtraining #wellnessroutine"
+      }
+    ]
+  }
+};
+
+// ---------- state ----------
+const S = { productKey:null, formula:null, shotIdx:0, slides:[], capIdx:0 };
+const $ = id => document.getElementById(id);
+const screens = ["s-product","s-formula","s-builder","s-export"];
+let history = ["s-product"];
+
+function show(id){
+  screens.forEach(s=>$(s).classList.toggle("active", s===id));
+  if(history[history.length-1]!==id) history.push(id);
+  $("backBtn").style.display = id==="s-product" ? "none":"block";
+  $("navrow").style.display = id==="s-builder" ? "flex":"none";
+  window.scrollTo(0,0);
+}
+$("backBtn").onclick = ()=>{
+  history.pop();
+  const prev = history[history.length-1]||"s-product";
+  history.pop(); show(prev);
+};
+
+// ---------- screen 1: products ----------
+function renderProducts(){
+  const el = $("productList"); el.innerHTML="";
+  for(const [key,p] of Object.entries(PRODUCTS)){
+    const b = document.createElement("button");
+    b.className="pcard";
+    const imgHtml = (typeof PRODUCT_IMGS!=="undefined" && PRODUCT_IMGS[key])
+      ? `<img src="${PRODUCT_IMGS[key]}" style="width:46px;height:46px;border-radius:14px;object-fit:cover;flex:none;background:#fff;">`
+      : `<div class="dot" style="background:${p.color}22;border:1px solid ${p.color}55">${p.emoji}</div>`;
+    b.innerHTML = `${imgHtml}<div><b>${p.name}</b><span>${p.blurb}</span></div><div class="arr">›</div>`;
+    b.onclick = ()=>{ S.productKey=key; renderFormulas(); show("s-formula"); };
+    el.appendChild(b);
+  }
+}
+
+// ---------- screen 2: formulas ----------
+function renderFormulas(){
+  const p = PRODUCTS[S.productKey];
+  $("formulaTitle").textContent = `${p.name}: pick a format`;
+  const el = $("formulaList"); el.innerHTML="";
+  p.formulas.forEach(f=>{
+    const b = document.createElement("button");
+    b.className="fcard";
+    b.innerHTML = `<div class="frow"><span class="femo">${f.emoji}</span><b>${f.name}</b><span class="fmeta">${f.slides} slides</span></div>
+      <p>${f.desc}</p><div class="why"><b>Why it works:</b> ${f.why}</div>`;
+    b.onclick = ()=>{ startBuilder(f); };
+    el.appendChild(b);
+  });
+}
+
+// ---------- screen 3: builder ----------
+function startBuilder(f){
+  S.formula = f; S.shotIdx = 0; S.capIdx = 0; aiCaption = null;
+  S.slides = f.shots.map(sh=>({ img:null, text:sh.texts[0], tIdx:0, style:"block", pos:"top" }));
+  renderShot(); show("s-builder");
+}
+
+function renderShot(){
+  const f = S.formula, i = S.shotIdx, sh = f.shots[i], sl = S.slides[i];
+  $("bKicker").textContent = `${PRODUCTS[S.productKey].name} · ${f.name}`;
+  $("bTitle").textContent = `Shot ${i+1} of ${f.shots.length}`;
+  $("bProgress").innerHTML = f.shots.map((_,k)=>
+    `<i class="${k<i?'done':k===i?'curr':''}"></i>`).join("");
+
+  $("shotArea").innerHTML = `
+    <div class="shotcard">
+      <div class="shotnum">📸 Your shot</div>
+      <div class="shotinstr">${sh.shot}</div>
+      <div class="shottip">${sh.tip}</div>
+      <div class="photozone ${sl.img?'filled':''}" id="pz">
+        <canvas id="pzc" width="432" height="540"></canvas>
+        ${sl.img?'':'<div class="ph-ico">📷</div><div>Tap to take / choose photo</div>'}
+        <button class="retake" id="retake">↻ Retake</button>
+      </div>
+      <div class="ovl-label">Text on this slide
+        <button class="shuffle" id="txtAI" style="margin-left:auto;margin-right:8px;">✨ AI</button>
+        <button class="shuffle" id="txtShuffle" style="margin-left:0;">↻ Shuffle</button>
+      </div>
+      <textarea class="ovl" id="ovlText">${sl.text}</textarea>
+      <div class="stylerow">
+        <button class="stylebtn ${sl.style==='block'?'sel':''}" data-st="block">⬛ Blocks</button>
+        <button class="stylebtn ${sl.style==='classic'?'sel':''}" data-st="classic">🅰️ Bold</button>
+        <button class="stylebtn ${sl.style==='clean'?'sel':''}" data-st="clean">✨ Clean</button>
+      </div>
+      <div class="posrow">
+        <button class="posbtn ${sl.pos==='top'?'sel':''}" data-pos="top">Top</button>
+        <button class="posbtn ${sl.pos==='mid'?'sel':''}" data-pos="mid">Middle</button>
+        <button class="posbtn ${sl.pos==='bot'?'sel':''}" data-pos="bot">Bottom</button>
+      </div>
+    </div>`;
+
+  $("pz").onclick = e=>{ if(e.target.id!=="retake") pickPhoto(i); };
+  $("retake").onclick = e=>{ e.stopPropagation(); pickPhoto(i); };
+  $("txtAI").onclick = async e=>{
+    e.stopPropagation();
+    if(!aiKey()){ openAISheet(); return; }
+    const btn = $("txtAI"); btn.textContent="…"; btn.disabled=true;
+    try{
+      const p = PRODUCTS[S.productKey];
+      const out = await callAI(
+`You write overlay text for Meta (Facebook/Instagram) carousel ad slides for ${p.name} — ${p.blurb} — by Triquetra Health.
+Carousel format: "${f.name}" (${f.desc})
+This is slide ${i+1} of ${f.shots.length}. The photo shows: ${sh.shot}
+Existing options (write something DIFFERENT but same vibe): ${sh.texts.join(" | ")}
+Rules: max 12 words, punchy, conversational creator voice, FDA-compliant structure/function language only (supports/promotes — never cures/treats/fixes), slide 1 must hook + tease the swipe, last slide must CTA.
+Reply with ONLY the overlay text, no quotes.`);
+      if(out){ sl.text = out.trim().replace(/^["']|["']$/g,""); $("ovlText").value = sl.text; drawPreview(); }
+    }catch(err){ toast("AI error — check key"); }
+    btn.textContent="✨ AI"; btn.disabled=false;
+  };
+  $("txtShuffle").onclick = e=>{
+    e.stopPropagation();
+    sl.tIdx = (sl.tIdx+1) % sh.texts.length;
+    sl.text = sh.texts[sl.tIdx];
+    $("ovlText").value = sl.text; drawPreview();
+  };
+  $("ovlText").oninput = e=>{ sl.text = e.target.value; drawPreview(); };
+  document.querySelectorAll(".stylebtn").forEach(b=> b.onclick=()=>{
+    sl.style=b.dataset.st;
+    document.querySelectorAll(".stylebtn").forEach(x=>x.classList.toggle("sel",x===b));
+    drawPreview();
+  });
+  document.querySelectorAll(".posbtn").forEach(b=> b.onclick=()=>{
+    sl.pos=b.dataset.pos;
+    document.querySelectorAll(".posbtn").forEach(x=>x.classList.toggle("sel",x===b));
+    drawPreview();
+  });
+
+  $("prevShot").style.visibility = i===0 ? "hidden":"visible";
+  $("nextShot").textContent = i===f.shots.length-1 ? "Finish ✓" : "Next shot →";
+  updateNext();
+  drawPreview();
+}
+
+function updateNext(){
+  $("nextShot").disabled = !S.slides[S.shotIdx].img;
+}
+
+$("prevShot").onclick = ()=>{ if(S.shotIdx>0){ S.shotIdx--; renderShot(); } };
+$("nextShot").onclick = ()=>{
+  if(S.shotIdx < S.formula.shots.length-1){ S.shotIdx++; renderShot(); }
+  else { renderExport(); show("s-export"); }
+};
+
+// ---------- photo handling ----------
+let pickFor = 0;
+function pickPhoto(i){ pickFor=i; $("fileInput").value=""; $("fileInput").click(); }
+$("fileInput").onchange = e=>{
+  const file = e.target.files[0]; if(!file) return;
+  const url = URL.createObjectURL(file);
+  const img = new Image();
+  img.onload = ()=>{
+    S.slides[pickFor].img = img;
+    if(pickFor===S.shotIdx) renderShot();
+  };
+  img.src = url;
+};
+
+// ---------- compositing ----------
+function coverDraw(ctx, img, W, H){
+  const ir = img.width/img.height, cr = W/H;
+  let sw, sh, sx, sy;
+  if(ir > cr){ sh = img.height; sw = sh*cr; sx=(img.width-sw)/2; sy=0; }
+  else { sw = img.width; sh = sw/cr; sx=0; sy=(img.height-sh)/2; }
+  ctx.drawImage(img, sx, sy, sw, sh, 0, 0, W, H);
+}
+
+function wrapText(ctx, text, maxW){
+  const out=[];
+  for(const raw of text.split("\n")){
+    const words = raw.split(/\s+/).filter(Boolean);
+    let line="";
+    for(const w of words){
+      const t = line ? line+" "+w : w;
+      if(ctx.measureText(t).width > maxW && line){ out.push(line); line=w; }
+      else line=t;
+    }
+    if(line) out.push(line);
+  }
+  return out;
+}
+
+function renderSlide(canvas, sl){
+  const W = canvas.width, H = canvas.height;
+  const ctx = canvas.getContext("2d");
+  if(!ctx) return;
+  ctx.clearRect(0,0,W,H);
+  if(sl.img){ coverDraw(ctx, sl.img, W, H); }
+  else { ctx.fillStyle="#1d2421"; ctx.fillRect(0,0,W,H); }
+  if(!sl.text.trim()) return;
+
+  const fs = Math.round(W*0.062);
+  const lh = fs*1.32;
+  ctx.font = `${fs}px 'Archivo Black', sans-serif`;
+  ctx.textAlign="center"; ctx.textBaseline="middle";
+  const lines = wrapText(ctx, sl.text.trim(), W*0.84);
+  const blockH = lines.length*lh;
+  let y0;
+  if(sl.pos==="top") y0 = H*0.085 + lh/2;
+  else if(sl.pos==="mid") y0 = H/2 - blockH/2 + lh/2;
+  else y0 = H*0.92 - blockH + lh/2;
+
+  if(sl.style==="clean"){
+    // soft gradient scrim behind text zone
+    const gy0 = Math.max(0, y0-lh*1.6), gy1 = Math.min(H, y0+blockH+lh*0.6);
+    const g = ctx.createLinearGradient(0, sl.pos==="top"?0:gy0, 0, sl.pos==="bot"?H:gy1);
+    if(sl.pos==="top"){ g.addColorStop(0,"rgba(0,0,0,.55)"); g.addColorStop(1,"rgba(0,0,0,0)"); }
+    else if(sl.pos==="bot"){ g.addColorStop(0,"rgba(0,0,0,0)"); g.addColorStop(1,"rgba(0,0,0,.6)"); }
+    else { g.addColorStop(0,"rgba(0,0,0,0)"); g.addColorStop(.5,"rgba(0,0,0,.45)"); g.addColorStop(1,"rgba(0,0,0,0)"); }
+    ctx.fillStyle=g;
+    ctx.fillRect(0, sl.pos==="top"?0:gy0-lh, W, (sl.pos==="bot"?H:gy1+lh)-(sl.pos==="top"?0:gy0-lh));
+  }
+
+  lines.forEach((ln,k)=>{
+    const y = y0 + k*lh;
+    if(sl.style==="block"){
+      const tw = ctx.measureText(ln).width;
+      const padX = fs*0.5, bh = lh*1.02;
+      ctx.fillStyle="rgba(8,10,9,.92)";
+      roundRect(ctx, W/2-tw/2-padX, y-bh/2, tw+padX*2, bh, fs*0.28);
+      ctx.fill();
+      ctx.fillStyle="#ffffff";
+      ctx.fillText(ln, W/2, y+fs*0.04);
+    } else if(sl.style==="classic"){
+      ctx.lineWidth = fs*0.18; ctx.strokeStyle="rgba(0,0,0,.9)";
+      ctx.lineJoin="round";
+      ctx.strokeText(ln, W/2, y);
+      ctx.fillStyle="#ffffff"; ctx.fillText(ln, W/2, y);
+    } else {
+      ctx.shadowColor="rgba(0,0,0,.65)"; ctx.shadowBlur=fs*0.35; ctx.shadowOffsetY=2;
+      ctx.fillStyle="#ffffff"; ctx.fillText(ln, W/2, y);
+      ctx.shadowColor="transparent"; ctx.shadowBlur=0; ctx.shadowOffsetY=0;
+    }
+  });
+}
+
+function roundRect(ctx,x,y,w,h,r){
+  ctx.beginPath();
+  ctx.moveTo(x+r,y); ctx.arcTo(x+w,y,x+w,y+h,r); ctx.arcTo(x+w,y+h,x,y+h,r);
+  ctx.arcTo(x,y+h,x,y,r); ctx.arcTo(x,y,x+w,y,r); ctx.closePath();
+}
+
+function drawPreview(){
+  const c = $("pzc"); if(!c) return;
+  renderSlide(c, S.slides[S.shotIdx]);
+  const pz = $("pz");
+  pz.classList.toggle("filled", !!S.slides[S.shotIdx].img);
+  updateNext();
+}
+
+// ---------- screen 4: export ----------
+function renderExport(){
+  const wrap = $("finalSlides"); wrap.innerHTML="";
+  S.slides.forEach((sl,i)=>{
+    const d = document.createElement("div");
+    d.className="slidewrap";
+    const c = document.createElement("canvas");
+    c.width=1080; c.height=1350;
+    renderSlide(c, sl);
+    const dl = document.createElement("button");
+    dl.className="dl"; dl.textContent=`⬇ Slide ${i+1}`;
+    dl.onclick = ()=>downloadCanvas(c, i);
+    d.appendChild(c); d.appendChild(dl);
+    wrap.appendChild(d);
+  });
+  renderCaption();
+}
+
+function downloadCanvas(c, i){
+  c.toBlob(b=>{
+    const a = document.createElement("a");
+    a.href = URL.createObjectURL(b);
+    a.download = `${PRODUCTS[S.productKey].name.replace(/\s+/g,"-").toLowerCase()}-slide-${i+1}.png`;
+    a.click();
+    setTimeout(()=>URL.revokeObjectURL(a.href), 4000);
+  }, "image/png");
+}
+
+$("dlAll").onclick = ()=>{
+  const cs = document.querySelectorAll("#finalSlides canvas");
+  cs.forEach((c,i)=> setTimeout(()=>downloadCanvas(c,i), i*450));
+  toast("Downloading all slides…");
+};
+
+function captionText(){
+  const f = S.formula;
+  const body = aiCaption || f.captions[S.capIdx % f.captions.length];
+  return body + "\n\n" + f.tags + "\n\n" + DISCLOSURE + "\n" + FDA;
+}
+function renderCaption(){ $("capText").textContent = captionText(); }
+$("capShuffle").onclick = ()=>{ aiCaption=null; S.capIdx++; renderCaption(); };
+$("capCopy").onclick = async ()=>{
+  try{ await navigator.clipboard.writeText(captionText()); toast("Caption copied ✓"); }
+  catch{ toast("Copy failed — select manually"); }
+};
+$("startOver").onclick = ()=>{ history=["s-product"]; S.productKey=null; S.formula=null; show("s-product"); };
+
+function toast(msg){
+  const t=$("toast"); t.textContent=msg; t.classList.add("show");
+  setTimeout(()=>t.classList.remove("show"), 1800);
+}
+
+// ---------- live AI (optional) ----------
+let aiCaption = null; // when set, overrides curated caption body
+function aiKey(){ try{ return localStorage.getItem("triq_ai_key")||""; }catch{ return ""; } }
+function openAISheet(){ $("aiSheet").style.display="block"; $("aiKey").value = aiKey(); }
+$("aiBtn").onclick = openAISheet;
+$("aiClose").onclick = ()=> $("aiSheet").style.display="none";
+$("aiSheet").onclick = e=>{ if(e.target.id==="aiSheet") $("aiSheet").style.display="none"; };
+$("aiSave").onclick = ()=>{
+  try{ localStorage.setItem("triq_ai_key", $("aiKey").value.trim()); }catch{}
+  $("aiSheet").style.display="none";
+  toast($("aiKey").value.trim() ? "AI enabled ✨" : "Key cleared");
+};
+
+async function callAI(prompt){
+  const r = await fetch("https://api.anthropic.com/v1/messages",{
+    method:"POST",
+    headers:{
+      "content-type":"application/json",
+      "x-api-key": aiKey(),
+      "anthropic-version":"2023-06-01",
+      "anthropic-dangerous-direct-browser-access":"true"
+    },
+    body: JSON.stringify({
+      model:"claude-haiku-4-5-20251001",
+      max_tokens:400,
+      messages:[{role:"user",content:prompt}]
+    })
+  });
+  if(!r.ok) throw new Error("API "+r.status);
+  const j = await r.json();
+  return (j.content&&j.content[0]&&j.content[0].text)||"";
+}
+
+$("capAI").onclick = async ()=>{
+  if(!aiKey()){ openAISheet(); return; }
+  const btn=$("capAI"); btn.textContent="…"; btn.disabled=true;
+  try{
+    const p = PRODUCTS[S.productKey], f = S.formula;
+    const slidesDesc = f.shots.map((sh,k)=>`Slide ${k+1}: ${S.slides[k].text}`).join("\n");
+    const out = await callAI(
+`Write a Meta (Facebook/Instagram) caption for a creator's carousel post promoting ${p.name} — ${p.blurb} — by Triquetra Health.
+Carousel format: "${f.name}". The slides say:
+${slidesDesc}
+Reference captions for voice (write something fresh, same energy): ${f.captions[0]}
+Rules: 60-120 words, conversational creator voice, hook first line, FDA-compliant structure/function language only (supports/promotes — never cures/treats/heals/fixes a condition), end inviting the swipe or link in bio. Do NOT include hashtags or disclosures — those are appended automatically.
+Reply with ONLY the caption.`);
+    if(out){ aiCaption = out.trim(); renderCaption(); toast("Fresh caption ✨"); }
+  }catch{ toast("AI error — check key"); }
+  btn.textContent="✨ AI caption"; btn.disabled=false;
+};
+
+// ---------- init ----------
+renderProducts();
+if(document.fonts && document.fonts.ready) document.fonts.ready.then(()=>{ drawPreview(); });
+</script>
+</body>
+</html>

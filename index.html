@@ -1,0 +1,941 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>The Money Machine 💸 — Triquetra</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo+Black&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#0c0f0e; --card:#161b19; --card2:#1d2421; --line:#2a332f;
+    --text:#f2f5f3; --dim:#9fb0a8; --accent:#3ddc97; --accent-d:#0e8a5f;
+    --warn:#ffb84d; --danger:#ff5c5c; --radius:18px;
+  }
+  *{box-sizing:border-box; margin:0; padding:0; -webkit-tap-highlight-color:transparent;}
+  body{
+    background:var(--bg); color:var(--text);
+    font-family:'Inter',system-ui,-apple-system,sans-serif;
+    max-width:520px; margin:0 auto; min-height:100vh; padding:0 0 90px;
+  }
+  header{
+    padding:18px 20px 6px; display:flex; align-items:center; gap:10px;
+    position:sticky; top:0; background:linear-gradient(var(--bg) 75%, transparent); z-index:50;
+  }
+  header .logo{
+    width:34px;height:34px;border-radius:10px;flex:none;
+    background:linear-gradient(135deg,var(--accent),#1a7a55);
+    display:flex;align-items:center;justify-content:center;
+    font-family:'Archivo Black';font-size:15px;color:#06231a;
+  }
+  header h1{font-size:16px;font-weight:800;letter-spacing:-.02em;}
+  header .sub{font-size:11px;color:var(--dim);font-weight:500;}
+  .hbtn{
+    border:1px solid var(--line);background:var(--card);color:var(--dim);
+    border-radius:99px;padding:7px 13px;font-size:12px;font-weight:700;cursor:pointer;font-family:inherit;
+  }
+  #checkBtn{margin-left:auto;color:var(--warn);border-color:#4a3c22;}
+  #backBtn{display:none;margin-left:8px;}
+  .screen{display:none;padding:8px 20px 20px;animation:fade .25s ease;}
+  .screen.active{display:block;}
+  @keyframes fade{from{opacity:0;transform:translateY(6px);}to{opacity:1;transform:none;}}
+  .kicker{font-size:11px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--accent);margin:14px 0 4px;}
+  .title{font-size:24px;font-weight:800;letter-spacing:-.03em;line-height:1.15;margin-bottom:4px;}
+  .lede{font-size:13.5px;color:var(--dim);line-height:1.5;margin-bottom:18px;}
+
+  .card{
+    width:100%;text-align:left;border:1px solid var(--line);background:var(--card);
+    border-radius:var(--radius);padding:17px 18px;margin-bottom:12px;cursor:pointer;
+    color:var(--text);font-family:inherit;display:block;transition:transform .08s ease;
+  }
+  .card:active{transform:scale(.98);}
+  .card .crow{display:flex;align-items:center;gap:11px;}
+  .card .cemo{font-size:22px;flex:none;}
+  .card b{font-size:15.5px;font-weight:800;letter-spacing:-.02em;display:block;}
+  .card .csub{font-size:12px;color:var(--accent);font-weight:700;}
+  .card p{font-size:12.5px;color:var(--dim);line-height:1.5;margin-top:8px;}
+  .card .meta{margin-left:auto;font-size:11px;font-weight:700;color:var(--accent);background:rgba(61,220,151,.1);padding:4px 10px;border-radius:99px;flex:none;}
+  .card.fit::after{content:"⭐ Great fit for your lane";display:block;font-size:11px;font-weight:700;color:var(--warn);margin-top:8px;}
+
+  /* shoot card */
+  .sc{border:1px solid var(--line);background:var(--card);border-radius:var(--radius);padding:18px;margin-bottom:14px;}
+  .sc h3{font-size:11px;font-weight:800;letter-spacing:.12em;text-transform:uppercase;color:var(--accent);margin-bottom:9px;display:flex;align-items:center;gap:6px;}
+  .sc .hook{font-size:17px;font-weight:800;letter-spacing:-.02em;line-height:1.35;}
+  .sc p{font-size:13px;line-height:1.55;color:var(--text);}
+  .sc .dimp{font-size:12.5px;line-height:1.5;color:var(--dim);margin-top:7px;}
+  .beat{display:flex;gap:12px;padding:11px 0;border-bottom:1px solid var(--line);}
+  .beat:last-child{border-bottom:none;}
+  .beat .bn{
+    width:26px;height:26px;border-radius:99px;flex:none;background:rgba(61,220,151,.12);
+    color:var(--accent);font-size:12px;font-weight:800;display:flex;align-items:center;justify-content:center;margin-top:1px;
+  }
+  .beat b{font-size:13.5px;font-weight:800;display:block;letter-spacing:-.01em;}
+  .beat p{font-size:12.5px;color:var(--dim);line-height:1.5;margin-top:3px;}
+  .mech{
+    background:rgba(61,220,151,.07);border-left:3px solid var(--accent-d);
+    padding:11px 13px;border-radius:0 10px 10px 0;font-size:13px;line-height:1.5;font-weight:600;
+  }
+  .mech .mlab{font-size:10.5px;font-weight:800;letter-spacing:.1em;text-transform:uppercase;color:var(--accent);display:block;margin-bottom:4px;}
+  .chk{display:flex;gap:11px;align-items:flex-start;padding:9px 0;cursor:pointer;}
+  .chk input{margin-top:2px;width:17px;height:17px;accent-color:var(--accent);flex:none;}
+  .chk span{font-size:13px;line-height:1.5;}
+  .chk.warn span{color:#ffd9a3;}
+  .cappre{white-space:pre-wrap;font-family:inherit;font-size:13px;line-height:1.55;background:var(--card2);border:1px solid var(--line);border-radius:12px;padding:13px;}
+  .btn{
+    border:none;border-radius:14px;padding:15px;font-size:14.5px;font-weight:800;
+    cursor:pointer;font-family:inherit;letter-spacing:-.01em;width:100%;
+  }
+  .btn.primary{background:var(--accent);color:#06231a;}
+  .btn.ghost{background:var(--card);color:var(--text);border:1px solid var(--line);}
+  .btnrow{display:flex;gap:10px;margin:8px 0;}
+  .pill{
+    display:inline-block;font-size:11px;font-weight:700;color:var(--dim);
+    border:1px solid var(--line);border-radius:99px;padding:4px 11px;margin:0 6px 6px 0;
+  }
+  .toast{
+    position:fixed;bottom:30px;left:50%;transform:translateX(-50%) translateY(10px);
+    background:var(--accent);color:#06231a;font-size:13px;font-weight:800;padding:10px 20px;
+    border-radius:99px;opacity:0;pointer-events:none;transition:.25s;z-index:300;white-space:nowrap;
+  }
+  .toast.show{opacity:1;transform:translateX(-50%) translateY(0);}
+
+  /* teleprompter */
+  #tp{display:none;position:fixed;inset:0;background:#050706;z-index:250;flex-direction:column;}
+  #tpScroll{flex:1;overflow-y:auto;padding:38vh 26px;scroll-behavior:auto;}
+  #tpScroll .tpline{font-family:'Archivo Black';font-size:30px;line-height:1.45;color:#e8f5ee;margin-bottom:34px;letter-spacing:-.01em;}
+  #tpScroll .tpcue{font-size:14px;font-weight:700;color:var(--accent);text-transform:uppercase;letter-spacing:.12em;margin-bottom:10px;font-family:'Inter';}
+  #tpBar{display:flex;gap:10px;padding:14px 18px 30px;background:#0a0d0c;border-top:1px solid var(--line);align-items:center;}
+  #tpBar .btn{padding:12px;font-size:13px;}
+  #tpSpeed{flex:1;accent-color:var(--accent);}
+
+  /* compliance checker */
+  #cc{display:none;position:fixed;inset:0;background:rgba(0,0,0,.65);z-index:260;backdrop-filter:blur(3px);}
+  #cc .sheet{
+    position:absolute;bottom:0;left:50%;transform:translateX(-50%);width:100%;max-width:520px;
+    background:var(--card);border-radius:22px 22px 0 0;border:1px solid var(--line);
+    padding:22px 20px 30px;max-height:86vh;overflow-y:auto;
+  }
+  #ccInput{
+    width:100%;min-height:110px;background:var(--card2);border:1px solid var(--line);border-radius:12px;
+    color:var(--text);font-family:inherit;font-size:13.5px;line-height:1.5;padding:13px;resize:vertical;
+  }
+  .flag{border:1px solid #4a2727;background:rgba(255,92,92,.07);border-radius:12px;padding:12px 14px;margin-top:10px;}
+  .flag b{color:var(--danger);font-size:13px;display:block;}
+  .flag .why{font-size:12px;color:var(--dim);line-height:1.45;margin-top:4px;}
+  .flag .swap{font-size:12.5px;color:#9ff0c9;line-height:1.45;margin-top:6px;font-weight:600;}
+  .clean{border:1px solid #1e4a35;background:rgba(61,220,151,.07);border-radius:12px;padding:14px;margin-top:10px;font-size:13.5px;font-weight:700;color:#9ff0c9;}
+  .copyline{
+    border:1px solid var(--line);background:var(--card2);border-radius:10px;
+    padding:10px 13px;margin-bottom:8px;font-size:13px;line-height:1.45;cursor:pointer;
+    display:flex;gap:8px;align-items:flex-start;
+  }
+  .copyline::after{content:"📋";margin-left:auto;opacity:.45;font-size:12px;flex:none;}
+  .copyline:active{border-color:var(--accent);}
+  .qitem{
+    border:1px solid var(--line);background:var(--card);border-radius:14px;
+    padding:13px 15px;margin-bottom:10px;display:flex;align-items:center;gap:10px;cursor:pointer;
+  }
+  .qitem b{font-size:13.5px;display:block;letter-spacing:-.01em;}
+  .qitem span{font-size:11.5px;color:var(--dim);display:block;margin-top:2px;}
+  .qitem .qdel{margin-left:auto;border:none;background:none;color:var(--dim);font-size:16px;cursor:pointer;padding:4px 8px;flex:none;}
+</style>
+</head>
+<body>
+<header>
+  <div class="logo">T</div>
+  <div>
+    <h1>The Money Machine 💸</h1>
+    <div class="sub">June briefs · Triquetra Collective</div>
+  </div>
+  <button class="hbtn" id="checkBtn">🛡️ Check my script</button>
+  <button class="hbtn" id="backBtn">←</button>
+</header>
+
+<section class="screen active" id="s-brief">
+  <div class="kicker">This month</div>
+  <div class="title">What are you filming?</div>
+  <div class="lede">Three taps from here to a personalized shoot card — your lane, your angle, fully compliant.</div>
+  <div id="briefList"></div>
+  <div id="queueBox"></div>
+</section>
+
+<section class="screen" id="s-lane">
+  <div class="kicker">Step 1 of 3</div>
+  <div class="title">Which lane is yours?</div>
+  <div class="lede">Our top sellers each won with a different style. Pick the one that sounds like <i>you</i> — don't try to be all four.</div>
+  <div id="laneList"></div>
+</section>
+
+<section class="screen" id="s-entry">
+  <div class="kicker">Step 2 of 3</div>
+  <div class="title">What's true for you right now?</div>
+  <div class="lede">Pick the door you'd walk through yourself. Authentic beats optimal — your real story is the algorithm hack.</div>
+  <div id="entryList"></div>
+</section>
+
+<section class="screen" id="s-spark">
+  <div class="kicker">Step 3 of 3</div>
+  <div class="title">Pick your spark</div>
+  <div class="lede" id="sparkLede">Angles, not scripts. Starred ones fit your lane and entry best.</div>
+  <div id="sparkList"></div>
+</section>
+
+<section class="screen" id="s-card">
+  <div class="kicker" id="cardKicker"></div>
+  <div class="title" id="cardTitle">Your shoot card</div>
+  <div class="lede" id="cardLede"></div>
+  <div id="cardBody"></div>
+  <div class="btnrow">
+    <button class="btn primary" id="tpOpen">🎬 Teleprompter</button>
+    <button class="btn ghost" id="cardCopy">📋 Copy card</button>
+    <button class="btn ghost" id="cardSave">💾 Save</button>
+  </div>
+  <button class="btn ghost" id="newCard" style="margin-top:2px;">↻ Build another card</button>
+</section>
+
+<!-- teleprompter -->
+<div id="tp">
+  <div id="tpScroll"></div>
+  <div id="tpBar">
+    <button class="btn ghost" id="tpPlay" style="flex:0 0 92px;">▶ Play</button>
+    <input type="range" id="tpSpeed" min="1" max="10" value="4">
+    <button class="btn ghost" id="tpClose" style="flex:0 0 70px;">✕</button>
+  </div>
+</div>
+
+<!-- compliance checker -->
+<div id="cc">
+  <div class="sheet">
+    <div class="title" style="font-size:18px;">🛡️ Compliance pre-flight</div>
+    <div class="lede" style="margin-bottom:12px;">Paste your script, hook, or caption. I'll flag takedown-risk phrases and give you the safe swap.</div>
+    <textarea id="ccInput" placeholder="Paste your script or caption here…"></textarea>
+    <div class="btnrow">
+      <button class="btn primary" id="ccRun">Run check</button>
+      <button class="btn ghost" id="ccClose">Close</button>
+    </div>
+    <div id="ccResults"></div>
+  </div>
+</div>
+
+<div class="toast" id="toast">Copied!</div>
+
+<script>
+const LANES = [
+  { id:"brodoc",  name:"The Real-World Bro-Doc", emoji:"🤙",
+    desc:"You pull the problem out of the textbook and into real life — the post-cookout wreckage, the 3pm crash — then break down the biology accurately in a talking-to-your-buddy cadence. (Jarrod's lane)" },
+  { id:"story",   name:"The Big-Energy Storyteller", emoji:"🎤",
+    desc:"You don't lead with science — you lead with YOUR story, your discomfort, your moment of realizing what it actually was. The audience sees themselves in you. (Theresa's lane)" },
+  { id:"clinical",name:"The Clinician Who Lived It", emoji:"🩺",
+    desc:"You carry credibility from your background — nurse, trainer, practitioner — AND you pair it with your own real journey. Trusted as an expert and a customer. (Maria's lane)" },
+  { id:"science", name:"The Clean Science Explainer", emoji:"🔬",
+    desc:"Sharp visuals, clean one-sentence mechanisms, protective framing that never blames the buyer. You make people feel smart, not lectured. (Phil's lane)" }
+];
+
+const BRIEFS = {
+  flora: {
+    name:"Flora Biome", emoji:"🌿", month:"June",
+    pitch:"The only living, fermented liquid probiotic + prebiotic + postbiotic — alive in the bottle, pH-matched to the stomach, restoring the wild organic acids the modern diet stripped out.",
+    hero:"Live-culture fermentation is the hero. The whole story: dead capsule probiotics vs. a living fermented probiotic — and the wild organic acids modern food forgot. Stop there.",
+    mech:"It's already pH-matched — Flora Biome sits at 3.75, your fasted stomach at 3.5 — so it walks right through. (Say this ONCE, then move on.)",
+    keyword:"FLORA", tag:"@triquetrahealth",
+    imgFolder:"https://drive.google.com/drive/folders/1xLKLvthyMlfC9LIoVioBZftw5qQt07iR",
+    url:"triquetrahealth.com/products/flora-biome-organic",
+    hashtags:"#guthealth #guttok #probiotics #prebiotics #postbiotics #fermentedfoods #microbiome",
+    tried:"Capsule probiotics, yogurt, elimination diets — be honest about what you tried and how little moved. This validates the viewer's own failed attempts.",
+    hooks:[
+      "Capsule probiotics are dead. Mine's alive.",
+      "The modern diet stripped something humans had at every meal.",
+      "Your gut doesn't start in your colon. It starts in your mouth.",
+      "Yes, it tastes like Worcestershire sauce. No, I don't care.",
+      "It's not the food. It's the bacteria fermenting the food.",
+      "Week 1 is weird. Here's why that's the whole point.",
+      "You're not failing probiotics. You're taking dead probiotics."
+    ],
+    seeds:[
+      "Wait, capsule probiotics are actually dead?? How did I not know this?",
+      "Does this actually help when your stomach just feels off all the time?",
+      "How bad is the taste really? Be honest 😂",
+      "How long before you noticed a difference?",
+      "Is this safe right after a round of antibiotics?",
+      "Do I need to refrigerate it or can it live on my counter?",
+      "Is this the wild organic acids thing I keep hearing about?"
+    ],
+    laneNotes:{
+      brodoc:"Surface the gut issue inside a scene the viewer has lived — the post-cookout wreckage, the 'why does coffee suddenly hate me' moment, the gut that betrays you on every trip. Then bring the real biology, buddy-cadence, never a lecture.",
+      story:"Lead with YOUR gut story — your discomfort, your moment of realizing it wasn't the food, it was your microbiome. Big energy, zero lecture.",
+      clinical:"Pair your credential with your own Flora journey. You're trusted because you're a clinician AND a customer. Keep the science clean and lived-in.",
+      science:"Alive vs. dead, explained cleanly with strong visuals. Your closer: \"You're not failing probiotics. You're taking dead probiotics.\" Protect the viewer — the product is the variable, never them."
+    },
+    entries:[
+      { id:"meals", emoji:"🔥", name:"Stomach feels off after meals",
+        desc:"The sour, burning, 'something's not right up top' feeling after dinner. Can't lie down too soon. Coffee hits different now.",
+        edu:"For thousands of years humans ate fermented foods at almost every meal — and with them, wild organic acids that kept the stomach environment in balance. The modern grocery aisle stripped them out. When those acids are missing, the stomach feels off — and that sour, off feeling up top is one of the loudest ways it shows up. Flora Biome restores those acids through real fermentation.",
+        guard:"⚠️ Never diagnose acid reflux or say Flora 'fixes' reflux. Speak to the FEELING — 'when your stomach feels uncomfortable after meals.' Invite, don't assert." },
+      { id:"bloat", emoji:"🎈", name:"Afternoon bloat, no matter what I eat",
+        desc:"Flat in the morning, four months pregnant by 4pm. Tried cutting gluten, dairy, FODMAPs — small wins, no real fix.",
+        edu:"Bloat is rarely about the food — it's about the bacteria fermenting the food. When the microbiome is off, even good food gets fermented into gas. Flora Biome rebuilds the population that does the fermenting correctly. By Week 2–3 the stomach tends to quiet down because the right bacteria are finally winning.",
+        guard:"⚠️ Never say it 'fixes' or 'eliminates' bloating. Say 'supports digestive comfort' / 'supports a healthy microbiome' and let the education do the implied work." },
+      { id:"reset", emoji:"🔄", name:"Gut got cleared out (antibiotics / trip / big weekend)",
+        desc:"A 10-day antibiotic course, a wedding weekend, travel that sent everything sideways. Not chronically sick — knocked off baseline.",
+        edu:"Antibiotics — and to a lesser degree travel and big weekends — scorch the microbiome. A capsule replaces some bacteria, but not the prebiotic food OR the postbiotic compounds (including the wild organic acids) the gut environment needs to recover. Flora Biome is all three in one liquid: Week 1 cleanses, Week 2–3 repopulates, Week 4+ you're back online.",
+        guard:"⚠️ If you mention kids post-antibiotics, keep it general and parental. Never claim it's 'for kids' or give dosing on camera — point parents to the website / their provider." }
+    ],
+    musts:[
+      {t:"Acknowledge the taste upfront — ACV / Worcestershire / kombucha. Joke about it, then flip it: the taste IS the proof of fermentation, and it mellows as the gut rebalances.", warn:false},
+      {t:"Name the Week 1 adjustment phase so your audience doesn't quit on Day 4. Say 'cleansing/adjustment phase' — never 'detox.'", warn:false},
+      {t:"Use the inclusive frame: 'if your stomach has felt uncomfortable in any way' — reflux-y, bloated, irregular, post-antibiotic. Nobody gets singled out.", warn:false},
+      {t:"Alive vs. dead framing only — 'capsule probiotics' generically, never a competitor brand name.", warn:true},
+      {t:"The pH fact gets ONE sentence max. Don't get lost in chemistry.", warn:false},
+      {t:"Do NOT list the 18 herbs on camera. Live fermentation is the hero; ingredients live in the description.", warn:true},
+      {t:"Lead with the visible relief — calm stomach, quiet afternoons, regular bathroom — not the mechanism.", warn:false}
+    ],
+    sparks:[
+      { id:1, name:"The Wild Organic Acids Reveal", emoji:"🏺", anchor:true,
+        angle:"For thousands of years humans got fermented foods at almost every meal — and with them, wild organic acids that kept the stomach in balance. The modern grocery aisle stripped that out.",
+        handle:"Curiosity + cultural recognition — 'wait, we DID used to eat fermented stuff at every meal.'",
+        job:"Land the cultural insight in your own words, then connect it to why a living fermented probiotic restores something the modern diet quietly lost.",
+        fitsE:["meals"], fitsL:["science","brodoc"] },
+      { id:2, name:"\"If Your Stomach Has Felt Off Lately\"", emoji:"🚪",
+        angle:"Lead with the universal frame — then walk the manifestations (reflux-y, bloat, irregularity, post-antibiotic) as different doors into the same room: an off microbiome.",
+        handle:"Relief and inclusion. Nobody feels singled out — everyone feels invited.",
+        job:"Speak WITH the viewer, not at them. No diagnosing, no calling out conditions.",
+        fitsE:["meals","bloat","reset"], fitsL:["story","brodoc"] },
+      { id:3, name:"The Reset After", emoji:"🧯",
+        angle:"The universal 'my gut just got cleared out' moment — antibiotics, travel, holiday weekend — and what it actually takes to rebuild. Yogurt and a capsule aren't enough.",
+        handle:"Recognition. Everyone has a 'my gut isn't right since…' moment.",
+        job:"Pick the entry point that's actually yours and tell the truth about what changed.",
+        fitsE:["reset"], fitsL:["story","brodoc","clinical"] },
+      { id:4, name:"The Alive vs. Dead Reveal", emoji:"⚡",
+        angle:"Most probiotics are dead before they're swallowed — freeze-dried bacteria praying to survive stomach acid. Flora Biome is the living version. Same biology as kombucha, kimchi, kefir.",
+        handle:"'It's not me, it's the product' — flips the failure narrative off the buyer.",
+        job:"Deliver without disparaging any brand. Living vs. dead is a different category, not a winner-takes-all.",
+        fitsE:["meals","bloat","reset"], fitsL:["science"] },
+      { id:5, name:"The Post-Holiday-Weekend Reach", emoji:"🍔",
+        angle:"'I went a little hard this weekend and my gut is paying for it.' Don't shame yourself, don't cleanse with cabbage juice — reach for what actually rebuilds the microbiome.",
+        handle:"Self-compassion. The body isn't broken, it's just been through it.",
+        job:"Be honest about your own weekend, then connect the rebuild to the 3-in-1 ecosystem.",
+        fitsE:["reset"], fitsL:["brodoc","story"] },
+      { id:6, name:"The Journey Walkthrough", emoji:"🗺️",
+        angle:"Week 1 cleansing → Week 2–3 repopulation → Week 4+ optimized. Stop people from quitting on Day 4.",
+        handle:"Trust through preparation. The viewer feels prepared, not surprised.",
+        job:"Frame Week 1 honestly — 'adjustment phase,' never 'detox.'",
+        fitsE:["meals","bloat","reset"], fitsL:["clinical","science"] },
+      { id:7, name:"The Taste Honesty Opener", emoji:"😬",
+        angle:"Yes — ACV, Worcestershire, kombucha. Open with the taste, explain WHY (it's actively fermenting — that's the point), and that it mellows as the gut rebalances.",
+        handle:"Trust through honesty. The viewer respects you for not pretending.",
+        job:"Make the taste joke land in your real voice, then pivot: the taste is the proof. Dead probiotics taste like nothing for a reason.",
+        fitsE:["meals","bloat","reset"], fitsL:["brodoc","story"] },
+      { id:8, name:"The Mouth-to-Colon Beat", emoji:"🧭",
+        angle:"The microbiome doesn't start in the colon — it runs mouth to colon. A liquid populates the whole tract; a capsule only hits the bottom floor.",
+        handle:"'I never thought of it that way.' Pure curiosity.",
+        job:"Explain it once, simply, and connect it to why discomfort at ANY level is the same underlying picture.",
+        fitsE:["meals","bloat"], fitsL:["science","clinical"] }
+    ],
+    caption:"If your stomach has felt off lately — bloat, that sour off feeling, irregular, post-antibiotic — and the capsule probiotics aren't doing it, here's why: they're dead before they get there. Freeze-dried bacteria don't survive your stomach acid OR your beach bag. Flora Biome is a *living* fermented probiotic — same biology as kombucha, pH-matched to your stomach, alive from mouth to colon, packed with the wild organic acids the modern diet quietly stripped out. Comment FLORA and I'll send you the link 🌿",
+    banned:[
+      {rx:/\b(cures?|treats?|fix(es|ed)?|heals?|eliminates?|gets? rid of)\b[^.!?\n]{0,40}\b(reflux|gerd|bloat\w*|ibs|sibo|candida|leaky gut|constipation)/i,
+       label:"Treatment claim on a condition", why:"Diagnosing or claiming to treat/cure a condition = instant takedown risk.", swap:"\"supports digestive comfort\" / \"supports a healthy microbiome\" — let the education do the implied work."},
+      {rx:/\bmy (ibs|sibo|candida|reflux|gerd) (is gone|went away|disappeared)\b/i,
+       label:"Personal cure testimonial", why:"Even first-person — 'my IBS is gone' — reads as a treatment claim.", swap:"\"my stomach finally feels comfortable after meals\" — describe the feeling, not the diagnosis."},
+      {rx:/\byou (have|probably have|might have) (acid reflux|gerd|ibs|sibo|candida|leaky gut)\b/i,
+       label:"Diagnosing the viewer", why:"Telling viewers what condition they have is a diagnostic claim.", swap:"\"if your stomach has felt uncomfortable in any way…\" — invite, don't assert."},
+      {rx:/\bdetox\w*/i,
+       label:"\"Detox\"", why:"Trips compliance flags fast — too vague and medical-sounding.", swap:"\"cleansing phase\" / \"adjustment phase\" / \"your gut is rebalancing.\""},
+      {rx:/\bflat stomach\b/i,
+       label:"Physique claim", why:"Specific physique promises are claim territory.", swap:"\"promotes a flatter feeling\" / \"supports digestive comfort.\""},
+      {rx:/\b(replaces? antibiotics|prevents? infection)\b/i,
+       label:"Medical replacement claim", why:"Claiming to replace medicine or prevent infection is a disease claim.", swap:"\"helps replenish good bacteria after antibiotics.\""}
+    ]
+  },
+  creatine: {
+    name:"Creatine Reserve", emoji:"🧠", month:"June",
+    pitch:"Creatine monohydrate + GAA — the precursor that gets creatine into the brain AND keeps your body making its own. Father's Day is June 21st and every dad you know is running on fumes by 3pm.",
+    hero:"GAA is the hero. The whole story on camera: plain creatine vs. GAA-powered creatine. Two ideas. Stop there.",
+    mech:"\"GAA is the precursor that gets creatine into the brain — the methylated B vitamins turn it back into creatine up there.\" (One sentence on the B's, like Phil, then move on.)",
+    keyword:"CREATINE", tag:"@triquetrahealth",
+    imgFolder:"https://drive.google.com/drive/folders/1ddmQdpeMbI6eVJBk4YotzQ48slGHG2Gu",
+    url:"triquetrahealth.com/products/creatine-reserve",
+    hashtags:"#creatine #brainfog #dadlife #fathersday #strengthtraining #perimenopause #mthfr",
+    tried:"Plain creatine, more coffee, B-complexes — be honest about what you tried and what it didn't do. This validates the viewer's own failed attempts.",
+    hooks:[
+      "If you could only take ONE supplement, what would it be?",
+      "Creatine isn't a gym supplement. It's brain fuel.",
+      "You weren't doing creatine wrong. You were taking the wrong creatine.",
+      "The Father's Day gift for the dad running on fumes.",
+      "Bloated on creatine? It's about WHERE the water goes.",
+      "Your brain is one of the hungriest creatine users in your body.",
+      "There's no other supplement where I can feel a missed third day."
+    ],
+    seeds:[
+      "Wait, what's GAA and why does it matter?",
+      "Does this actually not make you bloated?",
+      "Would this be a good Father's Day gift for my husband?",
+      "Will this work if I'm perimenopausal?",
+      "Does it help with brain fog or is that hype?",
+      "Will this help my husband with the 3pm crash?",
+      "How does GAA work compared to plain creatine?"
+    ],
+    laneNotes:{
+      brodoc:"Dad-brain in real scenes — the 3pm crash mid-meeting, the four-day soreness after one gym session, the pool day you survive instead of enjoy. Real moments, real biology, buddy cadence.",
+      story:"Lead with the person — your husband back at the dinner table, your own pre-summer mirror moment, your perimenopause summer. Small observable shifts beat dramatic transformations.",
+      clinical:"Your credential + your own experience with GAA-powered creatine. Explain why hormonally-challenged bodies struggle with plain creatine — you're the trusted translator.",
+      science:"Phil's pacing is the gold standard: question open → 4-word answer → name the audience → acknowledge the bloat → one-sentence mechanism → personal testimonial → 'wrong creatine' closer. Study the rhythm, never recite the lines."
+    },
+    entries:[
+      { id:"dadbrain", emoji:"🧢", name:"The dad-brain (or buying for one)",
+        desc:"Fried by 3pm, soreness lasts four days, asks for 'a nap' for Father's Day. Doesn't know creatine is brain fuel.",
+        edu:"Most guys think creatine is a gym supplement. It's one of the brain's top fuel sources — but plain creatine doesn't reliably cross into the brain, especially for guys in their 40s where the energy starts to dip. GAA is the precursor that gets it there; methylated B vitamins convert it back to creatine in the brain. \"And today, you're smart again.\"",
+        guard:"⚠️ Never tell viewers 'you have low T' or 'your testosterone is low' — diagnostic claim. Say 'if your testosterone is dropping' / 'for guys in their 40s where energy starts to dip.' Never say it replaces TRT." },
+      { id:"cuts", emoji:"🏖️", name:"Want definition, scared of the bloat",
+        desc:"A real summer deadline — lake trip, pool day, wedding. Tried plain creatine, felt puffy, quit. Wants arms that pop, not a round face.",
+        edu:"The bloat fear is about WHERE the water goes. Plain monohydrate alone can pull water under the skin. GAA opens the absorption pathway so the creatine and water go INSIDE the muscle cells — fuller, more defined — instead of under the skin. In June heat, intracellular hydration is the whole story.",
+        guard:"⚠️ Never say 'will get you ripped' or 'burns fat' — physique claims. And avoid the word 'bulk' entirely; say 'muscle definition,' 'toned strength,' 'lean and strong.'" },
+      { id:"peri", emoji:"🌡️", name:"Perimenopausal / MTHFR brain fog",
+        desc:"Brain on dial-up for two years. Summer night sweats stacking on the fog. Tried magnesium, ashwagandha, three B-complexes — almost, but never all the way.",
+        edu:"Plain creatine doesn't always make it into the brain — especially in hormonally-challenged bodies (perimenopause, dropping testosterone, MTHFR). It often just sits there making you feel bloated. GAA is the precursor that actually gets in, where methylated B's convert it back to creatine. The missing piece, found.",
+        guard:"⚠️ Never tell viewers 'you have MTHFR' — diagnostic claim. Say 'if you have the MTHFR gene variant' / 'a lot of you who already know about MTHFR…' Invite, never assert." }
+    ],
+    musts:[
+      {t:"Acknowledge the bloat fear upfront — it's the #1 objection, and it spikes in June when shirts come off.", warn:false},
+      {t:"GAA is the hero. Don't list six ingredients. Methylated B's get ONE sentence, like Phil, then move on.", warn:true},
+      {t:"Never position Reserve as 'better than' plain creatine — plain monohydrate is the most-studied supplement on earth. Frame: 'Plain creatine works for some people. For the ones it doesn't — there's this.'", warn:true},
+      {t:"Invite, never assert: 'if your testosterone is dropping' / 'if you have the MTHFR variant.' No diagnosing from the screen.", warn:true},
+      {t:"Avoid the word 'bulk' entirely — it turns off the Muscle Mommy audience. 'Definition,' 'toned strength,' 'lean and strong.'", warn:false},
+      {t:"The protective closer: 'You weren't doing it wrong — you were taking the wrong creatine.' Product is the variable, never the person.", warn:false},
+      {t:"Form factor beat if it fits: small capsules, 6/day, throw them in any bag. 3,000mg creatine + 750mg GAA.", warn:false}
+    ],
+    sparks:[
+      { id:1, name:"The Father's Day Gift That Actually Lands", emoji:"🎁", anchor:true,
+        angle:"A gift-giver's discovery for the dad who runs on fumes — finally something that helps instead of another tie or grilling gadget.",
+        handle:"The relief of giving him something real. What did he ask for? ('A nap.') What shifted?",
+        job:"Anchor it in a real Father's Day moment from your life.",
+        fitsE:["dadbrain"], fitsL:["story","brodoc"] },
+      { id:2, name:"The Pre-Summer Mirror Moment", emoji:"🪞",
+        angle:"A countdown to a real summer event where you cracked why plain creatine made you look softer, not more defined.",
+        handle:"The relief of solving the bloat puzzle — it wasn't your training or your diet.",
+        job:"Name the deadline, name the realization, leave the viewer needing to know the difference.",
+        fitsE:["cuts"], fitsL:["brodoc","story"] },
+      { id:3, name:"The Husband Comes Back to the Dinner Table", emoji:"🍽️",
+        angle:"A partner's view of a 40-something man checked out by 3pm — and the quiet moment they noticed him present again.",
+        handle:"The tenderness of getting your person back.",
+        job:"Focus on the small observable shift, not a dramatic transformation.",
+        fitsE:["dadbrain"], fitsL:["story"] },
+      { id:4, name:"Summer Perimenopause Is Its Own Beast", emoji:"🌙",
+        angle:"Brain fog stacking on night sweats and 90-minute sleep chunks. Most content treats perimenopause as one thing — you're naming the summer version.",
+        handle:"Seen-ness. You're the friend who gets the specific version of it.",
+        job:"List what you tried that ALMOST worked, then land on the missing piece.",
+        fitsE:["peri"], fitsL:["story","clinical"] },
+      { id:5, name:"Strong Dad Summer", emoji:"💪",
+        angle:"Keeping up with your kids through summer — pool days, yard work, late bedtimes — without crashing at 8pm.",
+        handle:"The pride of being the dad who shows up.",
+        job:"Make the stakes physical — what's the moment your kid asks and you don't want to say no?",
+        fitsE:["dadbrain"], fitsL:["brodoc"] },
+      { id:6, name:"Plain Creatine vs. GAA-Powered (Summer Edition)", emoji:"⚖️",
+        angle:"The protective compare-and-contrast. Plain creatine is the ingredient; GAA-powered is the ingredient plus the precursor. Same active dose, smarter delivery.",
+        handle:"The clarity of finally understanding the difference.",
+        job:"Explain it like you'd explain it to your sibling — no shade at plain creatine. Both products win.",
+        fitsE:["dadbrain","cuts","peri"], fitsL:["science"] },
+      { id:7, name:"\"If You Could Only Take One Supplement\"", emoji:"☝️",
+        angle:"Phil's anchor question in your own voice. Open with the forced choice, land on creatine + GAA, then say why — the brain piece, the precursor piece.",
+        handle:"The curiosity of a forced choice.",
+        job:"Answer like a real person at a dinner party, not like you're reciting a tagline.",
+        fitsE:["dadbrain","cuts","peri"], fitsL:["science","brodoc"] },
+      { id:8, name:"You Can Feel It When You Miss It", emoji:"📉",
+        angle:"You know a supplement works when you can feel the absence of it. Phil: 'If I miss the third day, I feel like garbage.'",
+        handle:"Credibility — this isn't placebo, this isn't hype.",
+        job:"Tell the truth about your own missed-day experience. Describe what you observed, don't claim what it does.",
+        fitsE:["dadbrain","cuts","peri"], fitsL:["brodoc","clinical"] },
+      { id:9, name:"\"You're Taking the Wrong Creatine\"", emoji:"🔁",
+        angle:"The flip-the-failure closer. Tried creatine, felt bloated and useless? You weren't doing it wrong — the product was the variable.",
+        handle:"The exhale of realizing it wasn't your fault.",
+        job:"Land it without shaming plain creatine or any brand. Remove the personal-failure feeling so they'll try again.",
+        fitsE:["cuts","peri"], fitsL:["science","story"] }
+    ],
+    caption:"If your dad asked for \"a nap\" for Father's Day, this is what he actually needs. Most creatine is plain monohydrate — it doesn't reliably get into the brain, especially in 40-something dads with dropping testosterone. The GAA-powered version is the one that does. Especially for my perimenopausal and MTHFR people too. Comment CREATINE and I'll send you the link 🤍",
+    banned:[
+      {rx:/\b(treats?|cures?|fix(es|ed)?|heals?)\b[^.!?\n]{0,40}\b(brain fog|fatigue|hormon\w*|perimenopause|menopause|adhd|depression|anxiety)/i,
+       label:"Treatment claim on a condition", why:"Claiming to treat/cure brain fog, fatigue, or hormonal conditions = takedown risk.", swap:"\"supports brain energy and mental clarity\" / \"promotes mood balance.\""},
+      {rx:/\breplaces? (hormone therapy|hrt|trt|testosterone therapy)\b/i,
+       label:"Medical replacement claim", why:"Claiming to replace hormone therapy is a disease/treatment claim.", swap:"\"supports steady energy and mental clarity\" — and leave therapy decisions to doctors."},
+      {rx:/\byou(r)? (have|probably have|might have) (mthfr|low t\b|low testosterone)/i,
+       label:"Diagnosing the viewer", why:"Telling viewers they have MTHFR or low T is a diagnostic claim.", swap:"\"if you have the MTHFR gene variant\" / \"if your testosterone is dropping.\""},
+      {rx:/\byour testosterone is low\b/i,
+       label:"Diagnosing the viewer", why:"Diagnostic claim — asserting instead of inviting.", swap:"\"if your testosterone is dropping\" / \"for guys in their 40s where energy starts to dip.\""},
+      {rx:/\b(get(s)? you ripped|burns? fat|shredded in \d+)/i,
+       label:"Physique claim", why:"Specific physique/fat-loss promises are claim territory.", swap:"\"supports muscle strength and visible definition.\""},
+      {rx:/\bbulk(ing|ed|y)?\b/i,
+       label:"\"Bulk\" language", why:"Brand guardrail — 'bulk' turns off the Muscle Mommy audience.", swap:"\"muscle definition\" / \"toned strength\" / \"lean and strong.\""},
+      {rx:/\bbetter than\b[^.!?\n]{0,30}\b(plain creatine|monohydrate|creatine)/i,
+       label:"\"Better than\" framing", why:"Never position against plain creatine — it's the most-studied supplement on earth. Both products win.", swap:"\"Plain creatine works for some people. For the ones it doesn't — there's this.\""}
+    ]
+  },
+  aminos: {
+    name:"Instant Aminos", emoji:"🏃", month:"June",
+    pitch:"Free-form essential amino acids that bypass digestion entirely — absorbed in 5 minutes, 99% utilized, ~25 calories. \"It's not LIKE protein. It IS protein — just the form that actually gets used.\"",
+    hero:"The hero pair: 5-minute absorption + 99% utilization. That's it. Two ideas. The DIAA score and the EAA breakdown live in the description, not on camera.",
+    mech:"Free-form EAAs are already broken down — they bypass digestion, hit the bloodstream in about 5 minutes, and your body uses 99% of every gram. (If it fits: \"the science rates it 3x more effective per gram than standard protein\" — one line, move on.)",
+    keyword:"AMINOS", tag:"@triquetrahealth",
+    imgFolder:"https://drive.google.com/drive/folders/1gPpsHHtN2Xz_dcAxlzQlX-UOwseL2Ori",
+    url:"triquetrahealth.com/products/instant-aminos-powder",
+    hashtags:"#protein #eaa #aminoacids #glp1 #fasting #nobloat #instantaminos",
+    tried:"Whey (bloat), plant protein (gritty), collagen (incomplete profile), white-knuckling chicken breast — be honest about what you tried and the GI or calorie cost of each.",
+    hooks:[
+      "It's not LIKE protein. It IS protein.",
+      "More usable protein in 25 calories than 120 calories of whey.",
+      "I quit whey 6 months ago. This is what I take instead.",
+      "How I'm keeping muscle on my GLP-1.",
+      "The protein that hits your bloodstream in 5 minutes.",
+      "Whey works for some people. For the rest of us — this.",
+      "What if your protein never had to be digested?"
+    ],
+    seeds:[
+      "Wait, what makes it different from whey?",
+      "Does this actually not bloat you?",
+      "Will this work on a GLP-1?",
+      "Does it break a fast?",
+      "Can older adults take this?",
+      "How long before you noticed a difference?",
+      "Do you mix it in water or something?"
+    ],
+    laneNotes:{
+      brodoc:"Run the 'more protein than protein' math in plain English — 25-cal scoop at 99% utilization beats a 120-cal whey scoop at ~60%. That brain-breaker IS the angle. Calm, confident, friend-who-found-something-cool energy.",
+      story:"Lead with your journey — quit whey six months ago, or preserving muscle on a GLP-1, or your mom finally hitting her protein at 60. The quiet win, not the wound.",
+      clinical:"The post-50 protein conversation: digestive enzymes decline with age, heavy proteins stop being tolerable, free-form EAAs bypass the whole problem. Doctor-said-more-protein, stomach-said-no territory.",
+      science:"Clean whey-vs-free-form compare. Whey = powder, calories, 30–60 min digestion. Free-form = already broken down, 5 minutes, 99% used. Your closer: \"Whey works for some people. For the rest of us — there's this.\""
+    },
+    entries:[
+      { id:"bloatfree", emoji:"🤸", name:"Love training, hate the post-shake bloat",
+        desc:"Gym 3–5x a week. Every whey shake means feeling heavy, puffy, and bloated for hours. Tried plant (gritty), collagen (incomplete).",
+        edu:"Whey requires 30–60 minutes of digestion to even start working — that's why it bloats sensitive stomachs and sits heavy. Free-form EAAs skip digestion entirely: absorbed in about 5 minutes, same essential amino acids your muscles need, none of the digestive baggage. Sip it pre, intra, or post and just feel light.",
+        guard:"⚠️ Never say it 'builds muscle' — say 'supports muscle building' / 'supports muscle tone and recovery.' No specific outcome claims ('get ripped')." },
+      { id:"glp", emoji:"📉", name:"On a GLP-1 / fasting — losing muscle with the fat",
+        desc:"Weight is coming off but muscle is going with it. Trainer says hit your protein; every shake is 100–200 calories that kill the deficit.",
+        edu:"Most 'protein' is mostly calories — 25g usable from whey costs 100+ calories and an insulin response. Aminos is ~25 calories of nearly pure EAAs, 99% utilized, with virtually no glucose response — so it supports muscle preservation inside a deficit without drinking your calorie budget.",
+        guard:"⚠️ Never claim it enhances or works WITH the GLP-1 medication — no implied medical synergy. Say 'if you're on a GLP-1 and trying to preserve muscle…' And soften fasting claims: 'fasting-friendly' / 'virtually doesn't break a fast' — never an absolute promise." },
+      { id:"older", emoji:"🧓", name:"Stomach has had enough of protein shakes",
+        desc:"55+, doctor says 100g protein a day, digestion says absolutely not. Whey = gas and pain. Casein = a brick. Plant = worse.",
+        edu:"Digestive enzymes decline with age — that's why heavy proteins get harder to tolerate. Free-form EAAs are already in the broken-down form your body absorbs, no digestion required. The muscle and healthy-aging support still arrives; the GI fight doesn't.",
+        guard:"⚠️ Never say it 'treats sarcopenia' or 'cures muscle loss' — say 'supports healthy aging and muscle preservation.' And it never 'replaces meals' — legal nuance, supplements aren't meal replacements." }
+    ],
+    musts:[
+      {t:"FREEDOM, NOT GUILT — our ad data is unambiguous: guilt-trip openers ('Sick of feeling bloated?') all underperformed. Calm, confident discovery wins. The tonal test: does this make the viewer feel WORSE before you mention the product? If yes, rewrite. Lead with the win, not the wound.", warn:true},
+      {t:"Acknowledge the bloat objection directly — it's the #1 blocker for new buyers.", warn:false},
+      {t:"Keep the science to the hero pair: 5-minute absorption + 99% utilization. Don't list the 9 EAAs on camera; DIAA gets one passing line at most.", warn:true},
+      {t:"Never 'better than whey' — whey is the gold standard for millions. Frame: 'Whey works for some people. For the rest of us — there's this.' Both products win.", warn:true},
+      {t:"'Supports muscle building,' never 'builds muscle.' No 'burns fat' or weight-loss claims — it preserves muscle while THEY do that.", warn:true},
+      {t:"Fasting language stays soft: 'fasting-friendly,' 'virtually doesn't break a fast' — never an absolute guarantee.", warn:false},
+      {t:"FDA disclaimer in the caption or pinned comment — required on every post.", warn:false}
+    ],
+    sparks:[
+      { id:1, name:"The Bloat Bust", emoji:"🎈",
+        angle:"Quit whey six months ago — sick of feeling bloated for hours after every workout. Tried plant (gritty), collagen (incomplete). Then found free-form EAAs: 5-minute absorption, 25 calories, no bloat.",
+        handle:"The relief of finally feeling light after a workout — freedom framing, not complaint framing.",
+        job:"Tell your real quit-whey story. End on how it feels now, not how bad it was before.",
+        fitsE:["bloatfree"], fitsL:["story","brodoc"] },
+      { id:2, name:"The GLP-1 Muscle Save", emoji:"💉",
+        angle:"Lost 30 pounds — and 8 of them were muscle. Every protein shake broke the deficit. Free-form EAAs: 25 calories, 99% used, fasting-friendly. Losing fat AND keeping muscle.",
+        handle:"The wide-open lane competitors haven't claimed. Quiet empowerment, zero shame.",
+        job:"This audience is drowning in pressure — be the way OUT, not another voice telling them what's wrong.",
+        fitsE:["glp"], fitsL:["story","clinical"] },
+      { id:3, name:"\"More Protein Than Protein\"", emoji:"🤯", anchor:true,
+        angle:"How does a 25-calorie scoop have more USABLE protein than a 120-calorie scoop of whey? Bioavailability. Whey gives you the powder — your body uses maybe 60%. Free-form EAAs: 99%.",
+        handle:"The brain-breaker. The numbers stop making sense in the best way.",
+        job:"Walk the math in plain English and let the viewer have the 'wait, WHAT?' moment themselves.",
+        fitsE:["bloatfree","glp","older"], fitsL:["brodoc","science"] },
+      { id:4, name:"The 5-Minute Absorption Click", emoji:"⏱️",
+        angle:"Whey takes 30–60 minutes to start absorbing — that's why it sits in your stomach. Free-form EAAs skip the stomach entirely and hit the bloodstream in ~5 minutes.",
+        handle:"'I never knew that's why shakes feel heavy.' Pure mechanism curiosity.",
+        job:"Explain it once, cleanly, and anchor it to a real moment — mid-workout, pre-flight, before bed.",
+        fitsE:["bloatfree","older"], fitsL:["science"] },
+      { id:5, name:"The Older Adult Conversion", emoji:"💚",
+        angle:"Mom is 60. Doctor said more protein; every shake hurt her stomach. Free-form EAAs — no digestion needed. Six weeks in, her stomach is happy and her strength is coming back.",
+        handle:"Aging isn't about giving up — it's about finding the form that still works.",
+        job:"Use a real family story if you have one. This lane converts on tenderness and specificity.",
+        fitsE:["older"], fitsL:["story","clinical"] },
+      { id:6, name:"The Whey vs. Free-Form Killer", emoji:"⚖️",
+        angle:"There's whey. And there's free-form EAAs. Powder + calories + bloat + slow vs. already broken down, 5 minutes, 99% used, 25 calories. Same building blocks. Smarter delivery.",
+        handle:"The clean compare-and-contrast that makes the viewer feel smart.",
+        job:"No shade at whey — it's a different category, not a takedown. Land the closer: \"It's not LIKE protein. It IS protein.\"",
+        fitsE:["bloatfree","glp","older"], fitsL:["science","brodoc"] }
+    ],
+    caption:"If you've been bloated by protein shakes — or trying to keep muscle on a GLP-1, or fasting and can't drink calories — this one's for you. 25 calories. 99% used. 5-minute absorption. The protein that actually gets used. Comment AMINOS and I'll send you the link 🤍",
+    banned:[
+      {rx:/\bbetter than\b[^.!?\n]{0,30}\b(whey|casein|collagen|protein shakes?)/i,
+       label:"\"Better than\" framing (Aminos)", why:"Whey is the gold standard for millions — never position against it. Both products win.", swap:"\"Whey works for some people. For the rest of us — there's this.\""},
+      {rx:/\bbuilds? muscle\b/i,
+       label:"\"Builds muscle\"", why:"Direct outcome claim — brief requires the supporting form.", swap:"\"supports muscle building\" / \"supports muscle tone and recovery.\""},
+      {rx:/\b(burns? fat|causes? weight loss|melts? (fat|pounds))\b/i,
+       label:"Fat-loss claim", why:"Aminos doesn't burn fat — it supports muscle preservation while the user manages their deficit.", swap:"\"supports muscle preservation during a calorie deficit.\""},
+      {rx:/\breplaces? (meals?|food|breakfast|lunch|dinner)\b/i,
+       label:"Meal replacement claim", why:"Supplements legally aren't meal replacements.", swap:"\"fits alongside your meals\" / \"amino support between meals.\""},
+      {rx:/\b(treats?|cures?)\b[^.!?\n]{0,30}\b(sarcopenia|muscle loss)/i,
+       label:"Treatment claim", why:"Sarcopenia is a medical condition — no treat/cure language.", swap:"\"supports healthy aging and lean muscle preservation.\""},
+      {rx:/\bwon'?t break (your|a|my) fast\b/i,
+       label:"Absolute fasting claim", why:"Technically defensible but experiences vary — the brief says soften it.", swap:"\"fasting-friendly\" / \"virtually doesn't break a fast.\""},
+      {rx:/\b(works? with|enhances?|boosts?)\b[^.!?\n]{0,15}\bglp-?1/i,
+       label:"GLP-1 synergy claim", why:"Never imply medical synergy with the medication.", swap:"\"if you're on a GLP-1 and trying to preserve muscle…\""}
+    ]
+  },
+  folate: {
+    name:"L-Methylfolate 15mg", emoji:"🧬", month:"June",
+    pitch:"The bloodstream-ready, active form of B9 (+ Methyl-B12) your brain uses to make serotonin and dopamine. ~40% of people carry an MTHFR variant that breaks the folic acid conversion — they supplement for years and feel nothing. The June through-line: you weren't failing your supplement — your supplement was failing you.",
+    hero:"Methylation is the hero. The whole story on camera: folic acid requires conversion → L-Methylfolate is already converted → your brain gets it instantly. Then flip the shame: character isn't failing, biology is depleted.",
+    mech:"Your brain uses B9 to build serotonin and dopamine. Folic acid needs a conversion step the MTHFR gene variant impairs — L-Methylfolate is already active, so the brain gets it instantly. (Methyl-B12 is the cofactor — ONE sentence max, like Phil.)",
+    keyword:"METHYL", tag:"@triquetrahealth",
+    imgFolder:"https://drive.google.com/drive/folders/1vZL6uJ4-qkJK7Omda8guganCkj5QATrE",
+    url:"triquetrahealth.com/products/l-methylfolate-15-mg-plus-methyl-b12-1",
+    hashtags:"#triquetraspotlight #brainfog #methylfolate #lmethylfolate #mthfr #moodboost #fathersday #mensmentalhealth #perimenopause",
+    tried:"The B-complex that did nothing (folic acid version), more coffee, the 5am routine, the cold plunge — be honest that trying harder never gave the pathway its actual input.",
+    hooks:[
+      "What if it's not you? What if it's your biology?",
+      "You weren't failing your supplement. Your supplement was failing you.",
+      "Roughly 40% of people can't use the folate in their multivitamin.",
+      "Present at the dinner table. Gone for two years.",
+      "It's not motivation. It's a pathway.",
+      "The answer was sitting in your 23andMe the whole time.",
+      "Your brain can't make serotonin without this one input."
+    ],
+    seeds:[
+      "Wait — what's the difference between folic acid and L-Methylfolate?",
+      "Does this help if I have the MTHFR gene variant?",
+      "How long until you felt the mood shift?",
+      "My B-complex never did anything — could this be why?",
+      "Will this help with perimenopause mood swings?",
+      "Does it help with morning brain fog specifically?",
+      "Is the liquid better than capsules?"
+    ],
+    laneNotes:{
+      brodoc:"Surfer with a medical degree explaining methylation while flipping eggs. For dad content: gruffer register — 'stranger in my own house,' never laundry-room-cry cadence. You already learned the biology; now you're breaking it down so they don't have to.",
+      story:"Lead with the snap-over-nothing moment, the room you walked into and forgot why, the 9:47pm guilt spiral. Your real shame moment → your real relief when biology explained it. Specific beats generic every time.",
+      clinical:"The borrowed-authority lane — 'I had a patient come in…' Only if you actually have clinical credentials, or clearly frame it as a story you heard. Walk the symptoms → MTHFR conversation → the shift. Trust through overhearing, not selling.",
+      science:"The pathway explainer. Motivation is the OUTPUT of dopamine; dopamine is built through methylation; depleted pathway = dim output. Your protective close: 'you're not failing — your methylation is.' Land it in your own voice."
+    },
+    entries:[
+      { id:"dad", emoji:"🧢", name:"Present but not present (the checked-out dad)",
+        desc:"Physically at the dinner table, mentally somewhere else for two years. Calls it burnout. Snaps at small things, then feels like garbage. Father's Day is the beat.",
+        edu:"Your brain uses B9 to build dopamine and serotonin — the chemicals behind focus, drive, and patience. With an MTHFR gene variant (and a huge number of people have one), folic acid never converts into the usable form — so neurotransmitter production has been running on backup batteries for years. L-Methylfolate is the already-active form. The brain gets it instantly. Not a personality transplant — the input the pathway never got.",
+        guard:"⚠️ Dad register, not mom-variant cadence — 'stranger in my own house,' never 'cried in the laundry room.' Don't diagnose ('you have MTHFR') — invite ('if you've got the MTHFR gene variant'). Arc stays soft: thought it was burnout → learned the biology → supported the pathway. Never miraculous." },
+      { id:"peri", emoji:"🌪️", name:"Perimenopause brain fog \"am I losing my mind\"",
+        desc:"Fine last year. This year: walks into rooms and forgets why, cries at car commercials, mood flips without warning. Tried B-complex for years — nothing.",
+        edu:"Perimenopause is a hormonal earthquake AND a methylation drain. The brain needs B9 to keep neurotransmitter production steady — and most B-complexes use folic acid, which the MTHFR variant can't reliably convert. So she's been supplementing for years while her brain never got the input. L-Methylfolate is already in the active form. The relief of an explanation lands fast: there's a name, there's a pathway, she's not crazy.",
+        guard:"⚠️ Don't diagnose perimenopause OR MTHFR — describe, invite, never assert. 'A lot of you who already know about MTHFR…' This is not aging-is-inevitable content; it's biology-is-fixable content." },
+      { id:"plateau", emoji:"🪫", name:"High-achiever who can't start (productivity plateau)",
+        desc:"Was the high-achiever of the friend group for a decade. Now sits at the desk at 8am staring until 10:30. The cold plunge didn't fix it. 'Why can't I just do the thing?'",
+        edu:"Motivation isn't a personality trait — it's the downstream output of dopamine, and dopamine is built through methylation. When the pathway runs depleted (stress, MTHFR variant, years of poor B9 absorption), executive function operates on backup batteries. You don't lack discipline — your brain lacks the chemical building blocks. L-Methylfolate is the input; hand the pathway the input and the morning starts feeling different.",
+        guard:"⚠️ Never frame as treating ADHD or any condition. Pattern-interrupt openers ('day 3, honestly not sure yet…') are the highest-trust open for skeptics — but ONLY with genuine before/after footage." }
+    ],
+    musts:[
+      {t:"HIGHEST-RISK CATEGORY TRIQUETRA SHIPS. Mood content is policed aggressively. Never frame as treatment for ANY mental health condition. Never 'better than antidepressants.' Never tell anyone to stop their meds. Safe frame: 'this supports the nutrient pathway underneath mood — alongside whatever you and your doctor decided is right.'", warn:true},
+      {t:"The shame→biology flip is the conversion engine — but never make the viewer feel WORSE first. ✅ 'What if it's not you? What if it's your biology?' ❌ 'You ARE failing and here's why.' Identity stays separate from biology.", warn:true},
+      {t:"Invite, never assert: 'if you have the MTHFR gene variant' / 'roughly 40% of people carry one — if that's you…' No diagnosing from the screen.", warn:true},
+      {t:"Never 'fixes MTHFR' or 'fixes methylation' — you support the pathway around the variant; you don't fix the gene.", warn:true},
+      {t:"Methylation is the hero. Methyl-B12 gets ONE sentence max. No B-vitamin alphabet soup on camera.", warn:false},
+      {t:"Never 'will make you a better parent' — that's the soul of the product, but you can't claim it. Describe the biology; let the viewer draw the line.", warn:true},
+      {t:"Acknowledge antidepressants exist and aren't the enemy — methylation is the nutrient layer underneath, not a replacement.", warn:false},
+      {t:"Every video needs a visual hook AND a verbal hook in the first 3 seconds — the snap moment, the empty juice cup, the bottle in hand.", warn:false}
+    ],
+    sparks:[
+      { id:1, name:"The Snap Over Nothing", emoji:"💥",
+        angle:"Open inside the moment you snapped at something tiny — a small ask, a noise, a spilled cup — and the reaction was way bigger than the trigger. Then pivot from 'what is wrong with me' to the depleted biology underneath.",
+        handle:"The shame of overreacting to nothing, and the relief of an explanation that isn't about your character.",
+        job:"Use a REAL snap moment of yours. The viewer needs to recognize their own version in your story.",
+        fitsE:["dad","peri"], fitsL:["story","brodoc"] },
+      { id:2, name:"The Hold-Your-Hand Hard Truth", emoji:"🤝",
+        angle:"'What if it's not them — what if it's you?' Named first, then immediately reframed as the most relieving thought they've ever had. Because if it's you, it's fixable.",
+        handle:"Permission to admit it might be them — delivered as a hand reaching out, not a slap.",
+        job:"Pick a tone where the love is louder than the challenge. 'I'm not attacking you, I'm freeing you.'",
+        fitsE:["dad","peri","plateau"], fitsL:["brodoc","science"] },
+      { id:3, name:"The Perimenopause \"Losing My Mind\" Click", emoji:"🧩",
+        angle:"The symptoms that made you question your sanity — then the moment a word (perimenopause, MTHFR, methylation) finally connected the dots.",
+        handle:"The terror of 'something is seriously wrong with me' giving way to 'this has a name and a pathway.'",
+        job:"Walk the viewer through YOUR dot-connecting moment, beat by beat.",
+        fitsE:["peri"], fitsL:["story"] },
+      { id:4, name:"The Productivity Pattern-Interrupt", emoji:"😐",
+        angle:"Deadpan anti-hype: 'day 3, honestly not sure I feel a difference yet…' — then genuine before/after footage does the contrast.",
+        handle:"Disarmed skepticism. The lack of hype is what makes them trust you.",
+        job:"Don't over-perform the deadpan. Only run this with real footage to back it.",
+        fitsE:["plateau"], fitsL:["science","brodoc"] },
+      { id:5, name:"The MTHFR Aha Moment", emoji:"🧬",
+        angle:"Took 23andMe years ago for the ancestry stuff. MTHFR was sitting in the report the whole time. Then you learned what it means — and why every B-complex you ever took did nothing.",
+        handle:"'I had the answer in my inbox the whole time.' Frustration and relief in one beat.",
+        job:"Use a real test result or family story if you have one. Authenticity beats invention.",
+        fitsE:["peri","plateau"], fitsL:["story","clinical"] },
+      { id:6, name:"The Father's Day Dad Variant", emoji:"👨‍👧‍👦", anchor:true,
+        angle:"The foggy guy who's been physically present but mentally gone for two years. Thought it was burnout. It was a methylation pathway issue. This year: his kids get their dad back.",
+        handle:"The quiet shame of being checked out from your own family — and an explanation that isn't 'you're a bad dad.'",
+        job:"Dad register: gruffer, understated, 'stranger in my own house' energy. Earned and specific, never saccharine.",
+        fitsE:["dad"], fitsL:["brodoc","story"] },
+      { id:7, name:"The Post-Bedtime Guilt Spiral", emoji:"🌙",
+        angle:"Open in the dark, 9:47pm, kids asleep, re-running the day's worst moments — and the realization that 'trying harder tomorrow' was never going to fix a depleted pathway.",
+        handle:"The exhaustion of waging willpower against biology. Permission to stop muscling through a nutrient problem.",
+        job:"Be specific about a real bedtime spiral. Generic parent-guilt lands flat; specific moments land hard.",
+        fitsE:["dad","peri"], fitsL:["story"] },
+      { id:8, name:"\"It's Not Me, It's My Biology\"", emoji:"🔄",
+        angle:"The hot-take reframe: what we call 'character flaws' in depleted people — impatience, fog, irritability — is often methylation pathway depletion. A frame they can actually do something about.",
+        handle:"Identity relief. 'This isn't who I am — it's what happens when the pathway runs empty.'",
+        job:"Personal first, philosophical second. Land your own 'I thought I was broken, turns out I was depleted' — then zoom out.",
+        fitsE:["dad","peri","plateau"], fitsL:["brodoc","science"] },
+      { id:9, name:"The Borrowed-Authority Story", emoji:"🩺",
+        angle:"Clinical POV: 'I had a patient come in…' — a third-party story the viewer can borrow trust from. Symptoms → the MTHFR conversation → the shift.",
+        handle:"The trust of overhearing a story instead of being sold to.",
+        job:"ONLY with real clinical credentials, or clearly framed as a story you heard. Compliance matters here.",
+        fitsE:["dad","peri","plateau"], fitsL:["clinical"] }
+    ],
+    caption:"If you've been snapping at your kids, crying in the laundry room, or wondering why every B-complex you've ever tried did nothing — it might not be a character problem. It might be a methylation problem. L-Methylfolate is the active, brain-ready form of B9 your body can actually use — especially if you have the MTHFR gene variant. Comment METHYL and I'll send you the link 🤍",
+    banned:[
+      {rx:/\b(treats?|cures?|prevents?|fix(es)?|heals?)\b[^.!?\n]{0,40}\b(depression|anxiety|adhd|postpartum|bipolar|mental (health|illness))/i,
+       label:"Mental health treatment claim", why:"Highest-risk category — never frame as treating any mental health condition.", swap:"\"supports healthy mood and emotional balance\" / \"supports the nutrient pathway underneath mood.\""},
+      {rx:/\b(replaces?|works? like|better than|instead of)\b[^.!?\n]{0,20}\b(an |your |my )?(antidepressants?|ssris?|snris?|meds|medication)/i,
+       label:"Antidepressant comparison", why:"Never position against or as a replacement for psychiatric medication.", swap:"\"works alongside whatever you and your doctor decided is right for you.\""},
+      {rx:/\bstop (taking )?(your |the )?(meds?|medication|antidepressants?|ssris?)/i,
+       label:"Telling viewers to stop medication", why:"Absolutely never — dangerous and a takedown guarantee.", swap:"Remove entirely. \"Talk to your doctor about what's right for you.\""},
+      {rx:/\bfix(es|ed)?\b[^.!?\n]{0,15}\b(mthfr|methylation|your genes?)/i,
+       label:"\"Fixes MTHFR / methylation\"", why:"You support the pathway around the variant — you don't fix the gene.", swap:"\"supports the methylation pathway.\""},
+      {rx:/\b(clinically proven|guaranteed)\b/i,
+       label:"Proof/guarantee language", why:"Overstated claims invite takedowns.", swap:"\"designed based on clinical research\" / \"science-backed.\""},
+      {rx:/\bprevents?\b[^.!?\n]{0,25}\b(heart disease|stroke|cardiovascular)/i,
+       label:"Cardiovascular prevention claim", why:"Disease-prevention claim — forbidden formula.", swap:"\"helps maintain healthy homocysteine levels for cardiovascular wellness.\""},
+      {rx:/\bwill make you a better (parent|mom|dad|husband|wife|partner)\b/i,
+       label:"\"Better parent\" promise", why:"The soul of the product — but you can't claim it. Describe the biology; let the viewer draw the line.", swap:"\"supports the focus, mood, and patience pathways\" — and let them connect the dots."}
+    ]
+  }
+};
+
+const GENERIC_BANNED = [
+  {rx:/\bfda[- ]approved\b/i, label:"\"FDA-approved\"", why:"Supplements are not FDA-approved — instant red flag.", swap:"Remove it. If needed: \"made in a GMP-certified facility\" (only if true)."},
+  {rx:/\b(doctor[- ]prescribed|medically proven|clinically proven to cure)\b/i, label:"Medical authority claim", why:"Overstated authority claims invite takedowns.", swap:"\"science-backed\" / \"well-researched ingredient.\""},
+  {rx:/\b(diagnose|prevent|cure)s?\b[^.!?\n]{0,30}\bdisease/i, label:"Disease claim", why:"The classic forbidden formula — diagnose/treat/cure/prevent disease.", swap:"Structure/function language only: supports, promotes, helps maintain."}
+];
+
+const $ = id => document.getElementById(id);
+const S = { briefKey:null, lane:null, entry:null, spark:null };
+const screens = ["s-brief","s-lane","s-entry","s-spark","s-card"];
+let nav = ["s-brief"];
+
+function show(id){
+  screens.forEach(s=>$(s).classList.toggle("active", s===id));
+  if(nav[nav.length-1]!==id) nav.push(id);
+  $("backBtn").style.display = id==="s-brief" ? "none":"block";
+  window.scrollTo(0,0);
+}
+$("backBtn").onclick = ()=>{ nav.pop(); const p=nav[nav.length-1]||"s-brief"; nav.pop(); show(p); };
+
+function esc(s){ return s.replace(/&/g,"&amp;").replace(/</g,"&lt;"); }
+function toast(m){ const t=$("toast"); t.textContent=m; t.classList.add("show"); setTimeout(()=>t.classList.remove("show"),1800); }
+
+// ---- screen: brief ----
+function renderBriefs(){
+  const el=$("briefList"); el.innerHTML="";
+  for(const [k,b] of Object.entries(BRIEFS)){
+    const c=document.createElement("button"); c.className="card";
+    c.innerHTML=`<div class="crow"><span class="cemo">${b.emoji}</span><div><b>${b.name}</b><span class="csub">${b.month} brief</span></div><span class="meta">${b.sparks.length} angles</span></div><p>${b.pitch}</p>`;
+    c.onclick=()=>{ S.briefKey=k; renderLanes(); show("s-lane"); };
+    el.appendChild(c);
+  }
+}
+
+// ---- screen: lane ----
+function renderLanes(){
+  const b=BRIEFS[S.briefKey], el=$("laneList"); el.innerHTML="";
+  LANES.forEach(l=>{
+    const c=document.createElement("button"); c.className="card";
+    c.innerHTML=`<div class="crow"><span class="cemo">${l.emoji}</span><div><b>${l.name}</b></div></div><p>${l.desc}</p>`;
+    c.onclick=()=>{ S.lane=l; renderEntries(); show("s-entry"); };
+    el.appendChild(c);
+  });
+}
+
+// ---- screen: entry ----
+function renderEntries(){
+  const b=BRIEFS[S.briefKey], el=$("entryList"); el.innerHTML="";
+  b.entries.forEach(e=>{
+    const c=document.createElement("button"); c.className="card";
+    c.innerHTML=`<div class="crow"><span class="cemo">${e.emoji}</span><div><b>${e.name}</b></div></div><p>${e.desc}</p>`;
+    c.onclick=()=>{ S.entry=e; renderSparks(); show("s-spark"); };
+    el.appendChild(c);
+  });
+}
+
+// ---- screen: spark ----
+function sparkScore(sp){
+  let s=0;
+  if(sp.fitsE.includes(S.entry.id)) s+=2;
+  if(sp.fitsL.includes(S.lane.id)) s+=1;
+  if(sp.anchor) s+=.5;
+  return s;
+}
+function renderSparks(){
+  const b=BRIEFS[S.briefKey], el=$("sparkList"); el.innerHTML="";
+  const sorted=[...b.sparks].sort((a,z)=>sparkScore(z)-sparkScore(a));
+  sorted.forEach(sp=>{
+    const fit = sp.fitsE.includes(S.entry.id) && sp.fitsL.includes(S.lane.id);
+    const c=document.createElement("button"); c.className="card"+(fit?" fit":"");
+    c.innerHTML=`<div class="crow"><span class="cemo">${sp.emoji}</span><div><b>${sp.name}</b>${sp.anchor?'<span class="csub">⭐ June anchor angle</span>':''}</div></div><p>${sp.angle}</p>`;
+    c.onclick=()=>{ S.spark=sp; renderCard(); show("s-card"); };
+    el.appendChild(c);
+  });
+}
+
+// ---- shoot card ----
+function beats(){
+  const b=BRIEFS[S.briefKey], e=S.entry, sp=S.spark;
+  return [
+    {t:"Open in your world (0–3 sec)",
+     p:`Hook with the "${sp.name}" angle: ${sp.handle} Don't introduce the product yet — open the loop.`},
+    {t:"The question you started asking",
+     p:`Bridge from the moment to the question. For this entry point: "${e.name.toLowerCase()}" — what did you start wondering when it kept happening?`},
+    {t:"What you learned",
+     p:`${e.edu}`},
+    {t:"What you tried (and why it wasn't enough)",
+     p: b.tried},
+    {t:"What changed (gently — no claims)",
+     p:`Describe what you observed, never what it "does." ${sp.job} Close with your CTA: "Comment ${b.keyword} and I'll send you the link."`}
+  ];
+}
+
+function renderCard(){
+  const b=BRIEFS[S.briefKey], e=S.entry, l=S.lane, sp=S.spark;
+  $("cardKicker").textContent = `${b.name} · ${b.month}`;
+  $("cardLede").textContent = `${l.name} × ${e.name} × ${sp.name}`;
+  const beatHtml = beats().map((bt,i)=>
+    `<div class="beat"><div class="bn">${i+1}</div><div><b>${bt.t}</b><p>${esc(bt.p)}</p></div></div>`).join("");
+  const mustHtml = b.musts.map((m,i)=>
+    `<label class="chk ${m.warn?'warn':''}"><input type="checkbox"> <span>${m.warn?'⚠️ ':''}${esc(m.t)}</span></label>`).join("");
+  $("cardBody").innerHTML = `
+    <div class="sc"><h3>🎯 Your angle</h3>
+      <div class="hook">${esc(sp.angle)}</div>
+      <div class="dimp"><b style="color:var(--accent)">Your lane:</b> ${esc(b.laneNotes[l.id])}</div>
+    </div>
+    <div class="sc"><h3>🎬 Story structure — your 5 beats</h3>${beatHtml}</div>
+    <div class="sc"><h3>🧪 The ONE mechanism line you're allowed</h3>
+      <div class="mech"><span class="mlab">Say it once, then move on</span>${esc(b.mech)}</div>
+      <div class="dimp">${esc(b.hero)}</div>
+    </div>
+    <div class="sc"><h3>🛡️ Pre-flight — check every box before you post</h3>
+      ${mustHtml}
+      <label class="chk warn"><input type="checkbox"> <span>⚠️ ${esc(e.guard.replace("⚠️ ",""))}</span></label>
+      <label class="chk"><input type="checkbox"> <span>Disclosure is on: #ad + commissionable link note. FTC isn't optional.</span></label>
+    </div>
+    <div class="sc"><h3>✍️ Caption (tap to copy)</h3>
+      <pre class="cappre" id="capPre">${esc(b.caption)}\n\nTag: ${b.tag}\n${esc(b.hashtags)}\n\n#ad — I earn a commission if you purchase through my link.</pre>
+      <div class="dimp">Keyword: <b style="color:var(--accent)">${b.keyword}</b> · Product: ${b.url}</div>
+      ${b.imgFolder?`<div class="dimp">📸 <a href="${b.imgFolder}" target="_blank" style="color:var(--accent);font-weight:700;">Official pack shots (Drive)</a> — approved product images for B-roll and final slides.</div>`:""}
+    </div>
+    <div class="sc"><h3>🪝 Hook bank — tap to copy (first 1.5 sec on-screen text)</h3>
+      ${b.hooks.map(h=>`<div class="copyline">${esc(h)}</div>`).join("")}
+    </div>
+    <div class="sc"><h3>💬 Comment seeding — drop on fellow creators' ${esc(b.name)} videos</h3>
+      ${b.seeds.map(s2=>`<div class="copyline">${esc(s2)}</div>`).join("")}
+    </div>`;
+  $("capPre").onclick = async ()=>{ try{ await navigator.clipboard.writeText($("capPre").textContent); toast("Caption copied ✓"); }catch{} };
+  $("cardBody").querySelectorAll(".copyline").forEach(el=>{
+    el.onclick = async ()=>{ try{ await navigator.clipboard.writeText(el.textContent); toast("Copied ✓"); }catch{} };
+  });
+}
+
+$("cardCopy").onclick = async ()=>{
+  const b=BRIEFS[S.briefKey];
+  const txt = [
+    `${b.name} — ${b.month} shoot card`,
+    `Lane: ${S.lane.name} | Entry: ${S.entry.name} | Spark: ${S.spark.name}`,
+    ``, `ANGLE: ${S.spark.angle}`, ``,
+    ...beats().map((bt,i)=>`${i+1}. ${bt.t}\n   ${bt.p}`),
+    ``, `MECHANISM (once): ${b.mech}`, ``, `CAPTION:\n${b.caption}`
+  ].join("\n");
+  try{ await navigator.clipboard.writeText(txt); toast("Shoot card copied ✓"); }catch{}
+};
+$("newCard").onclick = ()=>{ nav=["s-brief"]; renderQueue(); show("s-brief"); };
+
+// ---- saved queue ----
+function getQueue(){ try{ return JSON.parse(localStorage.getItem("triq_queue")||"[]"); }catch{ return []; } }
+function setQueue(q){ try{ localStorage.setItem("triq_queue", JSON.stringify(q)); }catch{} }
+$("cardSave").onclick = ()=>{
+  const q = getQueue();
+  q.unshift({ bk:S.briefKey, lane:S.lane.id, entry:S.entry.id, spark:S.spark.id, ts:Date.now() });
+  setQueue(q.slice(0,30));
+  toast("Saved to your queue ✓");
+};
+function renderQueue(){
+  const q = getQueue(), el = $("queueBox");
+  if(!q.length){ el.innerHTML=""; return; }
+  el.innerHTML = `<div class="kicker" style="margin-top:22px;">📁 My saved cards</div>` + q.map((it,i)=>{
+    const b=BRIEFS[it.bk]; if(!b) return "";
+    const sp=b.sparks.find(s2=>s2.id===it.spark), ln=LANES.find(l=>l.id===it.lane);
+    return `<div class="qitem" data-i="${i}"><span style="font-size:18px;">${b.emoji}</span>
+      <div><b>${b.name} — ${sp?esc(sp.name):""}</b><span>${ln?ln.name:""}</span></div>
+      <button class="qdel" data-del="${i}">✕</button></div>`;
+  }).join("");
+  el.querySelectorAll(".qitem").forEach(item=>{
+    item.onclick = e=>{
+      if(e.target.dataset.del!==undefined && e.target.classList.contains("qdel")){
+        const q2=getQueue(); q2.splice(+e.target.dataset.del,1); setQueue(q2); renderQueue(); return;
+      }
+      const it = getQueue()[+item.dataset.i]; if(!it) return;
+      const b=BRIEFS[it.bk]; if(!b) return;
+      S.briefKey=it.bk;
+      S.lane=LANES.find(l=>l.id===it.lane)||LANES[0];
+      S.entry=b.entries.find(en=>en.id===it.entry)||b.entries[0];
+      S.spark=b.sparks.find(s2=>s2.id===it.spark)||b.sparks[0];
+      renderCard(); show("s-card");
+    };
+  });
+}
+
+// ---- teleprompter ----
+let tpTimer=null;
+function tpContent(){
+  const b=BRIEFS[S.briefKey];
+  const lines=[];
+  lines.push({cue:"HOOK — open the loop", t:S.spark.angle});
+  lines.push({cue:"BEAT 2 — the question", t:"When it kept happening… what did you start asking? Say the question out loud."});
+  lines.push({cue:"BEAT 3 — what you learned", t:S.entry.edu});
+  lines.push({cue:"MECHANISM — once, then move on", t:b.mech});
+  lines.push({cue:"BEAT 4 — what you tried", t: b.tried});
+  lines.push({cue:"BEAT 5 — what changed (no claims)", t:"Describe what you observed. Gently. Then…"});
+  lines.push({cue:"CTA", t:`Comment ${b.keyword} and I'll send you the link.`});
+  return lines;
+}
+$("tpOpen").onclick = ()=>{
+  $("tpScroll").innerHTML = tpContent().map(l=>
+    `<div><div class="tpcue">${esc(l.cue)}</div><div class="tpline">${esc(l.t)}</div></div>`).join("");
+  $("tp").style.display="flex";
+  $("tpScroll").scrollTop=0;
+};
+function tpStop(){ if(tpTimer){ clearInterval(tpTimer); tpTimer=null; $("tpPlay").textContent="▶ Play"; } }
+$("tpPlay").onclick = ()=>{
+  if(tpTimer){ tpStop(); return; }
+  $("tpPlay").textContent="⏸ Pause";
+  tpTimer=setInterval(()=>{ $("tpScroll").scrollTop += (+$("tpSpeed").value)*0.55; }, 16);
+};
+$("tpClose").onclick = ()=>{ tpStop(); $("tp").style.display="none"; };
+$("tpScroll").onclick = tpStop;
+
+// ---- compliance checker ----
+$("checkBtn").onclick = ()=>{ $("cc").style.display="block"; };
+$("ccClose").onclick = ()=>{ $("cc").style.display="none"; };
+$("cc").onclick = e=>{ if(e.target.id==="cc") $("cc").style.display="none"; };
+$("ccRun").onclick = ()=>{
+  const text = $("ccInput").value;
+  const out = $("ccResults"); out.innerHTML="";
+  if(!text.trim()){ out.innerHTML='<div class="clean">Paste something first 🙂</div>'; return; }
+  const rules = [...GENERIC_BANNED, ...Object.values(BRIEFS).flatMap(b=>b.banned)];
+  const hits=[];
+  rules.forEach(r=>{
+    const m = text.match(r.rx);
+    if(m) hits.push({...r, found:m[0]});
+  });
+  if(!hits.length){
+    out.innerHTML = `<div class="clean">✅ Clean — no takedown-risk phrases found. Reminder: this checks known patterns, not everything. Keep claims to supports / promotes / helps.</div>`;
+  } else {
+    out.innerHTML = hits.map(h=>
+      `<div class="flag"><b>🚩 ${esc(h.label)}: "${esc(h.found)}"</b><div class="why">${esc(h.why)}</div><div class="swap">✅ Swap: ${esc(h.swap)}</div></div>`).join("");
+  }
+};
+
+// ---- init ----
+renderBriefs();
+renderQueue();
+</script>
+</body>
+</html>
