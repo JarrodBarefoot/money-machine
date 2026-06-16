@@ -139,6 +139,21 @@
   .qitem b{font-size:13.5px;display:block;letter-spacing:-.01em;}
   .qitem span{font-size:11.5px;color:var(--dim);display:block;margin-top:2px;}
   .qitem .qdel{margin-left:auto;border:none;background:none;color:var(--dim);font-size:16px;cursor:pointer;padding:4px 8px;flex:none;}
+
+  /* show-the-science demos */
+  .sticky-row{display:flex;flex-wrap:wrap;align-items:center;gap:7px;margin-top:8px;}
+  .sticky{
+    display:inline-block;background:#f4e58a;color:#3a3410;font-weight:800;font-size:11.5px;
+    padding:7px 11px;border-radius:3px;transform:rotate(-1.5deg);box-shadow:0 2px 6px rgba(0,0,0,.35);
+    letter-spacing:.01em;line-height:1.25;max-width:100%;
+  }
+  .sticky:nth-child(4n+1){transform:rotate(1.5deg);background:#a8e0c0;}
+  .sticky:nth-child(4n+3){transform:rotate(1deg);background:#f6b9b0;}
+  .sarrow{color:var(--accent);font-weight:800;font-size:14px;}
+  .redline{
+    border:1px solid #4a2727;background:rgba(255,92,92,.07);border-radius:10px;
+    padding:9px 12px;margin-bottom:7px;font-size:12.5px;line-height:1.4;color:#ffb3b3;font-weight:600;
+  }
 </style>
 </head>
 <body>
@@ -157,6 +172,13 @@
   <div class="title">What are you filming?</div>
   <div class="lede">Three taps from here to a personalized shoot card — your lane, your angle, fully compliant.</div>
   <div id="briefList"></div>
+
+  <div class="kicker" style="margin-top:24px;">🔬 New format</div>
+  <button class="card" id="demoEntryCard" style="border-color:var(--accent-d);background:linear-gradient(180deg,rgba(61,220,151,.08),var(--card));">
+    <div class="crow"><span class="cemo">🔬</span><div><b>Show Them the Science</b><span class="csub">Visual demo playbook</span></div><span class="meta">8 demos</span></div>
+    <p>Counter-top science demos with props — Flora Biome &amp; L-Methylfolate. Pick a demo, get the prop list, sticky-note labels, and a beat-by-beat. Props reimbursed up to $150 + scaling bonus.</p>
+  </button>
+
   <div id="queueBox"></div>
 </section>
 
@@ -192,6 +214,32 @@
     <button class="btn ghost" id="cardSave">💾 Save</button>
   </div>
   <button class="btn ghost" id="newCard" style="margin-top:2px;">↻ Build another card</button>
+</section>
+
+<section class="screen" id="s-demo-product">
+  <div class="kicker">🔬 Show Them the Science</div>
+  <div class="title">Pick your product</div>
+  <div class="lede">Counter-top science demos — make the invisible mechanism visible, label each step, and let the demo do the persuading so the words stay clean.</div>
+  <div id="demoProdList"></div>
+</section>
+
+<section class="screen" id="s-demo-pick">
+  <div class="kicker">Show Them the Science</div>
+  <div class="title">Pick your demo</div>
+  <div class="lede">Each one is built on the real mechanism — filmable with beakers, sticky notes, and the product. No gimmick props.</div>
+  <div id="demoList"></div>
+</section>
+
+<section class="screen" id="s-demo-card">
+  <div class="kicker" id="dcKicker"></div>
+  <div class="title" id="dcTitle">Demo card</div>
+  <div class="lede" id="dcLede"></div>
+  <div id="dcBody"></div>
+  <div class="btnrow">
+    <button class="btn primary" id="dcTp">🎬 Teleprompter</button>
+    <button class="btn ghost" id="dcCopy">📋 Copy demo</button>
+  </div>
+  <button class="btn ghost" id="dcAgain" style="margin-top:2px;">↻ Pick another demo</button>
 </section>
 
 <!-- teleprompter -->
@@ -708,9 +756,141 @@ const GENERIC_BANNED = [
   {rx:/\b(diagnose|prevent|cure)s?\b[^.!?\n]{0,30}\bdisease/i, label:"Disease claim", why:"The classic forbidden formula — diagnose/treat/cure/prevent disease.", swap:"Structure/function language only: supports, promotes, helps maintain."}
 ];
 
+// ===== Show Them the Science — Visual Education Demos (Suzanne, June 2026) =====
+const PROP_REIMB="$150", SCALE_BONUS="$500", BONUS_ALT="$400";
+const DEMO_PRODUCTS = {
+  flora:  { name:"Flora Biome",    emoji:"🌿", tag:"Live liquid probiotic" },
+  methyl: { name:"L-Methylfolate", emoji:"🧬", tag:"Active folate (5-MTHF)" }
+};
+const DEMOS = [
+  // ---------- FLORA BIOME ----------
+  { product:"flora", emoji:"🧪", name:"What Actually Makes It Through", format:"Pour & pass-through", duration:"45–75s",
+    tagline:"Capsule vs. liquid — watch what actually coats your gut.",
+    science:`Capsule and powder probiotics are freeze-dried — the bacteria are dormant, and the capsule is engineered to bypass the stomach and only open at the very end. Flora Biome is a live liquid: active on contact, coating the whole digestive tract starting at the mouth. The demo shows the coverage + pass-through difference.`,
+    visual:`A clear tube or cylinder is the digestive tract, with color-coded sticky notes down the side. Capsule: drop it down the tube — it falls straight through, touching nothing. Flora Biome (liquid): pour it down the same tube — it coats every inch of the wall on the way down.`,
+    optional:`Optional second beat: a thick "undigested food" mixture moving slowly / stuck in the tube; after Flora Biome is introduced it moves through smoothly. Keep it an analogy — say it out loud: "obviously your gut isn't a glass tube, but here's the idea."`,
+    labels:["MOUTH","ESOPHAGUS","STOMACH","GUT"],
+    props:["Clear tube or cylinder (the 'digestive tract')","A capsule probiotic","Flora Biome (the liquid)","Color-coded sticky notes","Optional: a thick 'undigested food' mixture"],
+    beats:[
+      {t:"Hook (0–3s)", p:`"Your probiotic capsule is designed to skip most of your digestive system. Watch." Tube + capsule already in frame.`},
+      {t:"Set the stage (3–15s)", p:`Lay the four sticky notes down the path. "Digestion starts at your mouth — but a capsule is built to not open until the very end."`},
+      {t:"Problem demo (15–35s)", p:`Drop the capsule down the tube. It falls straight through and coats nothing.`},
+      {t:"Product intro (35–50s)", p:`"Flora Biome is a live liquid. 3-in-1 — prebiotic, probiotic, postbiotic. Active on contact."`},
+      {t:"Resolution demo (50–65s)", p:`Pour the liquid down the same tube. It coats the whole wall. Hold the shot.`},
+      {t:"Direct CTA (65–75s)", p:`"If you want something that actually covers your whole gut — tap the cart. [bundle/code]."`}
+    ] },
+  { product:"flora", emoji:"🫙", name:"The 80s & 90s Babies Gut Jar", format:"Gut jar", duration:"~60s",
+    tagline:"Dump a day of junk food into a jar of water. Then Flora goes to work.",
+    science:`Flora Biome is a live liquid — 10 probiotic strains, 18 fermented herbs, and the enzymes your gut uses to break food down. The probiotics and prebiotics get in there and start breaking food down so your body can actually use it instead of just sitting with it. Bacteria/enzymes "getting to work breaking down food" is a legitimate structure/function mechanism — and it's your differentiator.`,
+    visual:`A big clear glass jar or vase of water is the stage. Narrate a real 80s/90s-kid-grown-up day and dump the actual food in as you go — each input fouls the water more. By the end it's murky, dense, floating debris. That visual IS the hook.`,
+    optional:`Hook options: "If you were born in the 80s or 90s, your gut looks like a dumpster fire." / "POV: We were raised on Dunkaroos and Surge. No wonder."`,
+    labels:[],
+    props:["Big clear glass jar or vase of water","Eggs (or protein powder + milk)","Coffee grounds","Energy drink + chips","Neon / processed snacks","Fast food + soda","Something microwaved + a glass of wine","Flora Biome"],
+    beats:[
+      {t:"The day-in-the-life dump (0–25s)", p:`Stand behind the jar and narrate a real day, dumping food in as you go — breakfast (2 eggs or protein + 2 scoops coffee grounds), mid-morning (energy drink + chips), lunch (fast food + soda), snack (the neon stuff), late dinner (microwaved + wine). Text overlays mirror each input. The water gets murkier with every dump.`},
+      {t:"The agitation (25–40s)", p:`Frame the gross jar. "This is what's sitting in your gut right now. And then we wonder why we feel bloated, heavy, and just… off after we eat." Close up on the dense mixture — make the invisible feeling visible.`},
+      {t:"The mechanism (40–60s)", p:`Pour Flora Biome in. "Here's what actually goes to work on this. Flora Biome is a live liquid — 10 probiotic strains, 18 fermented herbs, and the enzymes your gut uses to break food down. The probiotics and prebiotics get in there and start breaking this stuff down so your body can actually use it instead of just sitting with it."`}
+    ] },
+  { product:"flora", emoji:"📋", name:"Why Your Probiotic Isn't Working", format:"Whiteboard teardown", duration:"~45–60s",
+    tagline:"Four probiotics, one whiteboard, one winner.",
+    science:`The cheapest authority format there is — a marker and a whiteboard. A grid of probiotic types vs. what matters, with red X's and green checks. It instantly tells the viewer "what you're doing isn't working" and opens a knowledge gap.`,
+    visual:`Pre-draw the empty grid before filming so the video is just the satisfying reveal of X's and checks. Red marker for X's, green for checks — it reads like a lab, not an ad.`,
+    labelKind:"Whiteboard columns (pre-draw the grid):",
+    labels:["Alive on contact?","Covers the whole tract?","Zero sugar?","3-in-1 (pre+pro+post)?"],
+    props:["Whiteboard","Red + green markers","Flora Biome (for the final reveal)"],
+    beats:[
+      {t:"Hook", p:`"Four probiotics, one whiteboard. Watch which one actually checks every box." Grid pre-drawn and empty.`},
+      {t:"Capsule probiotic", p:`Red X, X, X — "freeze-dried and dormant, built to bypass everything until the colon."`},
+      {t:"Powder + store kombucha", p:`Mostly X's. Kombucha gets the X on zero-sugar — it's loaded with sugar.`},
+      {t:"Flora Biome", p:`Green check, check, check, check. Hold up the bottle on the final check.`}
+    ] },
+  { product:"flora", emoji:"🔖", name:"Side-by-Side Label Read", format:"Label read", duration:"~30–45s",
+    tagline:"Read the labels. The back tells the truth.",
+    science:`Pure phone-in-hand, no props. It reads as honest and investigative, not salesy — and pairs perfectly as a follow-up to one of the pour demos.`,
+    visual:`Read two actual labels on camera — a capsule probiotic ("freeze-dried, delayed-release") next to Flora Biome ("live, liquid, fermented").`,
+    labels:[],
+    props:["A capsule probiotic (for its label)","Flora Biome (for its label)","Your phone"],
+    beats:[
+      {t:"The read", p:`Hold both. "Same category — totally different thing on the back."`},
+      {t:"Capsule label", p:`"Freeze-dried. Delayed-release. Built to skip your stomach."`},
+      {t:"Flora label", p:`"Live. Liquid. Fermented. Active the moment it hits your mouth."`}
+    ] },
+  // ---------- L-METHYLFOLATE ----------
+  { product:"methyl", emoji:"🧬", name:"The Conversion Gate", format:"Pour & pass-through", duration:"45–75s",
+    tagline:"Beads through a gate — folic acid jams, methylfolate passes.",
+    science:`Folic acid (the synthetic form in most supplements and fortified food) is NOT the form your body uses — it has to be converted into active L-methylfolate using an enzyme. A large share of people carry an MTHFR gene variation that makes that conversion inefficient, so the folic acid they take can't be fully used. L-Methylfolate skips that step: it's already the active, body-ready form.`,
+    visual:`A clear cylinder or funnel with a barrier/grate in the middle is the conversion step ("the gate your body has to push folate through"). Folic acid = large water beads or ping pong balls: pour them in, they pile up at the gate and don't make it through. L-Methylfolate = small beads: pour into the same cylinder, they pass straight through and collect at the bottom. The contrast between the two pours IS the ad — stuck vs. through.`,
+    labels:["FOLIC ACID","CONVERSION (MTHFR enzyme)","ACTIVE FOLATE your body uses"],
+    props:["Clear cylinder or funnel with a barrier/grate in the middle","Large water beads or ping pong balls (= folic acid)","Small beads/particles (= L-Methylfolate)","Color-coded sticky notes","The product"],
+    beats:[
+      {t:"Hook (0–3s)", p:`"If you take a folate or B-complex with folic acid in it, this might be why it's not doing anything." Cylinder + balls already in frame.`},
+      {t:"Set the stage (3–15s)", p:`Lay out the three sticky notes. Define the term: "Folic acid has to be converted into the form your body actually uses. That conversion happens with an enzyme — and a lot of people have a genetic variation called MTHFR that makes it inefficient."`},
+      {t:"Problem demo (15–35s)", p:`Pour the large balls. They jam at the gate. "For those people, the folic acid just sits there. Unconverted."`},
+      {t:"Product intro (35–50s)", p:`Hold L-Methylfolate. "This is the active form — already converted. Your body doesn't have to do anything."`},
+      {t:"Resolution demo (50–65s)", p:`Pour the small beads. They sail through. Hold the moment.`},
+      {t:"Direct CTA (65–75s)", p:`"If you've got the MTHFR variation, or you just want the form your body can actually use — tap the cart. [bundle/code]."`}
+    ] },
+  { product:"methyl", emoji:"📋", name:"You're Taking the Wrong Folate", format:"Whiteboard teardown", duration:"~45–60s",
+    tagline:"Three folates on a whiteboard. Only one checks every box.",
+    science:`Whiteboard teardown grid — the cheapest authority format there is. Rows of folate types vs. what matters, with red X's and green checks. Creates an instant knowledge gap.`,
+    visual:`Pre-draw the empty grid; the video is the reveal of X's and checks. Red marker for X's, green for checks.`,
+    labelKind:"Whiteboard columns (pre-draw the grid):",
+    labels:["Already active?","Skips the MTHFR conversion step?","Body can use it directly?"],
+    props:["Whiteboard","Red + green markers","L-Methylfolate (for the final reveal)"],
+    beats:[
+      {t:"Hook", p:`"If your B-complex or prenatal lists 'folic acid,' you might be wasting it. Let me show you." Grid pre-drawn.`},
+      {t:"Folic acid", p:`Red X, X, X. "This is what's in most supplements and fortified food. Your body has to convert it — and a lot of people can't, efficiently."`},
+      {t:"Folinic acid", p:`Partial. "Closer, but still needs a conversion step."`},
+      {t:"L-Methylfolate", p:`Green check, check, check. "Already in the form your body uses. No conversion required." Hold up the bottle.`}
+    ] },
+  { product:"methyl", emoji:"🔄", name:"The Methylation Handoff", format:"Timeline draw", duration:"~45s",
+    tagline:"Draw the handoff. Circle the step that breaks.",
+    science:`Draw the methylation handoff as a simple flow. Keep it strictly to the conversion mechanism — do not drift into mood or mental-health territory (see the never-say list).`,
+    visual:`On a whiteboard or stacked sticky notes, draw the flow and put a big red circle around the conversion step — that's the step that breaks for a lot of people.`,
+    labelKind:"The flow (draw it as sticky notes or on the whiteboard):",
+    labels:["Food / Folic Acid","CONVERSION (needs MTHFR enzyme)","Active Folate","Methylation"],
+    props:["Whiteboard or stacked sticky notes","Red marker","L-Methylfolate"],
+    beats:[
+      {t:"Draw the flow", p:`Food / Folic Acid → conversion (needs the MTHFR enzyme) → active folate → methylation, the body process that uses it.`},
+      {t:"Circle the break", p:`Big red circle around the conversion step. "This is the step that breaks for a lot of people."`},
+      {t:"The handoff", p:`"We hand your body what's after this step — already done." Hold up L-Methylfolate.`}
+    ] },
+  { product:"methyl", emoji:"🔖", name:"Side-by-Side Label Read", format:"Label read", duration:"~30–45s",
+    tagline:"'Folic acid' vs. '5-MTHF' — same word, different thing.",
+    science:`Phone-in-hand, no props. Honest and investigative — a great follow-up to the Conversion Gate demo.`,
+    visual:`Read two actual labels — an old B-complex or prenatal (ingredient line: "Folic Acid") next to ours ("L-Methylfolate / 5-MTHF").`,
+    labels:[],
+    props:["An old B-complex or prenatal (label says 'Folic Acid')","L-Methylfolate (label says 'L-Methylfolate / 5-MTHF')","Your phone"],
+    beats:[
+      {t:"The read", p:`Hold both labels up. "Same word on the front — totally different thing on the back."`},
+      {t:"Folic acid label", p:`"This is the synthetic form your body still has to convert."`},
+      {t:"L-Methylfolate label", p:`"5-MTHF. The active form your body can use directly. This is the one."`}
+    ] }
+];
+const CLAIMS = {
+  flora: {
+    green:["Supports total gut health / your whole digestive tract","Helps with occasional bloating after meals","Supports smooth, comfortable digestion","3-in-1: prebiotic, probiotic, postbiotic","Live, active cultures — never freeze-dried","50 billion CFU from 10 strains + 18 fermented herbs","Active the moment it hits your mouth","Zero sugar — consumed during fermentation"],
+    red:["acid reflux","silent reflux / GERD","IBS","constipation / diarrhea","balances stomach acidity","detox / flush / cleanse / cleans out your gut","risk-free","disparaging a named competitor or specific strain"]
+  },
+  methyl: {
+    green:["The active, body-ready form of folate","Your body doesn't have to convert it","Many people have a genetic variation (MTHFR) that makes converting folic acid inefficient","Supports healthy methylation","The bioactive form your body can actually use","Clinically studied therapeutic dose"],
+    red:["depression","anxiety","mood","ADHD","autism","fertility","treats / cures / prevents anything","'MTHFR deficiency' as a diagnosis","replaces your medication","better than your SSRI","stop taking your folic acid and take this instead"]
+  }
+};
+const DEMO_BANNED = [
+  {rx:/\b(acid reflux|silent reflux|gerd)\b/i, label:"Reflux/GERD claim (Flora)", why:"Reflux and GERD are diagnosable conditions — naming them as something Flora addresses is a takedown risk.", swap:"Speak to the feeling: \"that uncomfortable, off feeling after meals\" / \"supports digestive comfort.\""},
+  {rx:/\b(ibs|sibo|candida)\b/i, label:"Gut-condition claim (Flora)", why:"IBS / SIBO / Candida are medical diagnoses — don't claim to treat or work for them.", swap:"\"if your gut has been off\" / \"supports a healthy microbiome\" — invite, don't assert."},
+  {rx:/\b(constipation|diarrhea)\b/i, label:"Bowel-condition claim (Flora)", why:"Naming bowel conditions invites compliance flags.", swap:"\"supports regularity\" / \"smooth, comfortable digestion.\""},
+  {rx:/\b(detox|flush|cleanse|cleans?\s+out)\b/i, label:"Detox / cleanse language", why:"\"Detox / cleanse / flush\" trips compliance fast and isn't structure/function language.", swap:"\"adjustment phase\" / \"your gut is rebalancing.\""},
+  {rx:/\brisk[- ]free\b/i, label:"\"Risk-free\"", why:"Absolute guarantee language is a red flag.", swap:"Drop it. State a real satisfaction guarantee factually if one exists."},
+  {rx:/\b(depression|anxiety|mood|adhd|autism|fertility)\b/i, label:"Mental-health/condition claim (L-Methylfolate)", why:"L-Methylfolate content must never touch depression, anxiety, mood, ADHD, autism, or fertility — instant takedown risk.", swap:"Stay on the mechanism: \"the active, body-ready form of folate\" / \"supports healthy methylation.\""},
+  {rx:/\bmthfr (deficiency|disease)\b/i, label:"\"MTHFR deficiency\" as a diagnosis", why:"MTHFR is a gene variation, not a diagnosable deficiency or disease.", swap:"\"a common genetic variation (MTHFR) that makes converting folic acid inefficient.\""},
+  {rx:/\b(replaces? your medication|better than your ssri|stop taking your (folic acid|medication))\b/i, label:"Replaces-medication claim", why:"Never imply the product replaces medication or that someone should stop a prescription.", swap:"Never compare to medication. Keep it to the form of folate and methylation support."}
+];
+
 const $ = id => document.getElementById(id);
 const S = { briefKey:null, lane:null, entry:null, spark:null };
-const screens = ["s-brief","s-lane","s-entry","s-spark","s-card"];
+const screens = ["s-brief","s-lane","s-entry","s-spark","s-card","s-demo-product","s-demo-pick","s-demo-card"];
 let nav = ["s-brief"];
 
 function show(id){
@@ -896,12 +1076,13 @@ function tpContent(){
   lines.push({cue:"CTA", t:`Comment ${b.keyword} and I'll send you the link.`});
   return lines;
 }
-$("tpOpen").onclick = ()=>{
-  $("tpScroll").innerHTML = tpContent().map(l=>
+function openTp(lines){
+  $("tpScroll").innerHTML = lines.map(l=>
     `<div><div class="tpcue">${esc(l.cue)}</div><div class="tpline">${esc(l.t)}</div></div>`).join("");
   $("tp").style.display="flex";
   $("tpScroll").scrollTop=0;
-};
+}
+$("tpOpen").onclick = ()=> openTp(tpContent());
 function tpStop(){ if(tpTimer){ clearInterval(tpTimer); tpTimer=null; $("tpPlay").textContent="▶ Play"; } }
 $("tpPlay").onclick = ()=>{
   if(tpTimer){ tpStop(); return; }
@@ -919,7 +1100,7 @@ $("ccRun").onclick = ()=>{
   const text = $("ccInput").value;
   const out = $("ccResults"); out.innerHTML="";
   if(!text.trim()){ out.innerHTML='<div class="clean">Paste something first 🙂</div>'; return; }
-  const rules = [...GENERIC_BANNED, ...Object.values(BRIEFS).flatMap(b=>b.banned)];
+  const rules = [...GENERIC_BANNED, ...DEMO_BANNED, ...Object.values(BRIEFS).flatMap(b=>b.banned)];
   const hits=[];
   rules.forEach(r=>{
     const m = text.match(r.rx);
@@ -932,6 +1113,74 @@ $("ccRun").onclick = ()=>{
       `<div class="flag"><b>🚩 ${esc(h.label)}: "${esc(h.found)}"</b><div class="why">${esc(h.why)}</div><div class="swap">✅ Swap: ${esc(h.swap)}</div></div>`).join("");
   }
 };
+
+// ---- screens: show them the science ----
+function renderDemoProducts(){
+  const el=$("demoProdList"); el.innerHTML="";
+  for(const [k,p] of Object.entries(DEMO_PRODUCTS)){
+    const n=DEMOS.filter(d=>d.product===k).length;
+    const c=document.createElement("button"); c.className="card";
+    c.innerHTML=`<div class="crow"><span class="cemo">${p.emoji}</span><div><b>${p.name}</b><span class="csub">${p.tag}</span></div><span class="meta">${n} demos</span></div>`;
+    c.onclick=()=>{ S.demoProduct=k; renderDemoList(); show("s-demo-pick"); };
+    el.appendChild(c);
+  }
+}
+function renderDemoList(){
+  const el=$("demoList"); el.innerHTML="";
+  DEMOS.filter(d=>d.product===S.demoProduct).forEach(d=>{
+    const c=document.createElement("button"); c.className="card";
+    c.innerHTML=`<div class="crow"><span class="cemo">${d.emoji}</span><div><b>${esc(d.name)}</b><span class="csub">${esc(d.format)}</span></div><span class="meta">${d.duration}</span></div><p>${esc(d.tagline)}</p>`;
+    c.onclick=()=>{ S.demo=d; renderDemoCard(); show("s-demo-card"); };
+    el.appendChild(c);
+  });
+}
+function renderDemoCard(){
+  const d=S.demo, p=DEMO_PRODUCTS[d.product], cl=CLAIMS[d.product];
+  $("dcKicker").textContent=`${p.name} · ${d.format}`;
+  $("dcTitle").textContent=d.name;
+  $("dcLede").textContent=`${d.tagline}  ·  ${d.duration}`;
+  const labelHtml=(d.labels&&d.labels.length)
+    ? `<div class="dimp" style="margin-top:13px;font-weight:700;color:var(--accent);">${esc(d.labelKind||"Sticky-note labels (lay them flat, in order):")}</div><div class="sticky-row">${d.labels.map((n,i)=>`<span class="sticky">${esc(n)}</span>${i<d.labels.length-1?'<span class="sarrow">→</span>':''}`).join("")}</div>`
+    : "";
+  const propHtml=d.props.map(pr=>`<label class="chk"><input type="checkbox"> <span>${esc(pr)}</span></label>`).join("");
+  const beatHtml=d.beats.map((bt,i)=>`<div class="beat"><div class="bn">${i+1}</div><div><b>${esc(bt.t)}</b><p>${esc(bt.p)}</p></div></div>`).join("");
+  const greenHtml=cl.green.map(g=>`<div class="copyline">${esc(g)}</div>`).join("");
+  const redHtml=cl.red.map(r=>`<div class="redline">🚫 ${esc(r)}</div>`).join("");
+  $("dcBody").innerHTML=`
+    <div class="sc"><h3>🔬 The science you're showing — it's real</h3>
+      <div class="mech"><span class="mlab">The honest mechanism does the persuading</span>${esc(d.science)}</div>
+    </div>
+    <div class="sc"><h3>🎬 The visual setup</h3>
+      <p>${esc(d.visual)}</p>
+      ${d.optional?`<div class="dimp">${esc(d.optional)}</div>`:""}
+      ${labelHtml}
+    </div>
+    <div class="sc"><h3>🛒 Prop list — reimbursed up to ${PROP_REIMB}</h3>
+      ${propHtml}
+      <div class="dimp">Keep your receipts — props for this content are reimbursed up to ${PROP_REIMB}.</div>
+    </div>
+    <div class="sc"><h3>🎬 Beat-by-beat (${d.duration})</h3>${beatHtml}</div>
+    <div class="sc"><h3>✅ Approved claims — say these freely (tap to copy)</h3>${greenHtml}</div>
+    <div class="sc"><h3>🛑 Never say these — ${esc(p.name)}</h3>${redHtml}
+      <div class="dimp">The demo does the persuading, so the words never have to overreach. Stay in structure/function language.</div>
+    </div>
+    <div class="sc" style="border-color:var(--accent-d);background:rgba(61,220,151,.06);"><h3>🏆 The payoff</h3>
+      <p>If your demo video moves from testing into <b style="color:var(--accent)">scaling</b> — 7 sales within the target cost-per-purchase — you earn a <b style="color:var(--accent)">${SCALE_BONUS}</b> bonus per qualifying video, stacked on top of your TikTok Shop commission and ad-spend share.</p>
+      <div class="dimp">⚠️ Suzanne's brief reads ${SCALE_BONUS} in the reward line but ${BONUS_ALT} in the header — confirm the final number before promoting it.</div>
+    </div>`;
+  $("dcBody").querySelectorAll(".copyline").forEach(ln=>{
+    ln.onclick=async()=>{ try{ await navigator.clipboard.writeText(ln.textContent); toast("Copied ✓"); }catch{} };
+  });
+  $("dcTp").onclick=()=> openTp(d.beats.map(bt=>({cue:bt.t, t:bt.p})));
+  $("dcCopy").onclick=async()=>{
+    const lines=[`${p.name} — ${d.name} (${d.format}, ${d.duration})`,"",`THE SCIENCE: ${d.science}`,"",`VISUAL: ${d.visual}`];
+    if(d.labels&&d.labels.length) lines.push(`LABELS: ${d.labels.join("  →  ")}`);
+    lines.push("",`PROPS: ${d.props.join("; ")}`,"","BEATS:",...d.beats.map((bt,i)=>`${i+1}. ${bt.t}\n   ${bt.p}`),"",`✅ SAY FREELY: ${cl.green.join(" / ")}`,`🛑 NEVER SAY: ${cl.red.join(" / ")}`);
+    try{ await navigator.clipboard.writeText(lines.join("\n")); toast("Demo copied ✓"); }catch{}
+  };
+  $("dcAgain").onclick=()=>{ renderDemoList(); show("s-demo-pick"); };
+}
+$("demoEntryCard").onclick=()=>{ renderDemoProducts(); show("s-demo-product"); };
 
 // ---- init ----
 renderBriefs();
