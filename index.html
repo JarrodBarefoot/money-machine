@@ -154,6 +154,18 @@
     border:1px solid #4a2727;background:rgba(255,92,92,.07);border-radius:10px;
     padding:9px 12px;margin-bottom:7px;font-size:12.5px;line-height:1.4;color:#ffb3b3;font-weight:600;
   }
+  .wbgrid{margin-top:8px;border:1px solid var(--line);border-radius:10px;overflow:hidden;}
+  .wbrow{display:grid;}
+  .wbrow + .wbrow{border-top:1px solid var(--line);}
+  .wbcell{padding:8px 6px;text-align:center;font-size:11px;line-height:1.2;border-left:1px solid var(--line);display:flex;align-items:center;justify-content:center;}
+  .wbcell.wblabel{justify-content:flex-start;text-align:left;font-weight:700;border-left:none;font-size:11.5px;}
+  .wbrow.wbhead{background:var(--card2);color:var(--dim);font-weight:700;}
+  .wbrow.wbhead .wbcell{font-size:10px;}
+  .wbyes{color:var(--accent);font-weight:800;font-size:14px;}
+  .wbno{color:var(--danger);font-weight:800;font-size:14px;}
+  .wbpart{color:var(--warn);font-weight:800;font-size:14px;}
+  .wbrow.wbwin{background:rgba(61,220,151,.09);}
+  .wbrow.wbwin .wblabel{color:var(--accent);}
 </style>
 </head>
 <body>
@@ -791,18 +803,26 @@ const DEMOS = [
       {t:"The agitation (25–40s)", p:`Frame the gross jar. "This is what's sitting in your gut right now. And then we wonder why we feel bloated, heavy, and just… off after we eat." Close up on the dense mixture — make the invisible feeling visible.`},
       {t:"The mechanism (40–60s)", p:`Pour Flora Biome in. "Here's what actually goes to work on this. Flora Biome is a live liquid — 10 probiotic strains, 18 fermented herbs, and the enzymes your gut uses to break food down. The probiotics and prebiotics get in there and start breaking this stuff down so your body can actually use it instead of just sitting with it."`}
     ] },
-  { product:"flora", emoji:"📋", name:"Why Your Probiotic Isn't Working", format:"Whiteboard teardown", duration:"~45–60s",
-    tagline:"Four probiotics, one whiteboard, one winner.",
-    science:`The cheapest authority format there is — a marker and a whiteboard. A grid of probiotic types vs. what matters, with red X's and green checks. It instantly tells the viewer "what you're doing isn't working" and opens a knowledge gap.`,
-    visual:`Pre-draw the empty grid before filming so the video is just the satisfying reveal of X's and checks. Red marker for X's, green for checks — it reads like a lab, not an ad.`,
-    labelKind:"Whiteboard columns (pre-draw the grid):",
-    labels:["Alive on contact?","Covers the whole tract?","Zero sugar?","3-in-1 (pre+pro+post)?"],
-    props:["Whiteboard","Red + green markers","Flora Biome (for the final reveal)"],
+  { product:"flora", emoji:"📋", name:"Why Your Probiotic Isn't Working", format:"Whiteboard teardown", duration:"~55–65s",
+    tagline:"One chart, four probiotics — show why only the live liquid checks every box.",
+    science:`Most probiotics fall short on at least one thing that matters: capsules are freeze-dried and dormant and engineered to skip to the colon; powders are usually dormant too; store kombucha is alive but loaded with sugar and isn't a full pre + pro + post formula. Flora Biome is the only one that's alive on contact, covers the whole tract, has zero sugar, and is a true 3-in-1. The chart makes it obvious — only the live liquid checks every box.`,
+    visual:`A simple 4-column chart on a whiteboard. Down the left, four rows — Capsule, Powder, Store Kombucha, Flora Biome. Across the top, four yes/no questions. You fill in the marks row by row on camera: red ✗ for no, amber ~ for "sort of," green ✓ for yes. Pre-draw the empty grid and the labels BEFORE you film so the video is just the reveal.`,
+    labelKind:"Draw this exact chart on your whiteboard:",
+    grid:{ cols:["Alive on contact?","Covers whole tract?","Zero sugar?","True 3-in-1?"],
+      rows:[
+        {label:"Capsule probiotic", cells:["✗","✗","✓","✗"]},
+        {label:"Powder probiotic", cells:["✗","✗","~","✗"]},
+        {label:"Store kombucha", cells:["✓","~","✗","✗"]},
+        {label:"Flora Biome (ours)", cells:["✓","✓","✓","✓"], win:true}
+      ] },
+    props:["A whiteboard (or a big sheet of paper)","A red marker and a green marker","Your Flora Biome bottle (for the final reveal)"],
     beats:[
-      {t:"Hook", p:`"Four probiotics, one whiteboard. Watch which one actually checks every box." Grid pre-drawn and empty.`},
-      {t:"Capsule probiotic", p:`Red X, X, X — "freeze-dried and dormant, built to bypass everything until the colon."`},
-      {t:"Powder + store kombucha", p:`Mostly X's. Kombucha gets the X on zero-sugar — it's loaded with sugar.`},
-      {t:"Flora Biome", p:`Green check, check, check, check. Hold up the bottle on the final check.`}
+      {t:"Before you film — set the board", p:`Pre-draw the empty grid: four rows down the left (Capsule, Powder, Store Kombucha, Flora Biome) and the four question-columns across the top. Leave every box blank so the marks are the reveal.`},
+      {t:"Hook (0–6s)", p:`Tap the board. Say: "Four kinds of probiotic, one chart. Watch which one actually checks every box."`},
+      {t:"Row 1 — Capsule (6–20s)", p:`Mark red ✗, red ✗, green ✓ (capsules are zero-sugar), red ✗. Say: "Capsules are freeze-dried and dormant — and built to skip everything until the colon."`},
+      {t:"Row 2 — Powder (20–30s)", p:`Mark red ✗, red ✗, amber ~, red ✗. Say: "Powders are usually dormant too, and a lot of them sneak in sugar or fillers."`},
+      {t:"Row 3 — Store kombucha (30–42s)", p:`Mark green ✓, amber ~, red ✗, red ✗. Say: "Kombucha is actually alive — but it's loaded with sugar, and it's not a full pre-, pro-, and postbiotic formula."`},
+      {t:"Row 4 — Flora Biome (42–58s)", p:`Hold up the bottle and draw green ✓ straight across all four. Say: "Flora Biome is alive on contact, covers the whole tract, zero sugar, and a true 3-in-1." Then: "Tap the cart." [bundle/code]`}
     ] },
   { product:"flora", emoji:"🔖", name:"Side-by-Side Label Read", format:"Label read", duration:"~30–45s",
     tagline:"Read the labels. The back tells the truth.",
@@ -830,18 +850,25 @@ const DEMOS = [
       {t:"Resolution demo (50–65s)", p:`Pour the small beads. They sail through. Hold the moment.`},
       {t:"Direct CTA (65–75s)", p:`"If you've got the MTHFR variation, or you just want the form your body can actually use — tap the cart. [bundle/code]."`}
     ] },
-  { product:"methyl", emoji:"📋", name:"You're Taking the Wrong Folate", format:"Whiteboard teardown", duration:"~45–60s",
-    tagline:"Three folates on a whiteboard. Only one checks every box.",
-    science:`Whiteboard teardown grid — the cheapest authority format there is. Rows of folate types vs. what matters, with red X's and green checks. Creates an instant knowledge gap.`,
-    visual:`Pre-draw the empty grid; the video is the reveal of X's and checks. Red marker for X's, green for checks.`,
-    labelKind:"Whiteboard columns (pre-draw the grid):",
-    labels:["Already active?","Skips the MTHFR conversion step?","Body can use it directly?"],
-    props:["Whiteboard","Red + green markers","L-Methylfolate (for the final reveal)"],
+  { product:"methyl", emoji:"📋", name:"You're Taking the Wrong Folate", format:"Whiteboard teardown", duration:"~50–60s",
+    tagline:"One chart, three folates — show why only the active form gets used.",
+    science:`Most "folate" on the shelf is folic acid — the synthetic form your body has to convert before it can use it, and roughly 40% of people carry an MTHFR variation that makes that conversion inefficient. Folinic acid is a step closer but still needs converting. L-Methylfolate (5-MTHF) is the already-active form — no conversion required. The chart makes the hierarchy obvious at a glance: only the active form checks every box.`,
+    visual:`A simple 3-column chart on a whiteboard. Down the left, three rows — Folic Acid, Folinic Acid, L-Methylfolate. Across the top, three yes/no questions. You fill in the marks row by row on camera: red ✗ for no, amber ~ for "sort of," green ✓ for yes. Pre-draw the empty grid and the labels BEFORE you film so the video is just the satisfying reveal.`,
+    labelKind:"Draw this exact chart on your whiteboard:",
+    grid:{ cols:["Already active?","Skips the MTHFR step?","Body uses it directly?"],
+      rows:[
+        {label:"Folic acid (most supplements)", cells:["✗","✗","✗"]},
+        {label:"Folinic acid", cells:["✗","✗","~"]},
+        {label:"L-Methylfolate (ours)", cells:["✓","✓","✓"], win:true}
+      ] },
+    props:["A whiteboard (or a big sheet of paper)","A red marker and a green marker","Your L-Methylfolate bottle (for the final reveal)"],
     beats:[
-      {t:"Hook", p:`"If your B-complex or prenatal lists 'folic acid,' you might be wasting it. Let me show you." Grid pre-drawn.`},
-      {t:"Folic acid", p:`Red X, X, X. "This is what's in most supplements and fortified food. Your body has to convert it — and a lot of people can't, efficiently."`},
-      {t:"Folinic acid", p:`Partial. "Closer, but still needs a conversion step."`},
-      {t:"L-Methylfolate", p:`Green check, check, check. "Already in the form your body uses. No conversion required." Hold up the bottle.`}
+      {t:"Before you film — set the board", p:`Pre-draw the empty grid: three rows down the left (Folic Acid, Folinic Acid, L-Methylfolate) and the three question-columns across the top. Leave every box blank so the marks are the reveal.`},
+      {t:"Hook (0–6s)", p:`Tap the board. Say: "If your B-complex or prenatal says 'folic acid' on the label, you might be wasting it. Here's the difference between the three forms."`},
+      {t:"Row 1 — Folic acid (6–22s)", p:`Mark a red ✗ in all three boxes as you talk. Say: "Folic acid is the synthetic form. Your body has to convert it first — and a lot of people have the MTHFR variation that makes that conversion inefficient. So it can sit there unused."`},
+      {t:"Row 2 — Folinic acid (22–34s)", p:`Mark red ✗, red ✗, then an amber ~ in the last box. Say: "Folinic acid is a step closer — but it still has to be converted before your body can fully use it."`},
+      {t:"Row 3 — L-Methylfolate (34–50s)", p:`Hold up the bottle and draw green ✓, ✓, ✓ straight across. Say: "This is L-Methylfolate — the active form. Already converted. Your body uses it directly, no MTHFR step required."`},
+      {t:"CTA (50–60s)", p:`Point at the row of green checks, then the bottle. Say: "If your label says folic acid, this is the swap — tap the cart." [bundle/code]`}
     ] },
   { product:"methyl", emoji:"🔄", name:"The Methylation Handoff", format:"Timeline draw", duration:"~45s",
     tagline:"Draw the handoff. Circle the step that breaks.",
@@ -1142,6 +1169,9 @@ function renderDemoCard(){
   const labelHtml=(d.labels&&d.labels.length)
     ? `<div class="dimp" style="margin-top:13px;font-weight:700;color:var(--accent);">${esc(d.labelKind||"Sticky-note labels (lay them flat, in order):")}</div><div class="sticky-row">${d.labels.map((n,i)=>`<span class="sticky">${esc(n)}</span>${i<d.labels.length-1?'<span class="sarrow">→</span>':''}`).join("")}</div>`
     : "";
+  const gridHtml=d.grid
+    ? `<div class="dimp" style="margin-top:13px;font-weight:700;color:var(--accent);">${esc(d.labelKind||"Draw this chart:")}</div><div class="wbgrid"><div class="wbrow wbhead" style="grid-template-columns:1.35fr repeat(${d.grid.cols.length},1fr);"><div class="wbcell wblabel"></div>${d.grid.cols.map(c=>`<div class="wbcell">${esc(c)}</div>`).join("")}</div>${d.grid.rows.map(r=>`<div class="wbrow${r.win?' wbwin':''}" style="grid-template-columns:1.35fr repeat(${d.grid.cols.length},1fr);"><div class="wbcell wblabel">${esc(r.label)}</div>${r.cells.map(c=>`<div class="wbcell ${c==='✓'?'wbyes':(c==='✗'?'wbno':'wbpart')}">${esc(c)}</div>`).join("")}</div>`).join("")}</div>`
+    : "";
   const propHtml=d.props.map(pr=>`<label class="chk"><input type="checkbox"> <span>${esc(pr)}</span></label>`).join("");
   const beatHtml=d.beats.map((bt,i)=>`<div class="beat"><div class="bn">${i+1}</div><div><b>${esc(bt.t)}</b><p>${esc(bt.p)}</p></div></div>`).join("");
   const greenHtml=cl.green.map(g=>`<div class="copyline">${esc(g)}</div>`).join("");
@@ -1154,6 +1184,7 @@ function renderDemoCard(){
       <p>${esc(d.visual)}</p>
       ${d.optional?`<div class="dimp">${esc(d.optional)}</div>`:""}
       ${labelHtml}
+      ${gridHtml}
     </div>
     <div class="sc"><h3>🛒 Prop list — reimbursed up to ${PROP_REIMB}</h3>
       ${propHtml}
