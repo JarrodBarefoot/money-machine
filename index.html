@@ -173,14 +173,13 @@
   <div class="logo">T</div>
   <div>
     <h1>The Money Machine 💸</h1>
-    <div class="sub">June briefs · Triquetra Collective</div>
+    <div class="sub">Triquetra Collective · creator briefs</div>
   </div>
   <button class="hbtn" id="checkBtn">🛡️ Check my script</button>
   <button class="hbtn" id="backBtn">←</button>
 </header>
 
 <section class="screen active" id="s-brief">
-  <div class="kicker">This month</div>
   <div class="title">What are you filming?</div>
   <div class="lede">Three taps from here to a personalized shoot card — your lane, your angle, fully compliant.</div>
   <div id="briefList"></div>
@@ -293,8 +292,124 @@ const LANES = [
 ];
 
 const BRIEFS = {
+  aminos2: {
+    name:"Instant Aminos", emoji:"🏃", month:"June", mo:202606, label:"Updated — 'Is it protein?' + GLP-1 lead",
+    pitch:"Is it protein… or not? It's the building blocks of protein — already broken down — so your body uses ~99% of it in about 5 minutes. No bloat, ~25 calories, and you don't pay protein prices.",
+    hero:"The hero: protein, already broken down. On camera the whole story is — traditional protein has to be digested; this doesn't. Two ideas: 5-minute absorption + 99% utilization. Stop there.",
+    mech:"It's protein, already broken down — whey has to be digested before your body can use it; free-form aminos skip that and reach the bloodstream in about 5 minutes. (Say it once.)",
+    keyword:"AMINOS", tag:"@triquetrahealth",
+    url:"triquetrahealth.com/products/instant-aminos-powder",
+    hashtags:"#supplements #fitness #gymtok #aminoacids #EAAs #protein #fasting #glp1 #musclerecovery #Triquetrahealth",
+    tried:"Whey (bloat + heaviness), plant protein (gritty), collagen (incomplete profile), bone broth (too much sodium) — be honest about what let you down and how little actually stuck.",
+    hooks:[
+      "Is this protein… or is it not protein?",
+      "Protein is just amino acids chained together. Your body has to break it all the way down before it can use a single gram.",
+      "If protein shakes always bloated you — you're not bad at protein. You're drinking the form that has to be digested.",
+      "Whey takes 30–60 minutes to start working. This hits in about 5.",
+      "Losing weight on a GLP-1? You might be losing muscle right along with the fat.",
+      "Stop paying $60–80 for clean EAAs.",
+      "It's not LIKE protein. It IS protein — just the form that actually gets used."
+    ],
+    seeds:[
+      "Wait — so is it actually protein or not?",
+      "What makes it different from whey?",
+      "Does this really not bloat you?",
+      "Will this work on a GLP-1?",
+      "Does it break a fast?",
+      "How is it only 25 calories?",
+      "Is this cheaper than the $80 EAA brands?",
+      "Can older adults take this?"
+    ],
+    laneNotes:{
+      brodoc:"Pull the 'is it protein or not?' riddle into a real moment — reaching for the whey tub and remembering the bloat. Then break it down buddy-style: protein is just aminos, and these are already broken down. (Jarrod's lane.)",
+      story:"Lead with YOUR protein story — the bloat you finally quit over, or the GLP-1 / fasting cut where you watched muscle vanish with the fat. Big energy, your real moment. (Theresa's lane.)",
+      clinical:"Pair your credibility with your own switch — you understand digestion AND you lived the whey bloat. Trusted because you're the expert and the customer. (Maria's lane.)",
+      science:"Clean visual contrast: whey has to be digested (30–60 min) vs. already broken down (~5 min). Protective close: 'You're not bad at protein — you're drinking the form that has to be digested.' (Phil's lane.)"
+    },
+    entries:[
+      { id:"bloat", emoji:"🤢", name:"Whey bloats me — I quit shakes",
+        desc:"Every whey shake leaves you puffy, heavy, and bloated for hours. You've tried plant (gritty), collagen (incomplete), and basically gave up on protein drinks.",
+        edu:"Whey, casein, and collagen all have to be digested before your body can use them — that's the 30–60 minute wait, the heaviness, and the bloat. Free-form essential aminos are already broken down, so they bypass digestion and reach the bloodstream in about 5 minutes — same building blocks, none of the GI penalty.",
+        guard:"⚠️ Don't say 'better than whey' or name a brand. Frame it as the form for people whey doesn't work for: 'Whey works for some people — for the rest of us, there's this.'" },
+      { id:"glp", emoji:"💉", name:"On a GLP-1 or fasting, losing muscle",
+        desc:"Losing weight steadily — but some of it is muscle. Every shake is 100–200 calories that kills the deficit or breaks the fast. You're stuck.",
+        edu:"To get usable protein from whey you're drinking 100+ calories and breaking your fast. Instant Aminos is ~25 calories of nearly pure essential aminos your body uses ~99% of, with a minimal glucose response — so it's fasting-friendly and fits inside the deficit while you protect muscle.",
+        guard:"⚠️ Speak TO the GLP-1 crowd, never claim it 'works with' or enhances the medication. Keep fasting soft — 'fasting-friendly' / 'virtually doesn't break a fast,' never the absolute 'won't break your fast.'" },
+      { id:"stomach", emoji:"🧓", name:"My stomach can't handle protein anymore",
+        desc:"Trying to hold muscle as you age; your doctor says hit your protein — but whey gives you gas, casein sits like a brick, and plant makes it worse.",
+        edu:"As we age, digestive enzymes decline, so heavy proteins get harder to tolerate. Free-form EAAs are already in the absorbed-ready form — no digestion required. Same muscle and healthy-aging support, none of the GI fallout.",
+        guard:"⚠️ Keep it warm and general — no diagnosing. 'Supports healthy aging' / 'supports muscle' — never 'treats sarcopenia' or 'cures muscle loss.'" },
+      { id:"price", emoji:"💸", name:"Tired of paying $60–80 for EAAs",
+        desc:"You know EAAs work, but the premium bottles feel like highway robbery and you're over it.",
+        edu:"Premium EAA bottles routinely run $60–80. Instant Aminos delivers clean, third-party-tested free-form EAAs without the premium markup — the same building blocks your body actually uses, minus the luxury price tag.",
+        guard:"⚠️ Don't name a competitor or state a brand's price as fact, and don't claim 'same quality' as a named product. Sell the value; let the viewer draw the comparison." }
+    ],
+    musts:[
+      {t:"Lead with 'is it protein, or is it not protein?' — open on the question, reveal protein is just aminos, land on 'already broken down.'", warn:false},
+      {t:"Bring the whey-has-to-be-digested contrast in SECOND, in one sentence. Don't open with it.", warn:false},
+      {t:"Drop the value line where it fits: 'you don't need to pay protein prices for this.'", warn:false},
+      {t:"Don't list the 9 amino acids or recite the DIAA score on camera. Two ideas: 5-minute absorption + 99% utilization.", warn:true},
+      {t:"Never say 'better than whey' or name a competitor — frame as 'the version for people whey doesn't work for.'", warn:true},
+      {t:"GLP-1: speak TO them, never claim it 'works with' the medication. Fasting: 'fasting-friendly,' never the absolute 'won't break your fast.'", warn:true},
+      {t:"Value angle: don't name a brand's price as fact or claim 'same quality' as a named product.", warn:true},
+      {t:"Include the FDA disclaimer in the caption or a pinned comment — required on every post.", warn:true}
+    ],
+    sparks:[
+      { id:1, name:"Is It Protein… or Not?", emoji:"🤔", anchor:true,
+        angle:"Open on the question, reveal protein is just amino acids, land on 'these are already broken down.' Then bring the whey contrast in second, fast.",
+        handle:"The curiosity of a riddle that resolves into an aha — 'wait, that's actually wild.'",
+        job:"Ask it like you genuinely find it fascinating, then walk the viewer through the click in your own words. Close: 'It's not LIKE protein. It IS protein — just the form that actually gets used.'",
+        fitsE:["bloat","price"], fitsL:["brodoc","science"] },
+      { id:2, name:"Don't Pay Protein Prices", emoji:"💸",
+        angle:"Premium EAA bottles run $60–80 — you don't need to pay that for clean, third-party-tested aminos.",
+        handle:"The satisfaction of not getting ripped off.",
+        job:"Talk money like a friend giving a tip, not a pitch. Keep it to 'you don't need to pay protein prices' — don't name a brand or claim it's identical.",
+        fitsE:["price"], fitsL:["brodoc","story"] },
+      { id:3, name:"The Bloat Bust", emoji:"🎈",
+        angle:"Why you quit whey — the post-workout bloat you were done with — and what changed when you switched to a form that doesn't need digesting.",
+        handle:"The relief of feeling light after training instead of puffy.",
+        job:"Bring the specific moment you stopped reaching for the tub. Speak to the feeling, not a diagnosis.",
+        fitsE:["bloat"], fitsL:["story","clinical"] },
+      { id:4, name:"The GLP-1 Muscle Save", emoji:"💉",
+        angle:"Losing weight on a GLP-1 or a fast but losing muscle with it — and finding aminos that fit inside the deficit.",
+        handle:"The relief of protecting muscle without drinking your calories.",
+        job:"Be honest about the bind you were in. Speak TO the GLP-1 crowd; keep the fasting claim soft.",
+        fitsE:["glp"], fitsL:["story","clinical"] },
+      { id:5, name:"5 Minutes vs. 60", emoji:"⏱️",
+        angle:"The absorption gap — whey takes 30–60 minutes and sits in your stomach; this hits in about 5 because it's already broken down.",
+        handle:"The 'wait, that's the difference?' surprise.",
+        job:"Explain WHY (already broken down) the way you'd explain it to a friend at the gym. One clean contrast, then move on.",
+        fitsE:["bloat","stomach"], fitsL:["science","brodoc"] },
+      { id:6, name:"The Stomach That Had Enough", emoji:"🧓",
+        angle:"An older parent (or you) whose digestion can't handle protein shakes anymore — and the relief of a form that doesn't fight back.",
+        handle:"The tenderness of a solution found after giving up.",
+        job:"Keep it warm and specific. No diagnosing — speak to the feeling and the dignity of finding what finally works.",
+        fitsE:["stomach"], fitsL:["clinical","story"] },
+      { id:7, name:"More Usable Than It Looks", emoji:"🔬",
+        angle:"A tiny 25-calorie scoop driving as much muscle signal as a big scoop of whey — because almost none of it is wasted.",
+        handle:"The 'the numbers stop making sense in the best way' delight.",
+        job:"Land it HONESTLY — fewer grams, nearly all of it used — without claiming 25 calories magically becomes 24 grams of protein.",
+        fitsE:["price","glp"], fitsL:["science"] },
+      { id:8, name:"Summer Cut, Full Muscle", emoji:"☀️",
+        angle:"Coming out of a summer cut lean AND strong, not soft and depleted, because you protected muscle the whole way down.",
+        handle:"The pride of a cut done right.",
+        job:"Tie it to your real summer goal and timeline. Keep outcome claims off — 'supports muscle,' not 'gets you ripped.'",
+        fitsE:["glp"], fitsL:["story","brodoc"] }
+    ],
+    caption:"Is it protein… or not protein? It's the building blocks of protein — already broken down — so your body uses ~99% of it in about 5 minutes. No bloat, ~25 calories, and you don't pay protein prices for it. If whey wrecks your stomach, or you're trying to keep muscle on a GLP-1 or a fast, this one's for you. Comment AMINOS and I'll send you the link 🤍\n\nThese statements have not been evaluated by the FDA. This product is not intended to diagnose, treat, cure, or prevent any disease.",
+    banned:[
+      {rx:/\bbetter than whey\b/i, label:"\"Better than whey\"", why:"Disparaging the category or a competitor by comparison invites takedowns.", swap:"Frame as different: \"the form for the people whey doesn't work for.\""},
+      {rx:/\bbuilds muscle\b/i, label:"\"Builds muscle\" (outcome claim)", why:"Too absolute — use structure/function language.", swap:"\"supports muscle building\" / \"supports muscle tone and recovery.\""},
+      {rx:/\b(burns fat|causes weight loss|makes you lose weight)\b/i, label:"Fat-loss / weight-loss claim", why:"Aminos preserves muscle while you cut — it doesn't burn fat. Classic takedown trigger.", swap:"\"supports muscle preservation during a calorie deficit.\""},
+      {rx:/\b(cures?|treats?)\b[^.!?\n]{0,30}\b(muscle loss|sarcopenia)\b/i, label:"Disease/condition claim", why:"Can't claim to treat or cure muscle loss or sarcopenia.", swap:"\"supports muscle\" / \"supports healthy aging.\""},
+      {rx:/\breplaces? (a )?meals?\b/i, label:"Meal-replacement claim", why:"Supplements aren't meal replacements.", swap:"Drop it — position as protein support, not a meal."},
+      {rx:/\bworks with your glp/i, label:"GLP-1 medical-synergy claim", why:"Never imply synergy with or enhancement of a medication.", swap:"Speak TO them: \"if you're on a GLP-1 and trying to preserve muscle…\""},
+      {rx:/\bwon'?t break your fast\b/i, label:"Absolute fasting claim", why:"Experiences vary — an absolute claim is risky.", swap:"\"fasting-friendly\" / \"virtually doesn't break a fast.\""},
+      {rx:/\b(get|gets|getting) you ripped\b/i, label:"Physique-outcome claim", why:"Specific physique promises are takedown bait.", swap:"\"supports muscle tone and recovery\" — let the viewer picture the result."}
+    ]
+  },
   flora: {
-    name:"Flora Biome", emoji:"🌿", month:"June",
+    name:"Flora Biome", emoji:"🌿", month:"June", mo:202606,
     pitch:"The only living, fermented liquid probiotic + prebiotic + postbiotic — alive in the bottle, pH-matched to the stomach, restoring the wild organic acids the modern diet stripped out.",
     hero:"Live-culture fermentation is the hero. The whole story: dead capsule probiotics vs. a living fermented probiotic — and the wild organic acids modern food forgot. Stop there.",
     mech:"It's already pH-matched — Flora Biome sits at 3.75, your fasted stomach at 3.5 — so it walks right through. (Say this ONCE, then move on.)",
@@ -409,7 +524,7 @@ const BRIEFS = {
     ]
   },
   creatine: {
-    name:"Creatine Reserve", emoji:"🧠", month:"June",
+    name:"Creatine Reserve", emoji:"🧠", month:"June", mo:202606,
     pitch:"Creatine monohydrate + GAA — the precursor that gets creatine into the brain AND keeps your body making its own. Father's Day is June 21st and every dad you know is running on fumes by 3pm.",
     hero:"GAA is the hero. The whole story on camera: plain creatine vs. GAA-powered creatine. Two ideas. Stop there.",
     mech:"\"GAA is the precursor that gets creatine into the brain — the methylated B vitamins turn it back into creatine up there.\" (One sentence on the B's, like Phil, then move on.)",
@@ -531,7 +646,7 @@ const BRIEFS = {
     ]
   },
   aminos: {
-    name:"Instant Aminos", emoji:"🏃", month:"June",
+    name:"Instant Aminos", emoji:"🏃", month:"June", mo:202606, label:"Original — bypass-digestion angle",
     pitch:"Free-form essential amino acids that bypass digestion entirely — absorbed in 5 minutes, 99% utilized, ~25 calories. \"It's not LIKE protein. It IS protein — just the form that actually gets used.\"",
     hero:"The hero pair: 5-minute absorption + 99% utilization. That's it. Two ideas. The DIAA score and the EAA breakdown live in the description, not on camera.",
     mech:"Free-form EAAs are already broken down — they bypass digestion, hit the bloodstream in about 5 minutes, and your body uses 99% of every gram. (If it fits: \"the science rates it 3x more effective per gram than standard protein\" — one line, move on.)",
@@ -638,7 +753,7 @@ const BRIEFS = {
     ]
   },
   folate: {
-    name:"L-Methylfolate 15mg", emoji:"🧬", month:"June",
+    name:"L-Methylfolate 15mg", emoji:"🧬", month:"June", mo:202606,
     pitch:"The bloodstream-ready, active form of B9 (+ Methyl-B12) your brain uses to make serotonin and dopamine. ~40% of people carry an MTHFR variant that breaks the folic acid conversion — they supplement for years and feel nothing. The June through-line: you weren't failing your supplement — your supplement was failing you.",
     hero:"Methylation is the hero. The whole story on camera: folic acid requires conversion → L-Methylfolate is already converted → your brain gets it instantly. Then flip the shame: character isn't failing, biology is depleted.",
     mech:"Your brain uses B9 to build serotonin and dopamine. Folic acid needs a conversion step the MTHFR gene variant impairs — L-Methylfolate is already active, so the brain gets it instantly. (Methyl-B12 is the cofactor — ONE sentence max, like Phil.)",
@@ -932,14 +1047,21 @@ function esc(s){ return s.replace(/&/g,"&amp;").replace(/</g,"&lt;"); }
 function toast(m){ const t=$("toast"); t.textContent=m; t.classList.add("show"); setTimeout(()=>t.classList.remove("show"),1800); }
 
 // ---- screen: brief ----
+function moLabel(mo){ if(!mo) return "Other"; const y=Math.floor(mo/100), m=mo%100; return ["","January","February","March","April","May","June","July","August","September","October","November","December"][m]+" "+y; }
 function renderBriefs(){
   const el=$("briefList"); el.innerHTML="";
-  for(const [k,b] of Object.entries(BRIEFS)){
-    const c=document.createElement("button"); c.className="card";
-    c.innerHTML=`<div class="crow"><span class="cemo">${b.emoji}</span><div><b>${b.name}</b><span class="csub">${b.month} brief</span></div><span class="meta">${b.sparks.length} angles</span></div><p>${b.pitch}</p>`;
-    c.onclick=()=>{ S.briefKey=k; renderLanes(); show("s-lane"); };
-    el.appendChild(c);
-  }
+  const entries=Object.entries(BRIEFS);
+  const months=[...new Set(entries.map(([k,b])=>b.mo||0))].sort((a,z)=>z-a);
+  months.forEach(mo=>{
+    const head=document.createElement("div"); head.className="kicker"; head.style.marginTop="20px"; head.textContent="📅 "+moLabel(mo);
+    el.appendChild(head);
+    entries.filter(([k,b])=>(b.mo||0)===mo).forEach(([k,b])=>{
+      const c=document.createElement("button"); c.className="card";
+      c.innerHTML=`<div class="crow"><span class="cemo">${b.emoji}</span><div><b>${b.name}</b><span class="csub">${b.label||(b.month+" brief")}</span></div><span class="meta">${b.sparks.length} angles</span></div><p>${b.pitch}</p>`;
+      c.onclick=()=>{ S.briefKey=k; renderLanes(); show("s-lane"); };
+      el.appendChild(c);
+    });
+  });
 }
 
 // ---- screen: lane ----
