@@ -2,8 +2,16 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
 <title>The Money Machine 💸 — Triquetra</title>
+<link rel="manifest" href="manifest.webmanifest">
+<meta name="theme-color" content="#0c0f0e">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="Money Machine">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="192x192" href="icon-192.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Archivo+Black&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
@@ -17,10 +25,11 @@
   body{
     background:var(--bg); color:var(--text);
     font-family:'Inter',system-ui,-apple-system,sans-serif;
-    max-width:520px; margin:0 auto; min-height:100vh; padding:0 0 90px;
+    max-width:520px; margin:0 auto; min-height:100vh;
+    padding:0 0 calc(90px + env(safe-area-inset-bottom, 0px));
   }
   header{
-    padding:18px 20px 6px; display:flex; align-items:center; gap:10px;
+    padding:calc(18px + env(safe-area-inset-top, 0px)) 20px 6px; display:flex; align-items:center; gap:10px;
     position:sticky; top:0; background:linear-gradient(var(--bg) 75%, transparent); z-index:50;
   }
   header .logo{
@@ -113,7 +122,7 @@
   #bcHint{margin-top:22px;font-size:11.5px;color:#5c6f66;font-weight:600;}
   #bcTimerBar{height:4px;background:#141a17;}
   #bcTimerFill{height:100%;width:0%;background:var(--accent);transition:width .1s linear;}
-  #bcBar{display:flex;gap:8px;padding:12px 16px 28px;background:#0a0d0c;border-top:1px solid var(--line);}
+  #bcBar{display:flex;gap:8px;padding:12px 16px calc(28px + env(safe-area-inset-bottom, 0px));background:#0a0d0c;border-top:1px solid var(--line);}
   #bcBar .btn{padding:12px 8px;font-size:12.5px;flex:1;}
   #bcAllView{display:none;position:absolute;top:0;left:0;right:0;bottom:86px;background:#050706;overflow-y:auto;padding:20px 22px 30px;}
   .bcall-item{margin-bottom:14px;}
@@ -139,8 +148,29 @@
   #cc .sheet{
     position:absolute;bottom:0;left:50%;transform:translateX(-50%);width:100%;max-width:520px;
     background:var(--card);border-radius:22px 22px 0 0;border:1px solid var(--line);
-    padding:22px 20px 30px;max-height:86vh;overflow-y:auto;
+    padding:22px 20px calc(30px + env(safe-area-inset-bottom, 0px));max-height:86vh;overflow-y:auto;
   }
+
+  /* add-to-home-screen banner */
+  #a2hs{
+    display:none;border:1px solid var(--accent-d);border-radius:var(--radius);
+    background:linear-gradient(180deg,rgba(61,220,151,.10),var(--card));
+    padding:14px 15px;margin-bottom:14px;
+  }
+  #a2hs .arow{display:flex;align-items:center;gap:11px;}
+  #a2hs .aicon{
+    width:40px;height:40px;border-radius:10px;flex:none;
+    background:linear-gradient(135deg,var(--accent),#1a7a55);
+    display:flex;align-items:center;justify-content:center;
+    font-weight:800;font-size:20px;color:#06231a;
+  }
+  #a2hs b{font-size:14px;display:block;letter-spacing:-.01em;}
+  #a2hs .asub{font-size:12px;color:var(--dim);line-height:1.45;margin-top:2px;}
+  #a2hs .abtn{
+    border:none;border-radius:10px;background:var(--accent);color:#06231a;
+    font-family:inherit;font-weight:800;font-size:12.5px;padding:9px 14px;cursor:pointer;flex:none;
+  }
+  #a2hs .adismiss{border:none;background:none;color:var(--dim);font-size:15px;cursor:pointer;padding:4px 6px;flex:none;}
   #ccInput{
     width:100%;min-height:110px;background:var(--card2);border:1px solid var(--line);border-radius:12px;
     color:var(--text);font-family:inherit;font-size:13.5px;line-height:1.5;padding:13px;resize:vertical;
@@ -207,6 +237,17 @@
 <section class="screen active" id="s-brief">
   <div class="title">What are you filming?</div>
   <div class="lede">Three taps from here to a personalized shoot card — your lane, your angle, fully compliant.</div>
+  <div id="a2hs">
+    <div class="arow">
+      <div class="aicon">$</div>
+      <div style="flex:1;min-width:0;">
+        <b>Put the Money Machine on your phone</b>
+        <div class="asub" id="a2hsText">Install it like an app — one tap from your home screen, works offline.</div>
+      </div>
+      <button class="abtn" id="a2hsGo">📲 Install</button>
+      <button class="adismiss" id="a2hsNo">✕</button>
+    </div>
+  </div>
   <div id="briefList"></div>
 
   <div class="kicker" style="margin-top:24px;">🔬 New format</div>
@@ -1739,6 +1780,47 @@ $("demoEntryCard").onclick=()=>{ renderDemoProducts(); show("s-demo-product"); }
 // ---- init ----
 renderBriefs();
 renderQueue();
+
+// ---- install as app (PWA) ----
+if ("serviceWorker" in navigator) {
+  window.addEventListener("load", () => { navigator.serviceWorker.register("sw.js").catch(()=>{}); });
+}
+let a2hsEvt = null;
+function isStandalone(){
+  return (window.matchMedia && matchMedia("(display-mode: standalone)").matches) || navigator.standalone === true;
+}
+function a2hsShow(mode){
+  if(isStandalone()) return;
+  try{ if(localStorage.getItem("bf_a2hs_dismissed")) return; }catch{}
+  const box=$("a2hs"); if(!box) return;
+  if(mode==="ios"){
+    $("a2hsText").innerHTML = 'Tap <b>Share</b> (the <span style="color:var(--accent)">⬆️ square</span> below) → <b>"Add to Home Screen"</b>. Two taps, done — it opens like an app.';
+    $("a2hsGo").style.display="none";
+  }
+  box.style.display="block";
+}
+window.addEventListener("beforeinstallprompt", e=>{
+  e.preventDefault(); a2hsEvt=e; a2hsShow("android");
+});
+(function(){
+  const ua=navigator.userAgent||"";
+  const isIOS=/iphone|ipad|ipod/i.test(ua);
+  const isSafari=/safari/i.test(ua) && !/crios|fxios|edgios/i.test(ua);
+  if(isIOS && isSafari) a2hsShow("ios");
+})();
+if($("a2hsGo")) $("a2hsGo").onclick = async ()=>{
+  if(!a2hsEvt) return;
+  a2hsEvt.prompt();
+  try{
+    const res = await a2hsEvt.userChoice;
+    if(res && res.outcome==="accepted"){ $("a2hs").style.display="none"; toast("Installed 📲 Check your home screen"); }
+  }catch{}
+  a2hsEvt=null;
+};
+if($("a2hsNo")) $("a2hsNo").onclick = ()=>{
+  $("a2hs").style.display="none";
+  try{ localStorage.setItem("bf_a2hs_dismissed","1"); }catch{}
+};
 </script>
 </body>
 </html>
