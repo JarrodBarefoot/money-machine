@@ -100,14 +100,39 @@
   }
   .toast.show{opacity:1;transform:translateX(-50%) translateY(0);}
 
-  /* teleprompter */
-  #tp{display:none;position:fixed;inset:0;background:#050706;z-index:250;flex-direction:column;}
-  #tpScroll{flex:1;overflow-y:auto;padding:38vh 26px;scroll-behavior:auto;}
-  #tpScroll .tpline{font-family:'Archivo Black';font-size:30px;line-height:1.45;color:#e8f5ee;margin-bottom:34px;letter-spacing:-.01em;}
-  #tpScroll .tpcue{font-size:14px;font-weight:700;color:var(--accent);text-transform:uppercase;letter-spacing:.12em;margin-bottom:10px;font-family:'Inter';}
-  #tpBar{display:flex;gap:10px;padding:14px 18px 30px;background:#0a0d0c;border-top:1px solid var(--line);align-items:center;}
-  #tpBar .btn{padding:12px;font-size:13px;}
-  #tpSpeed{flex:1;accent-color:var(--accent);}
+  /* beat cards (rehearsal mode) */
+  #bc{display:none;position:fixed;inset:0;background:#050706;z-index:250;flex-direction:column;}
+  #bcTop{display:flex;align-items:center;justify-content:space-between;padding:16px 20px 0;}
+  #bcDots{display:flex;gap:6px;flex-wrap:wrap;}
+  .bcdot{width:8px;height:8px;border-radius:99px;background:#233029;display:inline-block;}
+  .bcdot.on{background:var(--accent);}
+  #bcCount{font-size:12px;font-weight:800;color:var(--dim);flex:none;margin-left:12px;}
+  #bcMain{flex:1;display:flex;flex-direction:column;justify-content:center;padding:20px 26px;cursor:pointer;user-select:none;-webkit-user-select:none;}
+  #bcCue{font-size:14px;font-weight:800;color:var(--accent);text-transform:uppercase;letter-spacing:.12em;margin-bottom:14px;}
+  #bcText{font-family:'Archivo Black';line-height:1.4;color:#e8f5ee;letter-spacing:-.01em;}
+  #bcHint{margin-top:22px;font-size:11.5px;color:#5c6f66;font-weight:600;}
+  #bcTimerBar{height:4px;background:#141a17;}
+  #bcTimerFill{height:100%;width:0%;background:var(--accent);transition:width .1s linear;}
+  #bcBar{display:flex;gap:8px;padding:12px 16px 28px;background:#0a0d0c;border-top:1px solid var(--line);}
+  #bcBar .btn{padding:12px 8px;font-size:12.5px;flex:1;}
+  #bcAllView{display:none;position:absolute;top:0;left:0;right:0;bottom:86px;background:#050706;overflow-y:auto;padding:20px 22px 30px;}
+  .bcall-item{margin-bottom:14px;}
+  .bcall-cue{font-size:11px;font-weight:800;color:var(--accent);text-transform:uppercase;letter-spacing:.1em;}
+  .bcall-t{font-size:15px;font-weight:700;line-height:1.45;color:#e8f5ee;margin-top:3px;}
+  .bcall-hint{margin:18px 0 8px;font-size:12px;color:var(--dim);font-weight:700;text-align:center;}
+
+  /* make it yours */
+  .mylab{display:block;font-size:11px;font-weight:800;letter-spacing:.1em;text-transform:uppercase;color:var(--dim);margin:12px 0 6px;}
+  .myfield{width:100%;min-height:64px;background:var(--card2);border:1px solid var(--line);border-radius:12px;color:var(--text);font-family:inherit;font-size:14px;line-height:1.5;padding:12px;resize:vertical;}
+  .myfield:focus{outline:none;border-color:var(--accent-d);}
+  .flag.mini{padding:9px 11px;}
+  .flag.mini b{font-size:12px;}
+  .clean.mini{padding:9px 11px;font-size:12px;margin-top:10px;}
+
+  /* emotional territories + avatars + frames */
+  .tchip{display:inline-block;border:1px solid var(--line);background:var(--card2);color:var(--text);border-radius:99px;padding:9px 14px;margin:0 8px 8px 0;font-size:12.5px;font-weight:700;cursor:pointer;font-family:inherit;line-height:1.35;text-align:left;}
+  .tchip.on{border-color:var(--accent);background:rgba(61,220,151,.12);color:var(--accent);}
+  .avatarbox{margin-top:9px;font-size:12px;color:var(--dim);line-height:1.5;background:var(--card2);border:1px solid var(--line);border-radius:10px;padding:9px 11px;}
 
   /* compliance checker */
   #cc{display:none;position:fixed;inset:0;background:rgba(0,0,0,.65);z-index:260;backdrop-filter:blur(3px);}
@@ -220,7 +245,7 @@
   <div class="lede" id="cardLede"></div>
   <div id="cardBody"></div>
   <div class="btnrow">
-    <button class="btn primary" id="tpOpen">🎬 Teleprompter</button>
+    <button class="btn primary" id="tpOpen">🎬 Rehearse the beats</button>
     <button class="btn ghost" id="cardCopy">📋 Copy card</button>
     <button class="btn ghost" id="cardSave">💾 Save</button>
   </div>
@@ -247,19 +272,30 @@
   <div class="lede" id="dcLede"></div>
   <div id="dcBody"></div>
   <div class="btnrow">
-    <button class="btn primary" id="dcTp">🎬 Teleprompter</button>
+    <button class="btn primary" id="dcTp">🎬 Rehearse the beats</button>
     <button class="btn ghost" id="dcCopy">📋 Copy demo</button>
   </div>
   <button class="btn ghost" id="dcAgain" style="margin-top:2px;">↻ Pick another demo</button>
 </section>
 
-<!-- teleprompter -->
-<div id="tp">
-  <div id="tpScroll"></div>
-  <div id="tpBar">
-    <button class="btn ghost" id="tpPlay" style="flex:0 0 92px;">▶ Play</button>
-    <input type="range" id="tpSpeed" min="1" max="10" value="4">
-    <button class="btn ghost" id="tpClose" style="flex:0 0 70px;">✕</button>
+<!-- beat cards (rehearsal mode) -->
+<div id="bc">
+  <div id="bcTop">
+    <div id="bcDots"></div>
+    <div id="bcCount"></div>
+  </div>
+  <div id="bcMain">
+    <div id="bcCue"></div>
+    <div id="bcText"></div>
+    <div id="bcHint"></div>
+  </div>
+  <div id="bcAllView"></div>
+  <div id="bcTimerBar"><div id="bcTimerFill"></div></div>
+  <div id="bcBar">
+    <button class="btn ghost" id="bcPrev">←</button>
+    <button class="btn ghost" id="bcTimer">⏱ Off</button>
+    <button class="btn ghost" id="bcAll">📸 All beats</button>
+    <button class="btn ghost" id="bcClose">✕</button>
   </div>
 </div>
 
@@ -1304,7 +1340,8 @@ function renderEntries(){
   const b=BRIEFS[S.briefKey], el=$("entryList"); el.innerHTML="";
   b.entries.forEach(e=>{
     const c=document.createElement("button"); c.className="card";
-    c.innerHTML=`<div class="crow"><span class="cemo">${e.emoji}</span><div><b>${e.name}</b></div></div><p>${e.desc}</p>`;
+    const av = e.avatar ? `<div class="avatarbox">👤 <b>${esc(e.avatar.name)}${e.avatar.age?", "+e.avatar.age:""}</b> — ${esc(e.avatar.bio)}</div>` : "";
+    c.innerHTML=`<div class="crow"><span class="cemo">${e.emoji}</span><div><b>${e.name}</b></div></div><p>${e.desc}</p>${av}`;
     c.onclick=()=>{ S.entry=e; renderSparks(); show("s-spark"); };
     el.appendChild(c);
   });
@@ -1355,16 +1392,43 @@ function renderCard(){
     `<div class="beat"><div class="bn">${i+1}</div><div><b>${bt.t}</b><p>${esc(bt.p)}</p></div></div>`).join("");
   const mustHtml = b.musts.map((m,i)=>
     `<label class="chk ${m.warn?'warn':''}"><input type="checkbox"> <span>${m.warn?'⚠️ ':''}${esc(m.t)}</span></label>`).join("");
+  const md = myData();
+  const avHtml = e.avatar ? `<div class="dimp"><b style="color:var(--accent)">Who you're talking to:</b> ${esc(e.avatar.name)}${e.avatar.age?", "+e.avatar.age:""} — ${esc(e.avatar.bio)}</div>` : "";
+  const terrHtml = (e.territories&&e.territories.length) ? `
+    <div class="sc"><h3>💛 Emotional territory — tap the one that's YOURS</h3>
+      <div class="dimp" style="margin:0 0 10px;">These are feelings to dig into in your own voice — pick the one you've actually lived. It'll ride along on your beat cards.</div>
+      <div id="terrRow">${e.territories.map((t,i)=>`<button class="tchip${md.terr===t?' on':''}" data-ti="${i}">${esc(t)}</button>`).join("")}</div>
+    </div>` : "";
+  const frameHtml = (b.frames&&b.frames.length) ? `
+    <div class="sc"><h3>🖼️ Frames that work — wrap your video in one</h3>
+      ${b.frames.map(f=>`<div class="beat"><div class="bn">🖼</div><div><b>${esc(f.name)}</b><p>${esc(f.desc)}</p></div></div>`).join("")}
+    </div>` : "";
+  const studyHtml = (b.study&&b.study.moves&&b.study.moves.length) ? `
+    <div class="sc"><h3>🏆 What ${esc(b.study.creator||"the top creator")} did right — copy the MOVES, not the lines</h3>
+      ${b.study.moves.map(m=>`<label class="chk"><input type="checkbox"> <span>${esc(m)}</span></label>`).join("")}
+    </div>` : "";
   $("cardBody").innerHTML = `
     <div class="sc"><h3>🎯 Your angle</h3>
       <div class="hook">${esc(sp.angle)}</div>
       <div class="dimp"><b style="color:var(--accent)">Your lane:</b> ${esc(b.laneNotes[l.id])}</div>
+      ${avHtml}
+    </div>
+    ${terrHtml}
+    <div class="sc"><h3>✍️ Make it yours</h3>
+      <div class="dimp" style="margin:0;">The card aims you — these two lines make the video YOURS. Write them the way you'd say them out loud. I'll compliance-check as you type, and your hook replaces the generic one on your beat cards.</div>
+      <label class="mylab" for="myHook">Your hook — your words</label>
+      <textarea class="myfield" id="myHook" placeholder="How would YOU open this? First sentence out of your mouth…"></textarea>
+      <label class="mylab" for="myStory">Your story moment — the specific scene</label>
+      <textarea class="myfield" id="myStory" placeholder="Where were you? What happened? What did it feel like?"></textarea>
+      <div id="myFlags"></div>
     </div>
     <div class="sc"><h3>🎬 Story structure — your 5 beats</h3>${beatHtml}</div>
+    ${frameHtml}
     <div class="sc"><h3>🧪 The ONE mechanism line you're allowed</h3>
       <div class="mech"><span class="mlab">Say it once, then move on</span>${esc(b.mech)}</div>
       <div class="dimp">${esc(b.hero)}</div>
     </div>
+    ${studyHtml}
     <div class="sc"><h3>🛡️ Pre-flight — check every box before you post</h3>
       ${mustHtml}
       <label class="chk warn"><input type="checkbox"> <span>⚠️ ${esc(e.guard.replace("⚠️ ",""))}</span></label>
@@ -1385,14 +1449,51 @@ function renderCard(){
   $("cardBody").querySelectorAll(".copyline").forEach(el=>{
     el.onclick = async ()=>{ try{ await navigator.clipboard.writeText(el.textContent); toast("Copied ✓"); }catch{} };
   });
+
+  // make-it-yours: restore, persist, live compliance scan
+  $("myHook").value = md.hook||"";
+  $("myStory").value = md.story||"";
+  let myTimer=null;
+  function myScan(){
+    const text = ($("myHook").value+"\n"+$("myStory").value);
+    const out = $("myFlags");
+    if(!text.trim()){ out.innerHTML=""; return; }
+    const hits = scanText(text, scanRules());
+    out.innerHTML = hits.length
+      ? hits.map(h=>`<div class="flag mini"><b>🚩 ${esc(h.label)}: "${esc(h.found)}"</b><div class="swap">✅ Swap: ${esc(h.swap)}</div></div>`).join("")
+      : `<div class="clean mini">✅ Clean so far — in your voice AND inside the lines.</div>`;
+  }
+  ["myHook","myStory"].forEach(id=>{
+    $(id).oninput = ()=>{
+      saveMine({ hook:$("myHook").value, story:$("myStory").value });
+      clearTimeout(myTimer); myTimer=setTimeout(myScan, 350);
+    };
+  });
+  myScan();
+
+  // emotional territory chips
+  $("cardBody").querySelectorAll(".tchip").forEach(ch=>{
+    ch.onclick = ()=>{
+      const t = e.territories[+ch.dataset.ti];
+      const cur = myData().terr;
+      saveMine({ terr: cur===t ? null : t });
+      $("cardBody").querySelectorAll(".tchip").forEach(c2=>c2.classList.toggle("on", c2===ch && cur!==t));
+    };
+  });
 }
 
 $("cardCopy").onclick = async ()=>{
-  const b=BRIEFS[S.briefKey];
+  const b=BRIEFS[S.briefKey], md=myData();
+  const mine=[];
+  if(md.terr) mine.push(`MY TERRITORY: ${md.terr}`);
+  if(md.hook&&md.hook.trim()) mine.push(`MY HOOK: ${md.hook.trim()}`);
+  if(md.story&&md.story.trim()) mine.push(`MY STORY MOMENT: ${md.story.trim()}`);
   const txt = [
     `${b.name} — ${b.month} shoot card`,
     `Lane: ${S.lane.name} | Entry: ${S.entry.name} | Spark: ${S.spark.name}`,
-    ``, `ANGLE: ${S.spark.angle}`, ``,
+    ``, `ANGLE: ${S.spark.angle}`,
+    ...(mine.length?["",...mine]:[]),
+    ``,
     ...beats().map((bt,i)=>`${i+1}. ${bt.t}\n   ${bt.p}`),
     ``, `MECHANISM (once): ${b.mech}`, ``, `CAPTION:\n${b.caption}`
   ].join("\n");
@@ -1403,6 +1504,19 @@ $("newCard").onclick = ()=>{ nav=["s-brief"]; renderQueue(); show("s-brief"); };
 // ---- saved queue ----
 function getQueue(){ try{ return JSON.parse(localStorage.getItem("triq_queue")||"[]"); }catch{ return []; } }
 function setQueue(q){ try{ localStorage.setItem("triq_queue", JSON.stringify(q)); }catch{} }
+
+// ---- make-it-yours storage (per brief+entry+spark) ----
+function myKey(){ return S.briefKey+"|"+S.entry.id+"|"+S.spark.id; }
+function getMine(){ try{ return JSON.parse(localStorage.getItem("triq_mine")||"{}"); }catch{ return {}; } }
+function setMine(o){ try{ localStorage.setItem("triq_mine", JSON.stringify(o)); }catch{} }
+function myData(){ return getMine()[myKey()]||{}; }
+function saveMine(patch){ const o=getMine(); o[myKey()]={...(o[myKey()]||{}), ...patch}; setMine(o); }
+function scanRules(){ const b=BRIEFS[S.briefKey]; return [...GENERIC_BANNED, ...(b?b.banned:[])]; }
+function scanText(text, rules){
+  const hits=[];
+  rules.forEach(r=>{ const m=text.match(r.rx); if(m) hits.push({...r, found:m[0]}); });
+  return hits;
+}
 $("cardSave").onclick = ()=>{
   const q = getQueue();
   q.unshift({ bk:S.briefKey, lane:S.lane.id, entry:S.entry.id, spark:S.spark.id, ts:Date.now() });
@@ -1435,35 +1549,98 @@ function renderQueue(){
   });
 }
 
-// ---- teleprompter ----
-let tpTimer=null;
-function tpContent(){
-  const b=BRIEFS[S.briefKey];
+// ---- beat cards (rehearsal mode) ----
+// Angles, not scripts — one beat per card so the ARC stays in your head, not lines on a screen.
+let bcLines=[], bcIdx=0, bcTimerMode=0, bcTick=null, bcStartT=0, bcTouchX=null;
+const BC_TIMES=[0,8,15,30];
+function briefBeatLines(){
+  const b=BRIEFS[S.briefKey], md=myData();
   const lines=[];
-  lines.push({cue:"HOOK — open the loop", t:S.spark.angle});
-  lines.push({cue:"BEAT 2 — the question", t:"When it kept happening… what did you start asking? Say the question out loud."});
-  lines.push({cue:"BEAT 3 — what you learned", t:S.entry.edu});
-  lines.push({cue:"MECHANISM — once, then move on", t:b.mech});
-  lines.push({cue:"BEAT 4 — what you tried", t: b.tried});
-  lines.push({cue:"BEAT 5 — what changed (no claims)", t:"Describe what you observed. Gently. Then…"});
+  const hook = (md.hook&&md.hook.trim()) ? md.hook.trim() : S.spark.angle;
+  lines.push({cue:"HOOK — open the loop"+((md.hook&&md.hook.trim())?" (your words)":""), t:hook});
+  if(md.terr) lines.push({cue:"Your emotional territory — live here", t:md.terr});
+  if(md.story&&md.story.trim()) lines.push({cue:"Your story moment — the scene", t:md.story.trim()});
+  lines.push({cue:"The question", t:"When it kept happening… what did you start asking? Say the question out loud."});
+  lines.push({cue:"What you learned", t:S.entry.edu});
+  lines.push({cue:"Mechanism — once, then move on", t:b.mech});
+  lines.push({cue:"What you tried", t:b.tried});
+  lines.push({cue:"What changed (no claims)", t:"Describe what you observed. Gently. Then…"});
   lines.push({cue:"CTA", t:`Comment ${b.keyword} and I'll send you the link.`});
   return lines;
 }
-function openTp(lines){
-  $("tpScroll").innerHTML = lines.map(l=>
-    `<div><div class="tpcue">${esc(l.cue)}</div><div class="tpline">${esc(l.t)}</div></div>`).join("");
-  $("tp").style.display="flex";
-  $("tpScroll").scrollTop=0;
+function renderBeatCard(){
+  const l=bcLines[bcIdx]; if(!l) return;
+  $("bcCue").textContent=l.cue;
+  $("bcText").textContent=l.t;
+  const len=l.t.length;
+  $("bcText").style.fontSize = len>240?"19px":len>150?"23px":len>80?"27px":"33px";
+  $("bcCount").textContent=(bcIdx+1)+" / "+bcLines.length;
+  $("bcDots").innerHTML=bcLines.map((_,i)=>`<span class="bcdot${i===bcIdx?' on':''}"></span>`).join("");
+  $("bcHint").textContent = bcIdx===bcLines.length-1
+    ? "Last beat — tap to finish · left edge goes back"
+    : "Tap to advance · left edge goes back · say it out loud";
+  bcRestartTimer();
 }
-$("tpOpen").onclick = ()=> openTp(tpContent());
-function tpStop(){ if(tpTimer){ clearInterval(tpTimer); tpTimer=null; $("tpPlay").textContent="▶ Play"; } }
-$("tpPlay").onclick = ()=>{
-  if(tpTimer){ tpStop(); return; }
-  $("tpPlay").textContent="⏸ Pause";
-  tpTimer=setInterval(()=>{ $("tpScroll").scrollTop += (+$("tpSpeed").value)*0.55; }, 16);
+function bcAdvance(dir){
+  const n=bcIdx+dir;
+  if(n<0) return;
+  if(n>=bcLines.length){ closeBeats(); return; }
+  bcIdx=n; renderBeatCard();
+}
+function bcRestartTimer(){
+  if(bcTick){ clearInterval(bcTick); bcTick=null; }
+  const secs=BC_TIMES[bcTimerMode], fill=$("bcTimerFill");
+  if(!secs){ fill.style.width="0%"; return; }
+  bcStartT=Date.now(); fill.style.width="0%";
+  bcTick=setInterval(()=>{
+    const p=Math.min(1,(Date.now()-bcStartT)/(secs*1000));
+    fill.style.width=(p*100)+"%";
+    if(p>=1){
+      clearInterval(bcTick); bcTick=null;
+      if(bcIdx<bcLines.length-1) bcAdvance(1);
+    }
+  },100);
+}
+function openBeats(lines){
+  bcLines=lines; bcIdx=0;
+  $("bcAllView").style.display="none";
+  $("bcAll").textContent="📸 All beats";
+  $("bc").style.display="flex";
+  renderBeatCard();
+}
+function closeBeats(){
+  if(bcTick){ clearInterval(bcTick); bcTick=null; }
+  $("bc").style.display="none";
+}
+$("tpOpen").onclick = ()=> openBeats(briefBeatLines());
+$("bcMain").onclick = e=>{
+  const r=$("bcMain").getBoundingClientRect();
+  bcAdvance((e.clientX-r.left) < r.width*0.28 ? -1 : 1);
 };
-$("tpClose").onclick = ()=>{ tpStop(); $("tp").style.display="none"; };
-$("tpScroll").onclick = tpStop;
+$("bc").addEventListener("touchstart", e=>{ bcTouchX=e.touches[0].clientX; }, {passive:true});
+$("bc").addEventListener("touchend", e=>{
+  if(bcTouchX===null) return;
+  const dx=e.changedTouches[0].clientX-bcTouchX; bcTouchX=null;
+  if(Math.abs(dx)>60) bcAdvance(dx<0?1:-1);
+}, {passive:true});
+$("bcPrev").onclick = e=>{ e.stopPropagation(); bcAdvance(-1); };
+$("bcTimer").onclick = e=>{
+  e.stopPropagation();
+  bcTimerMode=(bcTimerMode+1)%BC_TIMES.length;
+  $("bcTimer").textContent="⏱ "+(BC_TIMES[bcTimerMode]?BC_TIMES[bcTimerMode]+"s":"Off");
+  bcRestartTimer();
+};
+$("bcAll").onclick = e=>{
+  e.stopPropagation();
+  const v=$("bcAllView");
+  if(v.style.display==="block"){ v.style.display="none"; $("bcAll").textContent="📸 All beats"; return; }
+  v.innerHTML = bcLines.map((l,i)=>
+    `<div class="bcall-item"><span class="bcall-cue">${i+1}. ${esc(l.cue)}</span><div class="bcall-t">${esc(l.t)}</div></div>`).join("")
+    + `<div class="bcall-hint">📸 Screenshot this — prop it up, glance between takes.</div>`;
+  v.style.display="block";
+  $("bcAll").textContent="🃏 Cards";
+};
+$("bcClose").onclick = e=>{ e.stopPropagation(); closeBeats(); };
 
 // ---- compliance checker ----
 $("checkBtn").onclick = ()=>{ $("cc").style.display="block"; };
@@ -1548,7 +1725,7 @@ function renderDemoCard(){
   $("dcBody").querySelectorAll(".copyline").forEach(ln=>{
     ln.onclick=async()=>{ try{ await navigator.clipboard.writeText(ln.textContent); toast("Copied ✓"); }catch{} };
   });
-  $("dcTp").onclick=()=> openTp(d.beats.map(bt=>({cue:bt.t, t:bt.p})));
+  $("dcTp").onclick=()=> openBeats(d.beats.map(bt=>({cue:bt.t, t:bt.p})));
   $("dcCopy").onclick=async()=>{
     const lines=[`${p.name} — ${d.name} (${d.format}, ${d.duration})`,"",`THE SCIENCE: ${d.science}`,"",`VISUAL: ${d.visual}`];
     if(d.labels&&d.labels.length) lines.push(`LABELS: ${d.labels.join("  →  ")}`);
