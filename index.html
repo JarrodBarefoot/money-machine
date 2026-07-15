@@ -221,6 +221,7 @@
   .wbpart{color:var(--warn);font-weight:800;font-size:14px;}
   .wbrow.wbwin{background:rgba(61,220,151,.09);}
   .wbrow.wbwin .wblabel{color:var(--accent);}
+.notionlink{display:inline-block;margin-top:10px;font-size:12.5px;font-weight:600;color:var(--accent);text-decoration:none;cursor:pointer;opacity:.85}.notionlink:hover{opacity:1;text-decoration:underline}
 </style>
 </head>
 <body>
@@ -369,7 +370,7 @@ const LANES = [
 ];
 
 const BRIEFS = {
-  methylJul: {
+  methylJul: { notion:"https://www.notion.so/3978b2b65a65816fb66bcac44a1d75a8",
     name:"L-Methylfolate 15mg", emoji:"🧬", month:"July", mo:202607, label:"Hyper-simple: 3 facts + direct sell",
     pitch:"July is simple on purpose: the Purity Award, America's #1 selling folate, and the active form of B9 — even with the MTHFR gene variant. Say the three facts plainly and go get it.",
     hero:"Three facts win: the award, #1 selling, MTHFR/active form. Say them plainly, invite the MTHFR crowd, direct CTA. That's the whole July playbook.",
@@ -511,7 +512,7 @@ const BRIEFS = {
     ]
   },
 
-  aminosJul: {
+  aminosJul: { notion:"https://www.notion.so/3988b2b65a65811fa920dada292ab51f",
     name:"Instant Aminos", emoji:"🏃🏼", month:"July", mo:202607, label:"Protein-prices lead + 30/30/30",
     pitch:"Are you paying too much for your protein? This IS protein — the building blocks, already broken down — for about a dollar a day.",
     hero:"It's protein, already broken down — at about a dollar a day. Traditional protein has to be digested; this doesn't. Two product ideas (5-minute absorption + 99% utilization) + one money idea. Stop there.",
@@ -711,7 +712,7 @@ const BRIEFS = {
     ]
   },
 
-  folate2: {
+  folate2: { notion:"https://www.notion.so/36f8b2b65a658113a73bd316769fe9eb",
     name:"L-Methylfolate 15mg", emoji:"🧬", month:"June", mo:202606, label:"Updated — high-functioning, not 'overloaded'",
     pitch:"For the high-functioning woman everyone calls 'overloaded' or 'too much' — you're not failing, and you're not too much. About 40% of people can't convert folic acid into the active folate the brain runs on. L-Methylfolate is that active form, ready to use — supporting healthy mood, mental clarity, and the methylation pathway behind steady energy.",
     hero:"The active form is the hero. The story on camera: ~40% can't convert folic acid, so they're short on the body-ready folate (5-MTHF) the methylation pathway uses for mood, focus, and energy. L-Methylfolate is already that form. Stop there.",
@@ -823,7 +824,7 @@ const BRIEFS = {
       {rx:/\b(clinically proven|fda[- ]approved|guaranteed)\b/i, label:"Overstated proof claim", why:"\"Clinically proven / FDA-approved / guaranteed\" are red flags for supplements.", swap:"\"science-backed\" / \"the well-researched active form of folate.\""}
     ]
   },
-  creatine2: {
+  creatine2: { notion:"https://www.notion.so/36f8b2b65a65813c8736e881cf2befd6",
     name:"Creatine Reserve", emoji:"🧠", month:"June", mo:202606, label:"Updated — 'You're not overloaded, you're under-fueled'",
     pitch:"For the high-functioning woman everyone calls 'overloaded' — what if it's not too much on your plate, it's too little fuel in your brain? Creatine is brain fuel, but plain creatine barely reaches the brain. Reserve pairs it with GAA — the precursor that actually gets it there, and keeps your body making its own.",
     hero:"GAA is the hero. The whole story on camera: plain creatine barely crosses into the brain and a lot gets flushed before it's used — GAA is the precursor that gets it there and keeps your body making its own. Two ideas. Stop there.",
@@ -935,7 +936,7 @@ const BRIEFS = {
       {rx:/(8x|eight times more|2%\s*absorb|times more absorbable|%\s*more absorbable)/i, label:"Hard absorption-multiplier claim", why:"Plain creatine is actually well-absorbed; a specific 2%/8x multiplier is unsubstantiated and denigrating — exactly the phrasing to avoid.", swap:"\"a lot of plain creatine gets flushed before it's fully used — GAA helps it actually get used and reach the brain.\""}
     ]
   },
-  aminos2: {
+  aminos2: { notion:"https://www.notion.so/3838b2b65a6581ec9ce9df2dbe0ded75",
     name:"Instant Aminos", emoji:"🏃", month:"June", mo:202606, label:"Updated — 'Is it protein?' + GLP-1 lead",
     pitch:"Is it protein… or not? It's the building blocks of protein — already broken down — so your body uses ~99% of it in about 5 minutes. No bloat, ~25 calories, and you don't pay protein prices.",
     hero:"The hero: protein, already broken down. On camera the whole story is — traditional protein has to be digested; this doesn't. Two ideas: 5-minute absorption + 99% utilization. Stop there.",
@@ -1051,7 +1052,7 @@ const BRIEFS = {
       {rx:/\b(get|gets|getting) you ripped\b/i, label:"Physique-outcome claim", why:"Specific physique promises are takedown bait.", swap:"\"supports muscle tone and recovery\" — let the viewer picture the result."}
     ]
   },
-  flora: {
+  flora: { notion:"https://www.notion.so/36f8b2b65a65812eb06ddb5658958c83",
     name:"Flora Biome", emoji:"🌿", month:"June", mo:202606,
     pitch:"The only living, fermented liquid probiotic + prebiotic + postbiotic — alive in the bottle, pH-matched to the stomach, restoring the wild organic acids the modern diet stripped out.",
     hero:"Live-culture fermentation is the hero. The whole story: dead capsule probiotics vs. a living fermented probiotic — and the wild organic acids modern food forgot. Stop there.",
@@ -1166,7 +1167,7 @@ const BRIEFS = {
        label:"Medical replacement claim", why:"Claiming to replace medicine or prevent infection is a disease claim.", swap:"\"helps replenish good bacteria after antibiotics.\""}
     ]
   },
-  creatine: {
+  creatine: { notion:"https://www.notion.so/36f8b2b65a65813c8736e881cf2befd6",
     name:"Creatine Reserve", emoji:"🧠", month:"June", mo:202606,
     pitch:"Creatine monohydrate + GAA — the precursor that gets creatine into the brain AND keeps your body making its own. Father's Day is June 21st and every dad you know is running on fumes by 3pm.",
     hero:"GAA is the hero. The whole story on camera: plain creatine vs. GAA-powered creatine. Two ideas. Stop there.",
@@ -1288,7 +1289,7 @@ const BRIEFS = {
        label:"\"Better than\" framing", why:"Never position against plain creatine — it's the most-studied supplement on earth. Both products win.", swap:"\"Plain creatine works for some people. For the ones it doesn't — there's this.\""}
     ]
   },
-  aminos: {
+  aminos: { notion:"https://www.notion.so/1c28b2b65a6581c590b6e0c8bdf88365",
     name:"Instant Aminos", emoji:"🏃", month:"June", mo:202606, label:"Original — bypass-digestion angle",
     pitch:"Free-form essential amino acids that bypass digestion entirely — absorbed in 5 minutes, 99% utilized, ~25 calories. \"It's not LIKE protein. It IS protein — just the form that actually gets used.\"",
     hero:"The hero pair: 5-minute absorption + 99% utilization. That's it. Two ideas. The DIAA score and the EAA breakdown live in the description, not on camera.",
@@ -1395,7 +1396,7 @@ const BRIEFS = {
        label:"GLP-1 synergy claim", why:"Never imply medical synergy with the medication.", swap:"\"if you're on a GLP-1 and trying to preserve muscle…\""}
     ]
   },
-  folate: {
+  folate: { notion:"https://www.notion.so/36f8b2b65a658113a73bd316769fe9eb",
     name:"L-Methylfolate 15mg", emoji:"🧬", month:"June", mo:202606,
     pitch:"The bloodstream-ready, active form of B9 (+ Methyl-B12) your brain uses to make serotonin and dopamine. ~40% of people carry an MTHFR variant that breaks the folic acid conversion — they supplement for years and feel nothing. The June through-line: you weren't failing your supplement — your supplement was failing you.",
     hero:"Methylation is the hero. The whole story on camera: folic acid requires conversion → L-Methylfolate is already converted → your brain gets it instantly. Then flip the shame: character isn't failing, biology is depleted.",
@@ -1702,6 +1703,7 @@ function renderBriefs(){
       const c=document.createElement("button"); c.className="card";
       c.innerHTML=`<div class="crow"><span class="cemo">${b.emoji}</span><div><b>${b.name}</b><span class="csub">${b.label||(b.month+" brief")}</span></div><span class="meta">${b.sparks.length} angles</span></div><p>${b.pitch}</p>`;
       c.onclick=()=>{ S.briefKey=k; renderLanes(); show("s-lane"); };
+      if(b.notion){ const nl=document.createElement("span"); nl.className="notionlink"; nl.textContent="📄 Open the full brief in Notion ↗"; nl.onclick=ev=>{ ev.stopPropagation(); window.open(b.notion,"_blank","noopener"); }; c.appendChild(nl); }
       el.appendChild(c);
     });
   });
@@ -1795,6 +1797,7 @@ function renderCard(){
       <div class="hook">${esc(sp.angle)}</div>
       <div class="dimp"><b style="color:var(--accent)">Your lane:</b> ${esc(b.laneNotes[l.id])}</div>
       ${avHtml}
+      ${b.notion?'<a class="notionlink" href="'+b.notion+'" target="_blank" rel="noopener">📄 Open the full brief in Notion ↗</a>':''}
     </div>
     ${terrHtml}
     <div class="sc"><h3>✍️ Make it yours</h3>
